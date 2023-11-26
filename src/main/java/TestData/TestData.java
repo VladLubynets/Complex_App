@@ -14,9 +14,9 @@ public class TestData {
     public final static String VALID_LOGIN_MAX_SIZE = ConfigProvider.configHiddenProperties.login4();
     public final static String VALID_PASSWORD_MAX_SIZE = ConfigProvider.configHiddenProperties.password4();
 
-    public final static String INVALID_LOGIN = ConfigProvider.configHiddenProperties.login5();
-    public final static String INVALID_PASSWORD = ConfigProvider.configHiddenProperties.password5();
+    public final static String INVALID_LOGIN = "aqacomplex";
+    public final static String INVALID_PASSWORD = "123";
 
-    public final static String INVALID_LOGIN_REVERSE = ConfigProvider.configHiddenProperties.login6();
-    public final static String INVALID_PASSWORD_REVERSE = ConfigProvider.configHiddenProperties.password6();
+    public final static String INVALID_LOGIN_REVERSE = ConfigProvider.configHiddenProperties.login5();
+    public final static String INVALID_PASSWORD_REVERSE = ConfigProvider.configHiddenProperties.password5();
 }

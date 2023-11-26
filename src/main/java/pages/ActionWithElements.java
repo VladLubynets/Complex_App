@@ -2,8 +2,10 @@ package pages;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -34,7 +36,7 @@ public class ActionWithElements {
     }
 
     public void clickOnElement(WebElement element) { // click on web-element
-        waitUntil(element);
+        waitUntilElementIsVisible(element);
         try {
             element.click();
             logger.info("Element was clicked");
@@ -43,7 +45,7 @@ public class ActionWithElements {
         }
     }
 
-    public void waitUntil(WebElement element) { // wait until element is visible
+    public void waitUntilElementIsVisible(WebElement element) { // wait until element is visible
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(element));
     }
@@ -62,8 +64,9 @@ public class ActionWithElements {
     }
 
     public void checkElementDisplayed(WebElement element) { // check if web-element is displayed
-        Assert.assertTrue("Element is not displayed", isElementDisplayed(element));
         webDriverWait10.until(ExpectedConditions.visibilityOf(element));
+        Assert.assertTrue("Element is not displayed", isElementDisplayed(element));
+
     }
 
     private void printErrorAndStopTest(Exception e) { // if something wrong - print error and stop test
@@ -74,14 +77,31 @@ public class ActionWithElements {
     public void enterTextIntoInput(WebElement input, String text) { // enter text into web-element(input)
         try {
             webDriverWait10.until(ExpectedConditions.visibilityOf(input));
-            webDriverWait10.until(ExpectedConditions.elementToBeClickable(input));
             input.clear();
             input.sendKeys(text);
         } catch (Exception e) {
             printErrorAndStopTest(e);
+
         }
+    }
+
+    public void pressTabKey(WebElement element) {
+        try {
+            new Actions(webDriver).sendKeys(element, Keys.TAB).perform();
+            logger.info("Tab key pressed");
+        } catch (Exception e) {
+            printErrorAndStopTest(e);
+        }
+
 
     }
 
+    public void pressEnterKey(WebElement element) {
+        try {
+            new Actions(webDriver).sendKeys(element, Keys.ENTER).perform();
+            logger.info("Enter key pressed");
+        } catch (Exception e) {
+            printErrorAndStopTest(e);
+        }
+    }
 }
-

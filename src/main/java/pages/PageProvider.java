@@ -14,9 +14,16 @@ public class PageProvider {
         this.webDriver = webDriver;
     }
 
-    public HeaderLoginPage HeaderLoginPage() {
-        return new HeaderLoginPage(webDriver);
+    public LoginPage LoginPage() {
+        return new LoginPage(webDriver);
     }
 
+    public Header Header() {
+        return new Header(webDriver);
+    }
+
+    public HomePage HeaderHomePage() {
+        return new HomePage(webDriver);
+    }
 
 }

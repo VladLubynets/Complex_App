@@ -13,107 +13,111 @@ import org.junit.Test;
 public class ValidationOfUserInput extends BaseTest {
 
     @Test
-    public void validLogin() { // test case 1
-        pageProvider.HeaderLoginPage()
+    public void validLoginTC1() {
+        pageProvider.LoginPage()
                 .openLoginPage()
                 .enterUsername(TestData.VALID_LOGIN)
                 .enterPassword(TestData.VALID_PASSWORD)
                 .clickOnLoginSignInButton()
-                .checkIsAvatarVisible(TestData.VALID_LOGIN)
-                .checkIsSignOutButtonVisible()
                 .checkIsSignInButtonNotVisible();
+        pageProvider.Header()
+                .checkIsAvatarVisibleAndCheckTextInAvatar(TestData.VALID_LOGIN)
+                .checkIsSignOutButtonVisible();
+
     }
 
 
     @Test
-    public void validLoginMinSymbols() { // test case 2
-        pageProvider.HeaderLoginPage()
+    public void validLoginMinSymbolsTC2() {
+        pageProvider.LoginPage()
                 .openLoginPage()
                 .enterUsername(TestData.VALID_LOGIN_MIN_SIZE)
                 .enterPassword(TestData.VALID_PASSWORD_MIN_SIZE)
                 .clickOnLoginSignInButton()
-                .checkIsAvatarVisible(TestData.VALID_LOGIN_MIN_SIZE)
-                .checkIsSignOutButtonVisible()
                 .checkIsSignInButtonNotVisible();
+        pageProvider.Header().checkIsAvatarVisibleAndCheckTextInAvatar(TestData.VALID_LOGIN_MIN_SIZE)
+                .checkIsSignOutButtonVisible();
+
     }
 
     @Test
-    public void validLoginMaxSymbols() { // test case 3
-        pageProvider.HeaderLoginPage()
+    public void validLoginMaxSymbolsTC3() {
+        pageProvider.LoginPage()
                 .openLoginPage()
                 .enterUsername(TestData.VALID_LOGIN_MAX_SIZE)
                 .enterPassword(TestData.VALID_PASSWORD_MAX_SIZE)
                 .clickOnLoginSignInButton()
-                .checkIsAvatarVisible(TestData.VALID_LOGIN_MAX_SIZE)
-                .checkIsSignOutButtonVisible()
                 .checkIsSignInButtonNotVisible();
+        pageProvider.Header().checkIsAvatarVisibleAndCheckTextInAvatar(TestData.VALID_LOGIN_MAX_SIZE)
+                .checkIsSignOutButtonVisible();
+
     }
 
 
     @Test
-    public void validLoginWithKeyboard() {  // test case 4
-        pageProvider.HeaderLoginPage()
+    public void validLoginWithKeyboardTC4() {
+        pageProvider.LoginPage()
                 .openLoginPage()
-                .enterUsername(TestData.VALID_LOGIN)
-                .pressTabKey()
-                .enterPassword(TestData.VALID_PASSWORD)
-                .pressTabKey()
-                .pressEnterKey()
-                .checkIsAvatarVisible(TestData.VALID_LOGIN)
-                .checkIsSignOutButtonVisible()
+                .enterUsernameWithTab(TestData.VALID_LOGIN)
+                .enterPasswordWithEnter(TestData.VALID_PASSWORD)
                 .checkIsSignInButtonNotVisible();
+        pageProvider.Header().checkIsAvatarVisibleAndCheckTextInAvatar(TestData.VALID_LOGIN)
+                .checkIsSignOutButtonVisible();
+
     }
 
     @Test
-    public void validLoginUpperCase() { // test case 5
-        pageProvider.HeaderLoginPage()
+    public void validLoginUpperCaseTC5() {
+        pageProvider.LoginPage()
                 .openLoginPage()
                 .enterUsername(TestData.VALID_LOGIN_UPPER_CASE)
                 .enterPassword(TestData.VALID_PASSWORD_UPPER_CASE)
-                .clickOnLoginSignInButton()
-                .checkIsAvatarVisible(TestData.VALID_LOGIN_UPPER_CASE) // TODO bug here
-                .checkIsSignOutButtonVisible()
-                .checkIsSignInButtonNotVisible();
+                .clickOnLoginSignInButton();
+        pageProvider.Header()
+                .checkIsAvatarVisibleAndCheckTextInAvatar(TestData.VALID_LOGIN_UPPER_CASE)  // TODO bug here
+                .checkIsSignOutButtonVisible();
+        pageProvider.LoginPage().checkIsSignInButtonNotVisible();
+
     }
 
     @Test
-    public void InvalidLogin() {   // test case 6
-        pageProvider.HeaderLoginPage()
+    public void InvalidLoginTC6() {
+        pageProvider.LoginPage()
                 .openLoginPage()
                 .enterUsername(TestData.INVALID_LOGIN)
                 .enterPassword(TestData.INVALID_PASSWORD)
                 .clickOnLoginSignInButton()
-                .checkIsSignOutButtonNotVisible()
                 .checkIsSignInButtonVisible()
                 .checkIsAlertMessageVisible()
                 .checkTextInAlertMessage("Invalid username / password"); // TODO bug here
+        pageProvider.Header().checkIsSignOutButtonNotVisible();
+
     }
 
     @Test
-    public void invalidLoginWithKeyboard() { // test case 7
-        pageProvider.HeaderLoginPage()
+    public void invalidLoginWithKeyboardTC7() {
+        pageProvider.LoginPage()
                 .openLoginPage()
-                .enterUsername(TestData.INVALID_LOGIN_REVERSE)
-                .pressTabKey()
-                .enterPassword(TestData.INVALID_PASSWORD_REVERSE)
-                .pressTabKey()
-                .pressEnterKey()
-                .checkIsSignOutButtonNotVisible()
+                .enterUsernameWithTab(TestData.INVALID_LOGIN_REVERSE)
+                .enterPasswordWithEnter(TestData.INVALID_PASSWORD_REVERSE)
                 .checkIsSignInButtonVisible()
                 .checkIsAlertMessageVisible()
                 .checkTextInAlertMessage("Invalid username / password"); // TODO bug here
+        pageProvider.Header().checkIsSignOutButtonNotVisible();
+
     }
 
     @Test
-    public void invalidLoginWithEmptyFields() { // test case 8
-        pageProvider.HeaderLoginPage()
+    public void invalidLoginWithEmptyFieldsTC8() {
+        pageProvider.LoginPage()
                 .openLoginPage()
                 .enterUsername("")
                 .enterPassword("")
                 .clickOnLoginSignInButton()
-                .checkIsSignOutButtonNotVisible()
                 .checkIsSignInButtonVisible()
                 .checkIsAlertMessageVisible()
                 .checkTextInAlertMessage("Invalid username / password"); // TODO bug here
+        pageProvider.Header().checkIsSignOutButtonNotVisible();
+
     }
 }
