@@ -22,7 +22,7 @@ public class PageProvider {
         return new Header(webDriver);
     }
 
-    public HomePage HeaderHomePage() {
+    public HomePage HomePage() {
         return new HomePage(webDriver);
     }
 

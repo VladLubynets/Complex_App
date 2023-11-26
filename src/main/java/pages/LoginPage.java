@@ -1,10 +1,9 @@
 package pages;
 
 import org.junit.Assert;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends ParentPage {
@@ -42,7 +41,6 @@ public class LoginPage extends ParentPage {
     }
 
 
-
     public LoginPage checkIsSignInButtonNotVisible() {
         checkElementNotDisplayed(loginSignInButton);
         return this;
@@ -57,6 +55,7 @@ public class LoginPage extends ParentPage {
         checkElementDisplayed(alertMessage);
         return this;
     }
+
     public LoginPage enterUsernameWithTab(String username) {
         enterTextIntoInput(usernameInput, username);
         pressTabKey(usernameInput);
@@ -72,6 +71,19 @@ public class LoginPage extends ParentPage {
 
     public LoginPage checkTextInAlertMessage(String text) {
         Assert.assertEquals("Alert message text doesn't match expected text", text, alertMessage.getText());
+        return this;
+    }
+
+    public String getAlertMessageBackgroundColor() {
+        return alertMessage.getCssValue("background-color");
+    }
+
+
+    public LoginPage checkBackgroundColor(String expectedColor) {
+        String actualColor = getAlertMessageBackgroundColor();
+        String expectedRGBColor = Color.fromString(expectedColor).asRgba();
+        Assert.assertEquals("Alert message background color doesn't match expected color",
+                expectedRGBColor, actualColor);
         return this;
     }
 }
