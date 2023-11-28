@@ -1,4 +1,4 @@
-package ValidLoginTestsTC1;
+package LoginTests;
 
 import BaseTest.BaseTest;
 import TestData.TestData;
@@ -6,6 +6,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.Keys;
 
 /**
  * Here we check valid login from pull test cases  "Validation of user input"
@@ -19,14 +20,14 @@ public class ValidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForLoginTest")
-    public void parametersForLoginTestTC1(String userName, String password) {
-        pageProvider.LoginPage()
+    public void TC1_validLogin(String userName, String password) {
+        pageProvider.getLoginPage()
                 .openLoginPage()
                 .enterUsername(userName)
                 .enterPassword(password)
                 .clickOnLoginSignInButton()
                 .checkIsSignInButtonNotVisible();
-        pageProvider.Header()
+        pageProvider.getHomePage().getHeader()
                 .checkIsAvatarVisibleAndCheckTextInAvatar(userName)
                 .checkIsSignOutButtonVisible();
     }
@@ -40,13 +41,13 @@ public class ValidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForLoginTestByKeyboardButtons")
-    public void parametersForLoginTestByKeyboardButtonsTC2(String userName, String password) {
-        pageProvider.LoginPage()
+    public void TC2_validLogin_withKeyboard(String userName, String password) {
+        pageProvider.getLoginPage()
                 .openLoginPage()
-                .enterUsernameWithTab(userName)
-                .enterPasswordWithEnter(password)
+                .enterLoginWithKey(userName, Keys.TAB)
+                .enterPasswordWithKey(password, Keys.ENTER)
                 .checkIsSignInButtonNotVisible();
-        pageProvider.Header()
+        pageProvider.getHomePage().getHeader()
                 .checkIsAvatarVisibleAndCheckTextInAvatar(userName)
                 .checkIsSignOutButtonVisible();
     }
@@ -54,7 +55,7 @@ public class ValidLoginTests extends BaseTest {
     public Object[][] parametersForLoginTestByKeyboardButtons() {
         return new Object[][]{
                 {TestData.VALID_LOGIN, TestData.VALID_PASSWORD},
-                {TestData.VALID_LOGIN_UPPER_CASE, TestData.VALID_PASSWORD_UPPER_CASE}}; // ToDo: Bug in Upper Case
+                {TestData.VALID_LOGIN_UPPER_CASE, TestData.VALID_PASSWORD_UPPER_CASE}}; // TODo bug in upper case denied entry
     }
 }
 

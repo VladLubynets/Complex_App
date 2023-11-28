@@ -85,21 +85,10 @@ public class ActionWithElements {
         }
     }
 
-    public void pressTabKey(WebElement element) {
+    public void pressKey(WebElement element, Keys key) {
         try {
-            new Actions(webDriver).sendKeys(element, Keys.TAB).perform();
-            logger.info("Tab key pressed");
-        } catch (Exception e) {
-            printErrorAndStopTest(e);
-        }
-
-
-    }
-
-    public void pressEnterKey(WebElement element) {
-        try {
-            new Actions(webDriver).sendKeys(element, Keys.ENTER).perform();
-            logger.info("Enter key pressed");
+            new Actions(webDriver).sendKeys(element, key).perform();
+            logger.info("Key pressed");
         } catch (Exception e) {
             printErrorAndStopTest(e);
         }

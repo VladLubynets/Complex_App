@@ -4,27 +4,19 @@ import org.aeonbits.owner.Config;
 
 @Config.Sources(value = "file:./src/main/java/resources/hiddenConfig.properties")
 public interface ConfigHiddenProperties extends Config {
-    String login();
+    String login_default();
 
-    String password();
+    String password_default();
 
-    String login2();
+    String login_min_value();
 
-    String password2();
+    String password_min_value();
 
-    String login3();
+    String login_max_value();
 
-    String password3();
+    String password_max_value();
 
-    String login4();
+    String put_in_login_ValidPassword();
 
-    String password4();
-
-    String login5();
-
-    String password5();
-
-    String login6();
-
-    String password6();
+    String put_in_password_ValidLogin();
 }

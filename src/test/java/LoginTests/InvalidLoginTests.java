@@ -1,4 +1,4 @@
-package InvalidLoginTestsTC2;
+package LoginTests;
 
 import BaseTest.BaseTest;
 import TestData.TestData;
@@ -6,6 +6,8 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.Keys;
+import pages.LoginPage;
 
 /**
  * Here we check valid invalid login from pull test cases  "Invalid Login Tests"
@@ -19,15 +21,15 @@ public class InvalidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForInvalidLoginTest")
-    public void parametersForInvalidLoginTestTC3(String userName, String password) {
-        pageProvider.LoginPage()
+    public void TC3_invalidLogin(String userName, String password) {
+        pageProvider.getLoginPage()
                 .openLoginPage()
                 .enterUsername(userName)
                 .enterPassword(password)
                 .clickOnLoginSignInButton()
                 .checkIsAlertMessageVisible()
-                .checkTextInAlertMessage("Invalid username / password") //ToDo: Bug in text
-                .checkBackgroundColor("#f8d7da");
+                .checkTextInAlertMessage("Invalid username/password.")
+                .checkBackgroundColorAlert(LoginPage.color.PINK);
     }
 
     public Object[][] parametersForInvalidLoginTest() {
@@ -38,14 +40,14 @@ public class InvalidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForInvalidLoginTestByKeyboardButtons")
-    public void parametersForInvalidLoginTestByKeyboardButtonsTC4(String userName, String password) {
-        pageProvider.LoginPage()
+    public void TC4_invalidLogin_withKeyboard(String userName, String password) {
+        pageProvider.getLoginPage()
                 .openLoginPage()
-                .enterUsernameWithTab(userName)
-                .enterPasswordWithEnter(password)
+                .enterLoginWithKey(userName, Keys.TAB)
+                .enterPasswordWithKey(password, Keys.ENTER)
                 .checkIsAlertMessageVisible()
-                .checkTextInAlertMessage("Invalid username / password") //ToDo: Bug in text
-                .checkBackgroundColor("#f8d7da");
+                .checkTextInAlertMessage("Invalid username/password.")
+                .checkBackgroundColorAlert(LoginPage.color.PINK);
     }
 
     public Object[][] parametersForInvalidLoginTestByKeyboardButtons() {

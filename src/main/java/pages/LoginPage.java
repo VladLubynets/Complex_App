@@ -1,6 +1,7 @@
 package pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
@@ -56,15 +57,15 @@ public class LoginPage extends ParentPage {
         return this;
     }
 
-    public LoginPage enterUsernameWithTab(String username) {
-        enterTextIntoInput(usernameInput, username);
-        pressTabKey(usernameInput);
+    public LoginPage enterLoginWithKey(String password, Keys keyToPress) {
+        enterTextIntoInput(usernameInput, password);
+        pressKey(usernameInput, keyToPress);
         return this;
     }
 
-    public LoginPage enterPasswordWithEnter(String password) {
+    public LoginPage enterPasswordWithKey(String password, Keys keyToPress) {
         enterTextIntoInput(passwordInput, password);
-        pressEnterKey(passwordInput);
+        pressKey(passwordInput, keyToPress);
         return this;
     }
 
@@ -79,11 +80,27 @@ public class LoginPage extends ParentPage {
     }
 
 
-    public LoginPage checkBackgroundColor(String expectedColor) {
+    public LoginPage checkBackgroundColorAlert(color backgroundColor) {
         String actualColor = getAlertMessageBackgroundColor();
-        String expectedRGBColor = Color.fromString(expectedColor).asRgba();
+        String expectedRGBColor = Color.fromString(backgroundColor.getColor()).asRgba();
         Assert.assertEquals("Alert message background color doesn't match expected color",
                 expectedRGBColor, actualColor);
         return this;
+    }
+
+    public enum color {
+        WHITE("#ffffff"),
+        BLUE("#cce5ff"),
+        PINK("#f8d7da");
+
+        private String color;
+
+        color(String color) {
+            this.color = color;
+        }
+
+        public String getColor() {
+            return color;
+        }
     }
 }

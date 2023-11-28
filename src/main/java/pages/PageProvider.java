@@ -14,15 +14,11 @@ public class PageProvider {
         this.webDriver = webDriver;
     }
 
-    public LoginPage LoginPage() {
+    public LoginPage getLoginPage() {
         return new LoginPage(webDriver);
     }
 
-    public Header Header() {
-        return new Header(webDriver);
-    }
-
-    public HomePage HomePage() {
+    public HomePage getHomePage() {
         return new HomePage(webDriver);
     }
 
