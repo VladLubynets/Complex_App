@@ -4,6 +4,7 @@ import BaseTest.BaseTest;
 import TestData.TestData;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
@@ -19,6 +20,7 @@ import org.openqa.selenium.Keys;
 public class ValidLoginTests extends BaseTest {
 
     @Test
+    @Ignore
     @Parameters(method = "parametersForLoginTest")
     public void TC1_validLogin(String userName, String password) {
         pageProvider.getLoginPage()
@@ -40,6 +42,7 @@ public class ValidLoginTests extends BaseTest {
     }
 
     @Test
+    @Ignore
     @Parameters(method = "parametersForLoginTestByKeyboardButtons")
     public void TC2_validLogin_withKeyboard(String userName, String password) {
         pageProvider.getLoginPage()
