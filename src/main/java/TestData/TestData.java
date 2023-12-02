@@ -1,6 +1,7 @@
 package TestData;
 
 import libs.ConfigProvider;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Locale;
 
@@ -24,4 +25,15 @@ public class TestData {
 
     public final static String INVALID_LOGIN_REVERSE = ConfigProvider.configHiddenProperties.put_in_login_ValidPassword();
     public final static String INVALID_PASSWORD_REVERSE = ConfigProvider.configHiddenProperties.put_in_password_ValidLogin();
+
+    public static String generateRandomString(int length) {  // randomizer  value for email
+        String HigerCaseLetters = "ABCZ";
+        return RandomStringUtils.randomAlphanumeric(length) + HigerCaseLetters;
+    }
+
+    public static String generateRandomEmail() {  // create random email
+        String randomPart = generateRandomString(10);
+        String domain = "gmail.com";
+        return randomPart + "@" + domain;
+    }
 }
