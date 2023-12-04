@@ -1,19 +1,25 @@
 package pages;
 
+import TestData.ColorPalette;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginPage extends ParentPage {
+
     @FindBy(xpath = "//input[@placeholder='Username']")
     private WebElement usernameInput;
+
     @FindBy(xpath = "//input[@placeholder='Password']")
     private WebElement passwordInput;
+
     @FindBy(xpath = "//button[@class='btn btn-primary btn-sm']")
     private WebElement loginSignInButton;
-    @FindBy(xpath = "//div[@class=\"alert alert-danger text-center\"]")
-    private WebElement alertMessage;
     @FindBy(id = "username-register")
     private WebElement inputUserNameRegistration;
 
@@ -26,44 +32,20 @@ public class LoginPage extends ParentPage {
     @FindBy(xpath = "//button[@class=\"py-3 mt-4 btn btn-lg btn-success btn-block\" and contains(text(), \"Sign up for OurApp\")]")
     private WebElement buttonRegistration;
 
-    @FindBy(xpath = "//div[@class=\"alert alert-danger small liveValidateMessage liveValidateMessage--visible\" and contains(text(), \"This username is already taken.\")]")
-    private WebElement alertMessageUsernameIsAlreadyTaken;
 
-    @FindBy(xpath = "//div[contains(@class, 'alert') and contains(text(), 'Username must be at least 3 characters.')]")
-    private WebElement alertMessageUsernameMustBeAtLeast3Characters;
-    @FindBy(xpath = "//div[contains(@class, 'alert') and contains(text(), 'You must provide a valid email address.')]")
-    private WebElement alertMessageYouMustProvideAValidEmailAddress;
-    @FindBy(xpath = "//div[contains(@class, 'alert') and contains(text(), 'Password must be at least 12 characters.')]")
-    private WebElement alertMessagePasswordMustBeAtLeast12Characters;
+    @FindBy(xpath = "//div[@class=\"alert alert-danger text-center\"]")
+    private WebElement alertMessage;
+
+    final String listErrorsMessagesLocator = ".//*[@class='alert alert-danger small liveValidateMessage liveValidateMessage--visible']";
 
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
+
     }
 
     public LoginPage openLoginPage() {
         openPage(BASE_URL);
         return this;
-    }
-
-    public enum color {
-        WHITE("#ffffff"),
-        BLUE("#cce5ff"),
-        PINK("#f8d7da"),
-        GRAY("#4444"),
-        LiGHT_GRAY("#888"),
-        LIGHT_BLUE("#80bdff"),
-        NAVY_BLUE("#007bff");
-
-
-        private String color;
-
-        color(String color) {
-            this.color = color;
-        }
-
-        public String getColor() {
-            return color;
-        }
     }
 
     public LoginPage enterUsername(String username) {
@@ -115,18 +97,11 @@ public class LoginPage extends ParentPage {
         return this;
     }
 
-    public String getAlertMessageBackgroundColor() {
-        return alertMessage.getCssValue("background-color");
-    }
 
     public LoginPage enterTextIntoInputUserNameRegistration(String userName) {
         enterTextIntoInput(inputUserNameRegistration, userName);
         return this;
 
-    }
-
-    public boolean isAlertMessageUsernameIsAlreadyTakenVisible() {
-        return isElementDisplayed(alertMessageUsernameIsAlreadyTaken);
     }
 
     public LoginPage enterTextIntoInputEmailRegistration(String email) {
@@ -150,106 +125,85 @@ public class LoginPage extends ParentPage {
         return this;
     }
 
-    public LoginPage checkBackgroundColorAlert(color backgroundColor) {
-        String actualColor = getAlertMessageBackgroundColor();
-        String expectedRGBColor = Color.fromString(backgroundColor.getColor()).asRgba();
-        Assert.assertEquals("Alert message background color doesn't match expected color",
-                expectedRGBColor, actualColor);
+    public LoginPage checkBackgroundColorAlert(ColorPalette.color colorEnum) {
+        checkColorElement(alertMessage, colorEnum);
+        return this;
+    }
+
+    public boolean checkErrorsMessages(String expectedMessages) {
+        String[] errors = expectedMessages.split(";");
+
+        List<String> actualTextFromErrors = new ArrayList<>(); //  // creating list to store actual error messages and elements with errors
+        List<WebElement> errorElements;
+
+        try {       // waiting for the expected number of error elements
+            webDriverWait10.until(ExpectedConditions.numberOfElementsToBe(By.xpath(listErrorsMessagesLocator), errors.length));
+            errorElements = getListOfErrors();
+        } catch (TimeoutException e) {
+            errorElements = new ArrayList<>();  // initializing  empty list if  we didn`t find errors
+        }
+
+        if (errorElements.isEmpty()) {
+            // returning false if didn`t find errors
+            return false;
+        } else {
+            // if we  found error collecting the text of each error
+            for (int i = 0; i < errorElements.size(); i++) {
+                actualTextFromErrors.add(errorElements.get(i).getText());
+            }
+
+            // Checking if we  found errors match the expected ones
+            SoftAssertions softAssertions = new SoftAssertions();
+            for (int i = 0; i < errors.length; i++) {
+                String error = errors[i];
+                String errorMessage = actualTextFromErrors.get(i);
+                softAssertions.assertThat(error).as("Error " + i).isIn(errorMessage);
+            }
+            softAssertions.assertAll();
+
+            return true; // return true if errors founded
+        }
+    }
+
+    public LoginPage checkValidationAlertMessageNotPresent() {
+        List<WebElement> errorElements = getListOfErrors();
+        Assert.assertTrue("Error messages should not be present", errorElements.isEmpty());
         return this;
     }
 
 
-    public LoginPage checkIsAlertMessageUsernameCharactersNotVisible() {
-        checkElementNotDisplayed(alertMessageUsernameMustBeAtLeast3Characters);
-        return this;
+    private List<WebElement> getListOfErrors() {
+        return webDriver.findElements(By.xpath(listErrorsMessagesLocator));
     }
 
-    public LoginPage checkIsAlertMessageEmailCharactersNotVisible() {
-        checkElementNotDisplayed(alertMessageYouMustProvideAValidEmailAddress);
-        return this;
-    }
-
-    public LoginPage checkIsAlertMessagePasswordCharactersNotVisible() {
-        checkElementNotDisplayed(alertMessagePasswordMustBeAtLeast12Characters);
-        return this;
-    }
-
-    public LoginPage checkAlertsInvalidRegistration() {
-        checkIsAlertMessageUsernameCharactersNotVisible();
-        checkIsAlertMessageEmailCharactersNotVisible();
-        checkIsAlertMessagePasswordCharactersNotVisible();
-        return this;
-    }
-
-    public String getColorPlaceholderUsername() {
-        return usernameInput.getCssValue("background-color");
-    }
-
-    public String getColorPlaceholderPassword() {
-        return passwordInput.getCssValue("background-color");
-    }
-
-
-    public LoginPage checkColorPlaceholderUsername(String color) { // compare color with color from enum
+    public LoginPage checkColorPlaceholderUsername(ColorPalette.color colorEnum) {
         checkElementDisplayed(usernameInput);
-        String actualColor = getColorPlaceholderUsername();
-        String expectedRGBColor = Color.fromString(color).asRgba();
-        Assert.assertEquals("Username Placeholder color doesn't match expected color",
-                expectedRGBColor, actualColor);
+        checkColorElement(usernameInput, colorEnum);
         return this;
     }
 
-    public LoginPage checkColorPlaceholderPassword(String color) {
+    public LoginPage checkColorPlaceholderPassword(ColorPalette.color colorEnum) {
         checkElementDisplayed(passwordInput);
-        String actualColor = getColorPlaceholderPassword();
-        String expectedRGBColor = Color.fromString(color).asRgba();
-        Assert.assertEquals(" Password Placeholder color doesn't match expected color",
-                expectedRGBColor, actualColor);
+        checkColorElement(passwordInput, colorEnum);
         return this;
     }
 
-    public LoginPage checkColorBorderUsername(String expectedColor) {  // convert string to color + .asRgb() to compare
+    public LoginPage checkColorBorderUsername(ColorPalette.color colorEnum) {
         checkElementDisplayed(usernameInput);
-        String actualColorString = getColorBorderOnFocusAfterClick();
-        Color actualBorderColor = Color.fromString(actualColorString);
-        Color expectedBorderColor = Color.fromString(expectedColor);
-
-        String actualRGBBorderColor = actualBorderColor.asRgb();
-        String expectedRGBBorderColor = expectedBorderColor.asRgb();
-
-        Assert.assertEquals(" Border Username Placeholder color doesn't match expected color", expectedRGBBorderColor, actualRGBBorderColor);
+        checkColorBorderPlaceHolder(usernameInput, colorEnum);
         return this;
+
     }
 
-    public String getColorBorderOnFocusAfterClick() { // u need click on element before for check border color
-        clickOnElement(usernameInput);
-        return usernameInput.getCssValue("border-color");
-    }
-
-    public LoginPage checkColorSignInButton(String color) {
+    public LoginPage checkColorSignInButton(ColorPalette.color colorEnum) {
         checkElementDisplayed(loginSignInButton);
-        String actualColor = getColorSignInButton();
-        String expectedRGBColor = Color.fromString(color).asRgba();
-        Assert.assertEquals(" Sign in Placeholder color doesn't match expected color",
-                expectedRGBColor, actualColor);
+        checkColorElement(loginSignInButton, colorEnum);
         return this;
     }
 
-    public String getColorSignInButton() {
-        return loginSignInButton.getCssValue("background-color");
-    }
 
-    public String getTextColorSignInButton() {
-        return loginSignInButton.getCssValue("color");
-    }
-
-    public LoginPage checkTextColorSignInButton(String color) {
-        checkElementDisplayed(loginSignInButton);
-        String actualColor = getTextColorSignInButton();
-        String expectedRGBColor = Color.fromString(color).asRgba();
-        Assert.assertEquals("Text in Sign in Placeholder color doesn't match expected color",
-                expectedRGBColor, actualColor);
+    public LoginPage checkColorTextSignInButton(ColorPalette.color colorEnum) {
+        checkTextColorElement(loginSignInButton, colorEnum);
         return this;
-
     }
 }
