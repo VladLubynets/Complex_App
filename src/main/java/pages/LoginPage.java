@@ -37,6 +37,7 @@ public class LoginPage extends ParentPage {
     private WebElement alertMessage;
 
     final String listErrorsMessagesLocator = ".//*[@class='alert alert-danger small liveValidateMessage liveValidateMessage--visible']";
+    PageProvider pageProvider = new PageProvider(webDriver);
 
     public LoginPage(WebDriver webDriver) {
         super(webDriver);
@@ -157,6 +158,19 @@ public class LoginPage extends ParentPage {
         return this;
     }
 
+    public boolean isMessageWithTextDisplayed(String expectedText) {
+        List<WebElement> errorElements = getListOfErrors();
+
+        for (int i = 0; i < errorElements.size(); i++) {
+            WebElement errorElement = errorElements.get(i);
+            String errorMessage = errorElement.getText();
+            if (errorMessage.contains(expectedText)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private List<WebElement> getListOfErrors() {
         return webDriver.findElements(By.xpath(listErrorsMessagesLocator));
@@ -191,5 +205,27 @@ public class LoginPage extends ParentPage {
     public LoginPage checkColorTextSignInButton(ColorPalette colorEnum) {
         checkTextColorElement(loginSignInButton, colorEnum);
         return this;
+    }
+
+    public void registrationUserIfNeeded(String userName, String password, String email) {
+        boolean errorFound = false;
+        try {
+            errorFound = isMessageWithTextDisplayed("This username is already taken.");
+        } catch (TimeoutException e) {
+
+        }
+        if (!errorFound) { // if error not found - do registration
+
+            openLoginPage();
+            enterTextIntoInputUserNameRegistration(userName);
+            enterTextIntoInputEmailRegistration(email);
+            enterTextIntoInputPasswordRegistration(password);
+            checkValidationAlertMessageNotPresent();
+            checkIsButtonRegistrationVisible();
+            clickOnButtonRegistration();
+            checkIsSignInButtonNotVisible();
+            pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
+
+        }
     }
 }

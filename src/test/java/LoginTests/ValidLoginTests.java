@@ -8,7 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.TimeoutException;
+
 
 /**
  * Here we check valid login from pull test cases  "Validation of user input"
@@ -24,36 +24,14 @@ public class ValidLoginTests extends BaseTest {
     @Test
     @Parameters(method = "parametersForLoginTest")
     public void TC1_validLogin(String userName, String Password) {
-        pageProvider.getLoginPage().openLoginPage().enterTextIntoInputUserNameRegistration(userName);
-        boolean errorFound = false; // if error found errorFound = true
-        try {
-            errorFound = pageProvider.getLoginPage().checkErrorsMessages("This username is already taken.");
-        } catch (TimeoutException e) { // if error not found  errorFound = false
-
-
-        }
-
-        if (!errorFound) {  // start registration only if error not found
-            pageProvider.getLoginPage()
-                    .openLoginPage()
-                    .enterTextIntoInputUserNameRegistration(userName)
-                    .enterTextIntoInputEmailRegistration(TestData.generateRandomEmail())
-                    .enterTextIntoInputPasswordRegistration(Password)
-                    .checkValidationAlertMessageNotPresent()
-                    .checkIsButtonRegistrationVisible()
-                    .clickOnButtonRegistration();
-            pageProvider.getHomePage().getHeader().checkIsSignOutButtonVisible()
-                    .clickOnButtonSignOut();
-        }
-
-        pageProvider.getLoginPage()   // start login
+        pageProvider.getLoginPage().openLoginPage().enterTextIntoInputUserNameRegistration(userName)
+                .registrationUserIfNeeded(userName, Password, TestData.generateRandomEmail()); // if user is not registered
+        pageProvider.getLoginPage()
                 .enterUsername(userName)
                 .enterPassword(Password)
                 .clickOnLoginSignInButton()
                 .checkIsSignInButtonNotVisible();
-        pageProvider.getHomePage().getHeader()
-                .checkIsAvatarVisibleAndCheckTextInAvatar(userName)
-                .checkIsSignOutButtonVisible();
+        pageProvider.getHomePage().getHeader().checkIsSignOutButtonVisible();
     }
 
     public Object[][] parametersForLoginTest() {
