@@ -1,9 +1,10 @@
 package VisualElementsTests;
 
-import TestData.ColorPalette.color;
 import BaseTest.BaseTest;
 
 import org.junit.Test;
+
+import static TestData.ColorPalette.*;
 
 /**
  * Here we check Visual elements of the login on pull test cases  "VisualElementsTests"
@@ -16,11 +17,11 @@ public class VisualElementsTests extends BaseTest {
     public void TC5_VisualElementsHeader() {
 
         pageProvider.getLoginPage().openLoginPage()
-                .checkColorPlaceholderUsername(color.GRAY)
-                .checkColorPlaceholderPassword(color.GRAY)
-                .checkColorBorderUsername(color.LIGHT_BLUE)
-                .checkColorSignInButton(color.NAVY_BLUE)
-                .checkColorTextSignInButton(color.WHITE);
+                .checkColorPlaceholderUsername(GRAY)
+                .checkColorPlaceholderPassword(GRAY)
+                .checkColorBorderUsername(LIGHT_BLUE)
+                .checkColorSignInButton(NAVY_BLUE)
+                .checkColorTextSignInButton(WHITE);
     }
 
 }

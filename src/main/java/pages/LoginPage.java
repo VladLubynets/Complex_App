@@ -125,44 +125,30 @@ public class LoginPage extends ParentPage {
         return this;
     }
 
-    public LoginPage checkBackgroundColorAlert(ColorPalette.color colorEnum) {
+    public LoginPage checkBackgroundColorAlert(ColorPalette colorEnum) {
         checkColorElement(alertMessage, colorEnum);
         return this;
     }
 
     public boolean checkErrorsMessages(String expectedMessages) {
         String[] errors = expectedMessages.split(";");
+        webDriverWait10.until(ExpectedConditions.numberOfElementsToBe(By.xpath(listErrorsMessagesLocator), errors.length));
+        ArrayList<String> actualTextFromErrors = new ArrayList<>(); // creating list  actual error messages and elements with errors
+        List<WebElement> errorElements = getListOfErrors();
 
-        List<String> actualTextFromErrors = new ArrayList<>(); //  // creating list to store actual error messages and elements with errors
-        List<WebElement> errorElements;
-
-        try {       // waiting for the expected number of error elements
-            webDriverWait10.until(ExpectedConditions.numberOfElementsToBe(By.xpath(listErrorsMessagesLocator), errors.length));
-            errorElements = getListOfErrors();
-        } catch (TimeoutException e) {
-            errorElements = new ArrayList<>();  // initializing  empty list if  we didn`t find errors
+        for (int i = 0; i < errorElements.size(); i++) {
+            actualTextFromErrors.add(errorElements.get(i).getText()); // adding text from error elements to list
         }
 
-        if (errorElements.isEmpty()) {
-            // returning false if didn`t find errors
-            return false;
-        } else {
-            // if we  found error collecting the text of each error
-            for (int i = 0; i < errorElements.size(); i++) {
-                actualTextFromErrors.add(errorElements.get(i).getText());
-            }
-
-            // Checking if we  found errors match the expected ones
-            SoftAssertions softAssertions = new SoftAssertions();
-            for (int i = 0; i < errors.length; i++) {
-                String error = errors[i];
-                String errorMessage = actualTextFromErrors.get(i);
-                softAssertions.assertThat(error).as("Error " + i).isIn(errorMessage);
-            }
-            softAssertions.assertAll();
-
-            return true; // return true if errors founded
+        SoftAssertions softAssertions = new SoftAssertions();  // Checking actual error messages against expected ones
+        for (int i = 0; i < errors.length; i++) {
+            String error = errors[i];
+            String errorMessage = actualTextFromErrors.get(i);
+            softAssertions.assertThat(error).as("Error " + i).isIn(errorMessage);
         }
+        softAssertions.assertAll();
+
+        return !errorElements.isEmpty();  // if list  not empty - true if list empty - false
     }
 
     public LoginPage checkValidationAlertMessageNotPresent() {
@@ -176,33 +162,33 @@ public class LoginPage extends ParentPage {
         return webDriver.findElements(By.xpath(listErrorsMessagesLocator));
     }
 
-    public LoginPage checkColorPlaceholderUsername(ColorPalette.color colorEnum) {
+    public LoginPage checkColorPlaceholderUsername(ColorPalette colorEnum) {
         checkElementDisplayed(usernameInput);
         checkColorElement(usernameInput, colorEnum);
         return this;
     }
 
-    public LoginPage checkColorPlaceholderPassword(ColorPalette.color colorEnum) {
+    public LoginPage checkColorPlaceholderPassword(ColorPalette colorEnum) {
         checkElementDisplayed(passwordInput);
         checkColorElement(passwordInput, colorEnum);
         return this;
     }
 
-    public LoginPage checkColorBorderUsername(ColorPalette.color colorEnum) {
+    public LoginPage checkColorBorderUsername(ColorPalette colorEnum) {
         checkElementDisplayed(usernameInput);
         checkColorBorderPlaceHolder(usernameInput, colorEnum);
         return this;
 
     }
 
-    public LoginPage checkColorSignInButton(ColorPalette.color colorEnum) {
+    public LoginPage checkColorSignInButton(ColorPalette colorEnum) {
         checkElementDisplayed(loginSignInButton);
         checkColorElement(loginSignInButton, colorEnum);
         return this;
     }
 
 
-    public LoginPage checkColorTextSignInButton(ColorPalette.color colorEnum) {
+    public LoginPage checkColorTextSignInButton(ColorPalette colorEnum) {
         checkTextColorElement(loginSignInButton, colorEnum);
         return this;
     }

@@ -100,10 +100,10 @@ public class ActionWithElements {
         return element.getCssValue("background-color");
     }
 
-    public void checkColorElement(WebElement element, ColorPalette.color colorEnum) {
+    public void checkColorElement(WebElement element, ColorPalette colorEnum) {
         String actualColor = getColorElement(element);
-        String expectedRGBColor = Color.fromString(colorEnum.getColor()).asRgba();
-        Assert.assertEquals("Element`s color doesn't match expected Enum color",
+        String expectedRGBColor = Color.fromString(colorEnum.getColorCode()).asRgba();
+        Assert.assertEquals("Element's color doesn't match expected Enum color",
                 expectedRGBColor, actualColor);
     }
 
@@ -111,25 +111,24 @@ public class ActionWithElements {
         return element.getCssValue("color");
     }
 
-    public void checkTextColorElement(WebElement element, ColorPalette.color colorEnum) {
+    public void checkTextColorElement(WebElement element, ColorPalette colorEnum) {
         checkElementDisplayed(element);
         String actualColor = getTextColorElement(element);
-        String expectedRGBColor = Color.fromString(colorEnum.getColor()).asRgba();
+        String expectedRGBColor = Color.fromString(colorEnum.getColorCode()).asRgba();
         Assert.assertEquals("Text in element`s color doesn't match expected Enum color",
                 expectedRGBColor, actualColor);
     }
 
-    public void checkColorBorderPlaceHolder(WebElement element, ColorPalette.color colorEnum) {  // convert string to color + .asRgb() to compare
+    public void checkColorBorderPlaceHolder(WebElement element, ColorPalette colorEnum) {
         checkElementDisplayed(element);
+
         String actualColorString = getColorBorderOnFocusAfterClick(element);
         Color actualBorderColor = Color.fromString(actualColorString);
-        Color expectedBorderColor = Color.fromString(colorEnum.getColor());
 
-        String actualRGBBorderColor = actualBorderColor.asRgb();
-        String expectedRGBBorderColor = expectedBorderColor.asRgb();
+        Color expectedBorderColor = Color.fromString(colorEnum.getColorCode());
 
-        Assert.assertEquals(" Border Username Placeholder color doesn't match expected color Enum", expectedRGBBorderColor, actualRGBBorderColor);
-
+        Assert.assertEquals("Border Username Placeholder color doesn't match expected color Enum",
+                expectedBorderColor.asRgb(), actualBorderColor.asRgb());
     }
 
     public String getColorBorderOnFocusAfterClick(WebElement element) { // u need click on element before for check border color

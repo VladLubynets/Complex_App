@@ -8,6 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 
 /**
  * Here we check valid login from pull test cases  "Validation of user input"
@@ -22,21 +23,19 @@ public class ValidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForLoginTest")
-
     public void TC1_validLogin(String userName, String Password) {
         pageProvider.getLoginPage().openLoginPage().enterTextIntoInputUserNameRegistration(userName);
-        if (pageProvider.getLoginPage().checkErrorsMessages("This username is already taken.")) {
+        boolean errorFound = false; // if error found errorFound = true
+        try {
+            errorFound = pageProvider.getLoginPage().checkErrorsMessages("This username is already taken.");
+        } catch (TimeoutException e) { // if error not found  errorFound = false
+
+
+        }
+
+        if (!errorFound) {  // start registration only if error not found
             pageProvider.getLoginPage()
                     .openLoginPage()
-                    .enterUsername(userName)
-                    .enterPassword(Password)
-                    .clickOnLoginSignInButton()
-                    .checkIsSignInButtonNotVisible();
-            pageProvider.getHomePage().getHeader()
-                    .checkIsAvatarVisibleAndCheckTextInAvatar(userName)
-                    .checkIsSignOutButtonVisible();
-        } else {
-            pageProvider.getLoginPage().openLoginPage()
                     .enterTextIntoInputUserNameRegistration(userName)
                     .enterTextIntoInputEmailRegistration(TestData.generateRandomEmail())
                     .enterTextIntoInputPasswordRegistration(Password)
@@ -46,8 +45,16 @@ public class ValidLoginTests extends BaseTest {
             pageProvider.getHomePage().getHeader().checkIsSignOutButtonVisible()
                     .clickOnButtonSignOut();
         }
-    }
 
+        pageProvider.getLoginPage()   // start login
+                .enterUsername(userName)
+                .enterPassword(Password)
+                .clickOnLoginSignInButton()
+                .checkIsSignInButtonNotVisible();
+        pageProvider.getHomePage().getHeader()
+                .checkIsAvatarVisibleAndCheckTextInAvatar(userName)
+                .checkIsSignOutButtonVisible();
+    }
 
     public Object[][] parametersForLoginTest() {
         return new Object[][]{
