@@ -228,4 +228,29 @@ public class LoginPage extends ParentPage {
 
         }
     }
+
+    public LoginPage checkIsPasswordInputDisplayed() {
+        checkElementDisplayed(passwordInput);
+        return this;
+    }
+  public LoginPage copyValueFromPasswordInput(){
+        copyValueFromElement(passwordInput);
+        return this;
+  }
+
+  public LoginPage pasteValueToUsernameInput(){
+        pasteValueToElement(usernameInput);
+        return this;
+  }
+  public LoginPage checkIsUsernameInputEmpty(){
+      checkTextInElement(usernameInput,"");
+        return this;
+  }
+
+
+    public LoginPage enterPasswordAndCheckHidden(String password) {
+        enterTextIntoInput(passwordInput, password);
+        verifyHiddenElementWithNameIsVisibleAndHidden();
+        return this;
+    }
 }

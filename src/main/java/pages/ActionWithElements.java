@@ -3,6 +3,7 @@ package pages;
 import TestData.ColorPalette;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -134,5 +135,33 @@ public class ActionWithElements {
     public String getColorBorderOnFocusAfterClick(WebElement element) { // u need click on element before for check border color
         clickOnElement(element);
         return element.getCssValue("border-color");
+    }
+    public void copyValueFromElement(WebElement element){
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        element.sendKeys(Keys.chord(Keys.CONTROL, "c"));
+
+    }
+    public void pasteValueToElement(WebElement element){
+        element.sendKeys(Keys.chord(Keys.CONTROL, "v"));
+    }
+
+    public void checkTextInElement(WebElement element, String expectedText) {
+        checkElementDisplayed(element);
+        String actualText = element.getText();
+        Assert.assertEquals("Text in element doesn't match expected text",
+                expectedText, actualText);
+    }
+
+    public void verifyHiddenElementWithNameIsVisibleAndHidden() {
+        String name = "_csrf";
+        WebElement element = webDriver.findElement(By.cssSelector("input[type='hidden'][name='" + name + "']"));
+
+        boolean isHidden = !element.isDisplayed();
+        boolean isHiddenType = "hidden".equalsIgnoreCase(element.getAttribute("type"));
+        boolean isHiddenName = name.equalsIgnoreCase(element.getAttribute("name"));
+
+        Assert.assertTrue("Element is not hidden", isHidden);
+        Assert.assertTrue("Element type is not hidden", isHiddenType);
+        Assert.assertTrue("Element name does not match", isHiddenName);
     }
 }

@@ -2,6 +2,7 @@ package VisualElementsTests;
 
 import BaseTest.BaseTest;
 
+import TestData.TestData;
 import org.junit.Test;
 
 import static TestData.ColorPalette.*;
@@ -22,6 +23,16 @@ public class VisualElementsTests extends BaseTest {
                 .checkColorBorderUsername(LIGHT_BLUE)
                 .checkColorSignInButton(NAVY_BLUE)
                 .checkColorTextSignInButton(WHITE);
+    }
+
+    @Test
+    public void TC6_displayedPasswordElements() {
+        pageProvider.getLoginPage().openLoginPage()
+                .checkIsPasswordInputDisplayed()
+                .enterPasswordAndCheckHidden(TestData.VALID_PASSWORD)
+                .copyValueFromPasswordInput()
+                .pasteValueToUsernameInput()
+                .checkIsUsernameInputEmpty();
     }
 
 }
