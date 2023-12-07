@@ -1,11 +1,14 @@
 package pages;
 
+import TestData.ColorPalette;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -92,5 +95,73 @@ public class ActionWithElements {
         } catch (Exception e) {
             printErrorAndStopTest(e);
         }
+    }
+
+    public String getColorElement(WebElement element) {
+        return element.getCssValue("background-color");
+    }
+
+    public void checkColorElement(WebElement element, ColorPalette colorEnum) {
+        String actualColor = getColorElement(element);
+        String expectedRGBColor = Color.fromString(colorEnum.getColorCode()).asRgba();
+        Assert.assertEquals("Element's color doesn't match expected Enum color",
+                expectedRGBColor, actualColor);
+    }
+
+    public String getTextColorElement(WebElement element) {
+        return element.getCssValue("color");
+    }
+
+    public void checkTextColorElement(WebElement element, ColorPalette colorEnum) {
+        checkElementDisplayed(element);
+        String actualColor = getTextColorElement(element);
+        String expectedRGBColor = Color.fromString(colorEnum.getColorCode()).asRgba();
+        Assert.assertEquals("Text in element`s color doesn't match expected Enum color",
+                expectedRGBColor, actualColor);
+    }
+
+    public void checkColorBorderPlaceHolder(WebElement element, ColorPalette colorEnum) {
+        checkElementDisplayed(element);
+
+        String actualColorString = getColorBorderOnFocusAfterClick(element);
+        Color actualBorderColor = Color.fromString(actualColorString);
+
+        Color expectedBorderColor = Color.fromString(colorEnum.getColorCode());
+
+        Assert.assertEquals("Border Username Placeholder color doesn't match expected color Enum",
+                expectedBorderColor.asRgb(), actualBorderColor.asRgb());
+    }
+
+    public String getColorBorderOnFocusAfterClick(WebElement element) { // u need click on element before for check border color
+        clickOnElement(element);
+        return element.getCssValue("border-color");
+    }
+    public void copyValueFromElement(WebElement element){
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        element.sendKeys(Keys.chord(Keys.CONTROL, "c"));
+
+    }
+    public void pasteValueToElement(WebElement element){
+        element.sendKeys(Keys.chord(Keys.CONTROL, "v"));
+    }
+
+    public void checkTextInElement(WebElement element, String expectedText) {
+        checkElementDisplayed(element);
+        String actualText = element.getText();
+        Assert.assertEquals("Text in element doesn't match expected text",
+                expectedText, actualText);
+    }
+
+    public void verifyHiddenElementWithNameIsVisibleAndHidden() {
+        String name = "_csrf";
+        WebElement element = webDriver.findElement(By.cssSelector("input[type='hidden'][name='" + name + "']"));
+
+        boolean isHidden = !element.isDisplayed();
+        boolean isHiddenType = "hidden".equalsIgnoreCase(element.getAttribute("type"));
+        boolean isHiddenName = name.equalsIgnoreCase(element.getAttribute("name"));
+
+        Assert.assertTrue("Element is not hidden", isHidden);
+        Assert.assertTrue("Element type is not hidden", isHiddenType);
+        Assert.assertTrue("Element name does not match", isHiddenName);
     }
 }

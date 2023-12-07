@@ -73,6 +73,12 @@ public class Header extends ActionWithElements {
         return this;
     }
 
+    public Header clickOnButtonSignOut() {
+        clickOnElement(signOutButton);
+        return this;
+    }
+
+
     public Header checkIsSignOutButtonNotVisible() {
         checkElementNotDisplayed(signOutButton);
         return this;

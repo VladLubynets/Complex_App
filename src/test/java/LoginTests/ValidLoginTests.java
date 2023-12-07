@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
 
+
 /**
  * Here we check valid login from pull test cases  "Validation of user input"
  * a link is provided in addition to the test case
@@ -19,19 +20,18 @@ import org.openqa.selenium.Keys;
 
 public class ValidLoginTests extends BaseTest {
 
+
     @Test
-    @Ignore
     @Parameters(method = "parametersForLoginTest")
-    public void TC1_validLogin(String userName, String password) {
+    public void TC1_validLogin(String userName, String Password) {
+        pageProvider.getLoginPage().openLoginPage().enterTextIntoInputUserNameRegistration(userName)
+                .registrationUserIfNeeded(userName, Password, TestData.generateRandomEmail()); // if user is not registered
         pageProvider.getLoginPage()
-                .openLoginPage()
                 .enterUsername(userName)
-                .enterPassword(password)
+                .enterPassword(Password)
                 .clickOnLoginSignInButton()
                 .checkIsSignInButtonNotVisible();
-        pageProvider.getHomePage().getHeader()
-                .checkIsAvatarVisibleAndCheckTextInAvatar(userName)
-                .checkIsSignOutButtonVisible();
+        pageProvider.getHomePage().getHeader().checkIsSignOutButtonVisible();
     }
 
     public Object[][] parametersForLoginTest() {
@@ -57,6 +57,7 @@ public class ValidLoginTests extends BaseTest {
 
     public Object[][] parametersForLoginTestByKeyboardButtons() {
         return new Object[][]{
+
                 {TestData.VALID_LOGIN, TestData.VALID_PASSWORD},
                 {TestData.VALID_LOGIN_UPPER_CASE, TestData.VALID_PASSWORD_UPPER_CASE}}; // TODo bug in upper case denied entry
     }

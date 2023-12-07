@@ -1,5 +1,6 @@
 package LoginTests;
 
+
 import BaseTest.BaseTest;
 import TestData.TestData;
 import junitparams.JUnitParamsRunner;
@@ -7,7 +8,8 @@ import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
-import pages.LoginPage;
+
+import static TestData.ColorPalette.PINK;
 
 /**
  * Here we check valid invalid login from pull test cases  "Invalid Login Tests"
@@ -29,7 +31,7 @@ public class InvalidLoginTests extends BaseTest {
                 .clickOnLoginSignInButton()
                 .checkIsAlertMessageVisible()
                 .checkTextInAlertMessage("Invalid username/password.")
-                .checkBackgroundColorAlert(LoginPage.color.PINK);
+                .checkBackgroundColorAlert(PINK);
     }
 
     public Object[][] parametersForInvalidLoginTest() {
@@ -47,7 +49,7 @@ public class InvalidLoginTests extends BaseTest {
                 .enterPasswordWithKey(password, Keys.ENTER)
                 .checkIsAlertMessageVisible()
                 .checkTextInAlertMessage("Invalid username/password.")
-                .checkBackgroundColorAlert(LoginPage.color.PINK);
+                .checkBackgroundColorAlert(PINK);
     }
 
     public Object[][] parametersForInvalidLoginTestByKeyboardButtons() {
