@@ -17,7 +17,7 @@ import pages.PageProvider;
 import java.time.Duration;
 
 public class BaseTest {
-    public static WebDriver webDriver;
+    public  WebDriver webDriver;
     public PageProvider pageProvider;
     Logger logger = Logger.getLogger(getClass());
 
@@ -59,20 +59,6 @@ public class BaseTest {
 
         return webDriver;
     }
-    public static void resizeBrowserWindow(int width, int height) {
-        Dimension dimension = new Dimension(width, height);
-        webDriver.manage().window().setSize(dimension);
-    }
 
-    public static void minimizeBrowserWindow() {
-        webDriver.manage().window().setPosition(new Point(-2000, 0));
-    }
-
-    public  static void maximizeBrowserWindow() {
-        webDriver.manage().window().maximize();
-    }
-    public static void refreshPage() {
-        webDriver.navigate().refresh();
-    }
 
 }

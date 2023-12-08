@@ -1,4 +1,4 @@
-package LoginTests;
+package LoginTests.LoginTest;
 
 
 import BaseTest.BaseTest;
@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
 
 import static TestData.ColorPalette.PINK;
+import static TestData.TestData.*;
 
 /**
  * Here we check valid invalid login from pull test cases  "Invalid Login Tests"
@@ -36,8 +37,8 @@ public class InvalidLoginTests extends BaseTest {
 
     public Object[][] parametersForInvalidLoginTest() {
         return new Object[][]{
-                {TestData.VALID_LOGIN, TestData.INVALID_PASSWORD},
-                {TestData.INVALID_LOGIN, TestData.VALID_PASSWORD}};
+                {VALID_LOGIN, INVALID_PASSWORD},
+                {INVALID_LOGIN, VALID_PASSWORD}};
     }
 
     @Test
@@ -54,7 +55,7 @@ public class InvalidLoginTests extends BaseTest {
 
     public Object[][] parametersForInvalidLoginTestByKeyboardButtons() {
         return new Object[][]{
-                {TestData.INVALID_LOGIN_REVERSE, TestData.INVALID_PASSWORD_REVERSE},
-                {TestData.INVALID_LOGIN_EMPTY, TestData.INVALID_PASSWORD_EMPTY}};
+                {INVALID_LOGIN_REVERSE, INVALID_PASSWORD_REVERSE},
+                {INVALID_LOGIN_EMPTY, INVALID_PASSWORD_EMPTY}};
     }
 }

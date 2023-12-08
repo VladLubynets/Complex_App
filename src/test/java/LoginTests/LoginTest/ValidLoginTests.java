@@ -1,4 +1,4 @@
-package LoginTests;
+package LoginTests.LoginTest;
 
 import BaseTest.BaseTest;
 import TestData.TestData;
@@ -8,6 +8,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
+
+import static TestData.TestData.*;
 
 
 /**
@@ -36,9 +38,9 @@ public class ValidLoginTests extends BaseTest {
 
     public Object[][] parametersForLoginTest() {
         return new Object[][]{
-                {TestData.VALID_LOGIN, TestData.VALID_PASSWORD},
-                {TestData.VALID_LOGIN_MIN_SIZE, TestData.VALID_PASSWORD_MIN_SIZE},
-                {TestData.VALID_LOGIN_MAX_SIZE, TestData.VALID_PASSWORD_MAX_SIZE}};
+                {VALID_LOGIN, VALID_PASSWORD},
+                {VALID_LOGIN_MIN_SIZE, VALID_PASSWORD_MIN_SIZE},
+                {VALID_LOGIN_MAX_SIZE, VALID_PASSWORD_MAX_SIZE}};
     }
 
     @Test
@@ -58,8 +60,8 @@ public class ValidLoginTests extends BaseTest {
     public Object[][] parametersForLoginTestByKeyboardButtons() {
         return new Object[][]{
 
-                {TestData.VALID_LOGIN, TestData.VALID_PASSWORD},
-                {TestData.VALID_LOGIN_UPPER_CASE, TestData.VALID_PASSWORD_UPPER_CASE}}; // TODo bug in upper case denied entry
+                {VALID_LOGIN, VALID_PASSWORD},
+                {VALID_LOGIN_UPPER_CASE, VALID_PASSWORD_UPPER_CASE}}; // TODo bug in upper case denied entry
     }
 }
 

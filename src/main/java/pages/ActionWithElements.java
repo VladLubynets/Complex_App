@@ -1,13 +1,17 @@
 package pages;
 
 import TestData.ColorPalette;
+import TestData.ElementAttribute;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+
+import static TestData.ElementAttribute.*;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -88,15 +92,6 @@ public class ActionWithElements {
         }
     }
 
-    public void pressKey(WebElement element, Keys key) {
-        try {
-            new Actions(webDriver).sendKeys(element, key).perform();
-            logger.info("Key pressed");
-        } catch (Exception e) {
-            printErrorAndStopTest(e);
-        }
-    }
-
     public String getColorElement(WebElement element) {
         return element.getCssValue("background-color");
     }
@@ -136,38 +131,30 @@ public class ActionWithElements {
         clickOnElement(element);
         return element.getCssValue("border-color");
     }
-    public void copyValueFromElement(WebElement element){
-        element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-        element.sendKeys(Keys.chord(Keys.CONTROL, "c"));
 
-    }
-    public void pasteValueToElement(WebElement element){
-        element.sendKeys(Keys.chord(Keys.CONTROL, "v"));
-    }
-
-    public void checkTextInElement(WebElement element, String expectedText) {
+    public void checkTextInElement(WebElement element, String expectedText) { // check text in web-element
         checkElementDisplayed(element);
         String actualText = element.getText();
         Assert.assertEquals("Text in element doesn't match expected text",
                 expectedText, actualText);
     }
 
-    public void verifyHiddenElementWithNameIsVisibleAndHidden() {
-        String name = "_csrf";
-        WebElement element = webDriver.findElement(By.cssSelector("input[type='hidden'][name='" + name + "']"));
+    public void verifyHiddenElementWithNameIsVisibleAndHidden() { // verify hidden element with name is visible and hidden
+        WebElement element = webDriver.findElement(By.cssSelector("input[type='hidden'][" + NAME + "='_csrf']"));
 
         boolean isHidden = !element.isDisplayed();
-        boolean isHiddenType = "hidden".equalsIgnoreCase(element.getAttribute("type"));
-        boolean isHiddenName = name.equalsIgnoreCase(element.getAttribute("name"));
+        boolean isHiddenType = "hidden".equalsIgnoreCase(element.getAttribute(TYPE.toString()));
+        boolean isHiddenName = "_csrf".equalsIgnoreCase(element.getAttribute(NAME.toString()));
 
         Assert.assertTrue("Element is not hidden", isHidden);
         Assert.assertTrue("Element type is not hidden", isHiddenType);
         Assert.assertTrue("Element name does not match", isHiddenName);
     }
+
     public void checkTextInInputElementAttribute(WebElement element, String expectedText) {
         checkElementDisplayed(element);
-        String actualText = element.getAttribute("value");
+        String actualText = element.getAttribute(ElementAttribute.VALUE.getAttribute());
 
-        Assert.assertEquals("Text in input element doesn't match expected text", expectedText, actualText);
+        Assert.assertEquals("Attribute 'value' of the input element does not match the expected text", expectedText, actualText);
     }
 }
