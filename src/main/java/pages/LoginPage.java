@@ -253,4 +253,13 @@ public class LoginPage extends ParentPage {
         verifyHiddenElementWithNameIsVisibleAndHidden();
         return this;
     }
+    public LoginPage checkIsUsernameInputHasText(String text){
+        checkTextInInputElementAttribute(usernameInput,text);
+        return this;
+    }
+
+    public LoginPage checkIsPasswordInputEmpty(){
+        checkTextInElement(usernameInput,"");
+        return this;
+    }
 }

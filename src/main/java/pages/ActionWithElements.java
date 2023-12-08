@@ -164,4 +164,10 @@ public class ActionWithElements {
         Assert.assertTrue("Element type is not hidden", isHiddenType);
         Assert.assertTrue("Element name does not match", isHiddenName);
     }
+    public void checkTextInInputElementAttribute(WebElement element, String expectedText) {
+        checkElementDisplayed(element);
+        String actualText = element.getAttribute("value");
+
+        Assert.assertEquals("Text in input element doesn't match expected text", expectedText, actualText);
+    }
 }

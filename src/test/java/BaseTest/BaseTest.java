@@ -4,6 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -15,7 +17,7 @@ import pages.PageProvider;
 import java.time.Duration;
 
 public class BaseTest {
-    public WebDriver webDriver;
+    public static WebDriver webDriver;
     public PageProvider pageProvider;
     Logger logger = Logger.getLogger(getClass());
 
@@ -57,4 +59,20 @@ public class BaseTest {
 
         return webDriver;
     }
+    public static void resizeBrowserWindow(int width, int height) {
+        Dimension dimension = new Dimension(width, height);
+        webDriver.manage().window().setSize(dimension);
+    }
+
+    public static void minimizeBrowserWindow() {
+        webDriver.manage().window().setPosition(new Point(-2000, 0));
+    }
+
+    public  static void maximizeBrowserWindow() {
+        webDriver.manage().window().maximize();
+    }
+    public static void refreshPage() {
+        webDriver.navigate().refresh();
+    }
+
 }
