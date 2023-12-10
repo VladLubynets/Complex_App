@@ -3,6 +3,8 @@ package pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.ArrayList;
+
 public class ParentPage extends ActionWithElements {
 
     String env = System.getProperty("env", "qa"); // prepare URL for different environments
@@ -43,5 +45,25 @@ public class ParentPage extends ActionWithElements {
         } catch (Exception e) {
             logger.error("Can not press key");
         }
+    }
+    public void WaitFor30Minutes() {
+        try {
+            Thread.sleep(1800000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void WaitFor15Minutes() {
+        try {
+            Thread.sleep(900000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void openNewTabAndSwitchToIt() {
+        ((JavascriptExecutor) webDriver).executeScript("window.open()");
+        ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+        webDriver.switchTo().window(tabs.get(1));
+        webDriver.get(BASE_URL);
     }
 }

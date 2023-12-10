@@ -274,4 +274,17 @@ public class LoginPage extends ParentPage {
         checkTextInElement(usernameInput, EMPTY_VALUE);
         return this;
     }
+
+    public LoginPage loginWithValidCred() {
+        openLoginPage();
+        enterTextIntoInput(usernameInput, VALID_LOGIN);
+        enterTextIntoInput(passwordInput, VALID_PASSWORD);
+        clickOnElement(loginSignInButton);
+        checkIsSignInButtonNotVisible();
+        return this;
+    }
+    public LoginPage checkIsAlertMessageNotVisible() {
+        checkElementNotDisplayed(alertMessage);
+        return this;
+    }
 }

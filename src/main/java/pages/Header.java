@@ -83,6 +83,14 @@ public class Header extends ActionWithElements {
         checkElementNotDisplayed(signOutButton);
         return this;
     }
+    public HomePage clickOnMyProfileButton() {
+        clickOnElement(buttonMyProfile);
+        return new HomePage(webDriver);
+    }
+    public Header checkIsMyProfileButtonVisible() {
+        checkElementDisplayed(buttonMyProfile);
+        return this;
+    }
 
     public Header checkIsAvatarVisibleAndCheckTextInAvatar(String enteredUsername) {
         String actualUsername = avatar.getText();

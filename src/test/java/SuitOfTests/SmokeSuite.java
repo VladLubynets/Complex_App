@@ -1,13 +1,13 @@
 package SuitOfTests;
 
-import LoginTests.SaveDataTests.SaveDataTests;
-import LoginTests.VisualElementsTests.VisualElementsTests;
+import LoginTests.LoginTest.InvalidLoginTests;
+import LoginTests.LoginTest.ValidLoginTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        VisualElementsTests.class,
-        SaveDataTests.class})
+        ValidLoginTests.class,
+        InvalidLoginTests.class})
 public class SmokeSuite {
 }
