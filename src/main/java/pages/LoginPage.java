@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
+import static TestData.TestData.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -233,24 +233,45 @@ public class LoginPage extends ParentPage {
         checkElementDisplayed(passwordInput);
         return this;
     }
-  public LoginPage copyValueFromPasswordInput(){
-        copyValueFromElement(passwordInput);
-        return this;
-  }
 
-  public LoginPage pasteValueToUsernameInput(){
-        pasteValueToElement(usernameInput);
+    public LoginPage copyValueFromPasswordInput() {
+        sendChordKeys(passwordInput, Keys.CONTROL, "a");
+        sendChordKeys(passwordInput, Keys.CONTROL, "c");
         return this;
-  }
-  public LoginPage checkIsUsernameInputEmpty(){
-      checkTextInElement(usernameInput,"");
+    }
+
+
+
+    public LoginPage pasteValueToUsernameInput() {
+        sendChordKeys(usernameInput, Keys.CONTROL, "v");
         return this;
-  }
+    }
+
+    public LoginPage checkIsUsernameInputEmpty() {
+        checkTextInElement(usernameInput, EMPTY_VALUE);
+        return this;
+    }
 
 
     public LoginPage enterPasswordAndCheckHidden(String password) {
         enterTextIntoInput(passwordInput, password);
         verifyHiddenElementWithNameIsVisibleAndHidden();
+        return this;
+    }
+
+    public LoginPage checkIsUsernameInputHasText(String text) {
+        checkTextInInputElementAttribute(usernameInput, text);
+        return this;
+    }
+
+    public void fillingFormWithValidCredentials() {
+        openLoginPage();
+        enterTextIntoInput(usernameInput, VALID_LOGIN);
+        enterTextIntoInput(passwordInput, VALID_PASSWORD);
+    }
+
+    public LoginPage checkIsPasswordInputEmpty() {
+        checkTextInElement(usernameInput, EMPTY_VALUE);
         return this;
     }
 }

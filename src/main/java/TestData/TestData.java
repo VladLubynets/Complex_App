@@ -25,6 +25,7 @@ public class TestData {
 
     public final static String INVALID_LOGIN_REVERSE = ConfigProvider.configHiddenProperties.put_in_login_ValidPassword();
     public final static String INVALID_PASSWORD_REVERSE = ConfigProvider.configHiddenProperties.put_in_password_ValidLogin();
+    public final static String EMPTY_VALUE = "";
 
     public static String generateRandomString(int length) {  // randomizer  value for email
         String HigerCaseLetters = "ABCZ";

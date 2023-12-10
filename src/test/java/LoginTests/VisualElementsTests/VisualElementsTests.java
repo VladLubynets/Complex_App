@@ -1,11 +1,12 @@
-package VisualElementsTests;
+package LoginTests.VisualElementsTests;
 
 import BaseTest.BaseTest;
 
-import TestData.TestData;
+
 import org.junit.Test;
 
 import static TestData.ColorPalette.*;
+import static TestData.TestData.*;
 
 /**
  * Here we check Visual elements of the login on pull test cases  "VisualElementsTests"
@@ -29,7 +30,7 @@ public class VisualElementsTests extends BaseTest {
     public void TC6_displayedPasswordElements() {
         pageProvider.getLoginPage().openLoginPage()
                 .checkIsPasswordInputDisplayed()
-                .enterPasswordAndCheckHidden(TestData.VALID_PASSWORD)
+                .enterPasswordAndCheckHidden(VALID_PASSWORD)
                 .copyValueFromPasswordInput()
                 .pasteValueToUsernameInput()
                 .checkIsUsernameInputEmpty();

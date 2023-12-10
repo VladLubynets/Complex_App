@@ -1,4 +1,4 @@
-package LoginTestsSuit;
+package SuitOfTests;
 
 import LoginTests.LoginTest.InvalidLoginTests;
 import LoginTests.LoginTest.ValidLoginTests;
@@ -9,5 +9,5 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ValidLoginTests.class,
         InvalidLoginTests.class})
-public class LoginTestsSuit {
+public class RegressionSuite {
 }

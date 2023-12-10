@@ -4,6 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -15,7 +17,7 @@ import pages.PageProvider;
 import java.time.Duration;
 
 public class BaseTest {
-    public WebDriver webDriver;
+    public  WebDriver webDriver;
     public PageProvider pageProvider;
     Logger logger = Logger.getLogger(getClass());
 
@@ -57,4 +59,6 @@ public class BaseTest {
 
         return webDriver;
     }
+
+
 }
