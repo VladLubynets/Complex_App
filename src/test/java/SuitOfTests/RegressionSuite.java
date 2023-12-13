@@ -1,5 +1,6 @@
 package SuitOfTests;
 
+import LoginTests.ActiveSessionTests.ActiveSessionTests;
 import LoginTests.LoginTest.InvalidLoginTests;
 import LoginTests.LoginTest.ValidLoginTests;
 import LoginTests.SaveDataTests.SaveDataTests;
@@ -12,7 +13,8 @@ import org.junit.runners.Suite;
         ValidLoginTests.class,
         InvalidLoginTests.class,
         SaveDataTests.class,
-        VisualElementsTests.class
+        VisualElementsTests.class,
+        ActiveSessionTests.class
 })
 public class RegressionSuite {
 }

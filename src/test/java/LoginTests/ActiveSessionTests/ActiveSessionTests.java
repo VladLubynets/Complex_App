@@ -4,6 +4,7 @@ import BaseTest.BaseTest;
 import org.junit.Test;
 import pages.HomePage;
 import pages.LoginPage;
+import pages.PostPage;
 
 /**
  * Here we check Working with a  active session on pull test cases  "ActiveSessionTests"
@@ -12,6 +13,9 @@ import pages.LoginPage;
  */
 
 public class ActiveSessionTests extends BaseTest {
+    private String title;
+    private String body;
+    private PostPage postPage;
 
     @Test
     public void TC9_ExtencionOfActiveSession() {
@@ -21,18 +25,18 @@ public class ActiveSessionTests extends BaseTest {
         loginPage.openLoginPage().loginWithValidCred();
         homePage.getHeader().checkIsMyProfileButtonVisible();
 
-        loginPage.WaitFor15Minutes();
+        loginPage.waitForMinutes(15);
 
         homePage.getHeader().clickOnMyProfileButton();
         homePage.checkIsButtonProfileFollowersVisible()
                 .checkIsButtonProfilePostsVisible()
                 .checkIsButtonProfileFollowingVisible();
 
-        loginPage.WaitFor15Minutes();
+        loginPage.waitForMinutes(15);
 
         homePage.getHeader().clickOnMyProfileButton();
 
-        loginPage.checkIsAlertMessageNotVisible(); //TODO Bug - Alert message is visible session is expired
+        loginPage.checkIsAlertMessageNotVisible();
     }
 
     @Test
@@ -43,7 +47,7 @@ public class ActiveSessionTests extends BaseTest {
         loginPage.openLoginPage().loginWithValidCred();
         homePage.getHeader().checkIsMyProfileButtonVisible();
 
-        loginPage.WaitFor30Minutes();
+        loginPage.waitForMinutes(30);
 
         homePage.getHeader().clickOnMyProfileButton();
         loginPage.checkIsAlertMessageVisible()
@@ -55,10 +59,35 @@ public class ActiveSessionTests extends BaseTest {
         LoginPage loginPage = pageProvider.getLoginPage();
 
         loginPage.openLoginPage().loginWithValidCred()
-                .openNewTabAndSwitchToIt();
+                .openNewTabAndSwitchToIt(loginPage.BASE_URL);
         loginPage.checkIsSignInButtonNotVisible();
-
 
     }
 
+    @Test
+    public void TC12_ExtencionActiveSessionCreatePost() {
+        LoginPage loginPage = pageProvider.getLoginPage();
+        postPage = new PostPage(webDriver);
+        title = "Test_Title";
+        body = "Test_Body";
+
+        loginPage.openLoginPage().loginWithValidCred();
+
+        loginPage.waitForMinutes(15);
+
+        pageProvider.getHomePage().getHeader().clickOnCreatePostButton();
+        pageProvider.getCreatePostPage().enterTextIntoInputTitle(title);
+        pageProvider.getCreatePostPage().enterTextIntoInputBody(body);
+        loginPage.waitForMinutes(15);
+        pageProvider.getCreatePostPage().clickOnButtonSavePost();
+        postPage.checkTextInSuccessMessage("New post successfully created.");
+
+
+        pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
+        pageProvider.getHomePage().checkPostWithTitleIsPresent(title);
+
+        pageProvider.getHomePage()
+                .getHeader().clickOnMyProfileButton()
+                .deletePostTillPresent(title);
+    }
 }
