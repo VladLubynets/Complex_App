@@ -3,10 +3,12 @@ package pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.ArrayList;
+
 public class ParentPage extends ActionWithElements {
 
     String env = System.getProperty("env", "qa"); // prepare URL for different environments
-    final String BASE_URL = String.format("https://%s-complexapp.onrender.com", env);
+    public final String BASE_URL = String.format("https://%s-complexapp.onrender.com", env);
 
     public ParentPage(WebDriver webDriver) {
         super(webDriver);
@@ -32,16 +34,34 @@ public class ParentPage extends ActionWithElements {
         webDriver.navigate().refresh();
         logger.info("Page was refreshed");
     }
+
     public void sendChordKeys(WebElement element, Keys key1, CharSequence key2) { // send chord keys to element
         Actions action = new Actions(webDriver);
         action.sendKeys(Keys.chord(key1, key2)).perform();
     }
+
     public void pressKey(WebElement element, Keys key) { // press key on element
         try {
             new Actions(webDriver).sendKeys(element, key).perform();
             logger.info("Key pressed");
         } catch (Exception e) {
             logger.error("Can not press key");
+        }
+    }
+
+    public void openNewTabAndSwitchToIt(String url) {
+        ((JavascriptExecutor) webDriver).executeScript("window.open()");
+        ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+        webDriver.switchTo().window(tabs.get(tabs.size() - 1));
+        webDriver.get(url);
+    }
+
+    public void waitForMinutes(int minutes) {
+        try {
+            int milliseconds = minutes * 60000;  // transform minutes to milliseconds
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -84,10 +84,24 @@ public class Header extends ActionWithElements {
         return this;
     }
 
+    public HomePage clickOnMyProfileButton() {
+        clickOnElement(buttonMyProfile);
+        return new HomePage(webDriver);
+    }
+
+    public Header checkIsMyProfileButtonVisible() {
+        checkElementDisplayed(buttonMyProfile);
+        return this;
+    }
+
     public Header checkIsAvatarVisibleAndCheckTextInAvatar(String enteredUsername) {
         String actualUsername = avatar.getText();
         Assert.assertEquals("Logged in username doesn't match displayed username", enteredUsername.toLowerCase(), actualUsername);
         checkElementDisplayed(avatar);
         return this;
+    }
+
+    public void clickOnCreatePostButton() {
+        clickOnElement(buttonCreatePost);
     }
 }

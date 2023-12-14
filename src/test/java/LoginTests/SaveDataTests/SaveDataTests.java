@@ -7,6 +7,11 @@ import static TestData.TestData.*;
 import org.junit.Test;
 import pages.LoginPage;
 
+/**
+ * Here we check Updating the page and cleaning the fields on pull test cases  "SaveDataTests"
+ * a link is provided in addition to the test case
+ * <a href="https://docs.google.com/spreadsheets/d/1QBGwOHKht1vgdbQR60V9qX-9vX_bKq65/edit#gid=1698997352">
+ */
 
 public class SaveDataTests extends BaseTest {
 
