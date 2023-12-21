@@ -8,11 +8,11 @@ import java.util.Locale;
 public class TestData {
     public final static String VALID_LOGIN = System.getProperty("validLogin", ConfigProvider.configHiddenProperties.login_default());
     public final static String VALID_PASSWORD = System.getProperty("validPassword", ConfigProvider.configHiddenProperties.password_default());
-    public final static String VALID_LOGIN_UPPER_CASE = System.getProperty("validLoginUpperCase", ConfigProvider.configHiddenProperties.login_default().toUpperCase(Locale.ROOT));
-    public final static String VALID_PASSWORD_UPPER_CASE = System.getProperty("validPasswordUpperCase", ConfigProvider.configHiddenProperties.password_default().toUpperCase(Locale.ROOT));
+    public final static String VALID_LOGIN_UPPER_CASE = VALID_LOGIN.toUpperCase(Locale.ROOT);
+    public final static String VALID_PASSWORD_UPPER_CASE = VALID_PASSWORD.toUpperCase(Locale.ROOT);
 
-    public final static String VALID_LOGIN_MIN_SIZE = System.getProperty("validLoginMinSize", ConfigProvider.configHiddenProperties.login_min_value());
-    public final static String VALID_PASSWORD_MIN_SIZE = System.getProperty("validPasswordMinSize", ConfigProvider.configHiddenProperties.password_min_value());
+    public final static String VALID_LOGIN_MIN_SIZE = VALID_LOGIN.substring(0, 3);
+    public final static String VALID_PASSWORD_MIN_SIZE = VALID_PASSWORD.substring(0, 3);
 
     public final static String VALID_LOGIN_MAX_SIZE = System.getProperty("validLoginMaxSize", ConfigProvider.configHiddenProperties.login_max_value());
     public final static String VALID_PASSWORD_MAX_SIZE = System.getProperty("validPasswordMaxSize", ConfigProvider.configHiddenProperties.password_max_value());
