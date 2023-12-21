@@ -55,7 +55,7 @@ public class InvalidLoginTests extends BaseTest {
 
     public Object[][] parametersForInvalidLoginTestByKeyboardButtons() {
         return new Object[][]{
-                {INVALID_LOGIN_REVERSE, INVALID_PASSWORD_REVERSE},
-                {INVALID_LOGIN_EMPTY, INVALID_PASSWORD_EMPTY}};
+                {VALID_PASSWORD, VALID_LOGIN},
+                {EMPTY_VALUE, EMPTY_VALUE}};
     }
 }
