@@ -40,11 +40,11 @@ public class ValidLoginTests extends BaseTest {
         return new Object[][]{
                 {VALID_LOGIN, VALID_PASSWORD},
                 {VALID_LOGIN_MIN_SIZE, VALID_PASSWORD_MIN_SIZE},
-                {VALID_LOGIN_MAX_SIZE, VALID_PASSWORD_MAX_SIZE}};
+                {VALID_LOGIN_MAX_SIZE, VALID_PASSWORD_MAX_SIZE}
+                };
     }
 
     @Test
-    @Ignore
     @Parameters(method = "parametersForLoginTestByKeyboardButtons")
     public void TC2_validLogin_withKeyboard(String userName, String password) {
         pageProvider.getLoginPage()
@@ -61,7 +61,8 @@ public class ValidLoginTests extends BaseTest {
         return new Object[][]{
 
                 {VALID_LOGIN, VALID_PASSWORD},
-                {VALID_LOGIN_UPPER_CASE, VALID_PASSWORD_UPPER_CASE}}; // TODo bug in upper case denied entry
-    }
-}
+                {VALID_LOGIN_UPPER_CASE, VALID_PASSWORD}};
 
+    }
+
+    }
