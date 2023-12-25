@@ -7,7 +7,7 @@ import pages.LoginPage;
 import pages.PostPage;
 
 /**
- * Here we check Working with a  active session on pull test cases  "ActiveSessionTests"
+ * Here we check Working with an  active session on pull test cases  "ActiveSessionTests"
  * a link is provided in addition to the test case
  * <a href="https://docs.google.com/spreadsheets/d/1QBGwOHKht1vgdbQR60V9qX-9vX_bKq65/edit#gid=1698997352">
  */
@@ -36,7 +36,7 @@ public class ActiveSessionTests extends BaseTest {
 
         homePage.getHeader().clickOnMyProfileButton();
 
-        loginPage.checkIsAlertMessageNotVisible();
+        loginPage.checkIsAlertMessageVisible().checkTextInAlertMessage("You must be logged in to perform that action.");
     }
 
     @Test
@@ -73,14 +73,15 @@ public class ActiveSessionTests extends BaseTest {
 
         loginPage.openLoginPage().loginWithValidCred();
 
-        loginPage.waitForMinutes(15);
+       loginPage.waitForMinutes(15);
 
         pageProvider.getHomePage().getHeader().clickOnCreatePostButton();
         pageProvider.getCreatePostPage().enterTextIntoInputTitle(title);
         pageProvider.getCreatePostPage().enterTextIntoInputBody(body);
-        loginPage.waitForMinutes(15);
         pageProvider.getCreatePostPage().clickOnButtonSavePost();
         postPage.checkTextInSuccessMessage("New post successfully created.");
+        loginPage.waitForMinutes(15);
+
 
 
         pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
