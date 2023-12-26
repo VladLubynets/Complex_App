@@ -17,7 +17,7 @@ public class LoginPage extends ParentPage {
 
     @FindBy(xpath = "//input[@placeholder='Pasword']")
     private WebElement passwordInput;
-    @FindBy(xpath = "//input[@placeholder='Pasword']")
+    @FindBy(xpath = "//input[@placeholder='Password']")
     private WebElement passwordInputOld;
 
     @FindBy(xpath = "//button[@class='btn btn-primary btn-sm']")
