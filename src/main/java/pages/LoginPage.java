@@ -212,7 +212,7 @@ public class LoginPage extends ParentPage {
     public void registrationUserIfNeeded(String userName, String password, String email) {
         boolean errorFound = false;
         try {
-            errorFound = isMessageWithTextDisplayed("This username is already taken.");
+            errorFound = isMessageWithTextDisplayed("That username is already taken.");//TODO This username is already taken.
         } catch (TimeoutException e) {
 
         }
