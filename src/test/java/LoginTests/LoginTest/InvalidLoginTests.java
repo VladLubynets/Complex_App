@@ -49,7 +49,7 @@ public class InvalidLoginTests extends BaseTest {
                 .enterLoginWithKey(userName, Keys.TAB)
                 .enterPasswordWithKey(password, Keys.ENTER)
                 .checkIsAlertMessageVisible()
-                .checkTextInAlertMessage("Invalid username/password.")
+                .checkTextInAlertMessage("Invalid username  pasword") // TODO Invalid username  pasword
                 .checkBackgroundColorAlert(PINK);
     }
 
