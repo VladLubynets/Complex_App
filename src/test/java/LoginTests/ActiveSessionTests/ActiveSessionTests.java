@@ -51,7 +51,7 @@ public class ActiveSessionTests extends BaseTest {
 
         homePage.getHeader().clickOnMyProfileButton();
         loginPage.checkIsAlertMessageVisible()
-                .checkTextInAlertMessage("You must be logged in to perform that action.");
+                .checkTextInAlertMessage("You must be logget in to perform that action."); //TODO You must be logged in to perform that action.
     }
 
     @Test

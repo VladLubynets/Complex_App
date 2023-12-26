@@ -17,6 +17,8 @@ public class LoginPage extends ParentPage {
 
     @FindBy(xpath = "//input[@placeholder='Pasword']")
     private WebElement passwordInput;
+    @FindBy(xpath = "//input[@placeholder='Pasword']")
+    private WebElement passwordInputOld;
 
     @FindBy(xpath = "//button[@class='btn btn-primary btn-sm']")
     private WebElement loginSignInButton;
@@ -183,8 +185,8 @@ public class LoginPage extends ParentPage {
     }
 
     public LoginPage checkColorPlaceholderPassword(ColorPalette colorEnum) {
-        checkElementDisplayed(passwordInput);
-        checkColorElement(passwordInput, colorEnum);
+        checkElementDisplayed(passwordInputOld);
+        checkColorElement(passwordInputOld, colorEnum);
         return this;
     }
 
