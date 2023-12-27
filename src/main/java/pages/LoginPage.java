@@ -185,8 +185,8 @@ public class LoginPage extends ParentPage {
     }
 
     public LoginPage checkColorPlaceholderPassword(ColorPalette colorEnum) {
-        checkElementDisplayed(passwordInputOld);
-        checkColorElement(passwordInputOld, colorEnum);
+        checkElementDisplayed(passwordInput);
+        checkColorElement(passwordInput, colorEnum);
         return this;
     }
 
@@ -287,6 +287,12 @@ public class LoginPage extends ParentPage {
     }
     public LoginPage checkIsAlertMessageNotVisible() {
         checkElementNotDisplayed(alertMessage);
+        return this;
+    }
+    public LoginPage checkTextSignInButton() {
+        String expectedText = "Sign In";
+        String actualText = loginSignInButton.getText();
+        Assert.assertEquals(expectedText, actualText);
         return this;
     }
 }

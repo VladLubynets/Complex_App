@@ -20,8 +20,9 @@ public class VisualElementsTests extends BaseTest {
 
         pageProvider.getLoginPage().openLoginPage()
                 .checkColorPlaceholderUsername(GRAY)
-                .checkColorPlaceholderPassword(GRAY) //TODO  //  here old placeholder Password
+                .checkColorPlaceholderPassword(GRAY)
                 .checkColorBorderUsername(LIGHT_BLUE)
+                .checkTextSignInButton()
                 .checkColorSignInButton(NAVY_BLUE)
                 .checkColorTextSignInButton(WHITE);
     }
