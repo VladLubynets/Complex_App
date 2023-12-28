@@ -50,7 +50,9 @@ public class InvalidLoginTests extends BaseTest {
                 .enterPasswordWithKey(password, Keys.ENTER)
                 .checkIsAlertMessageVisible()
                 .checkTextInAlertMessage("Invalid username  pasword") // TODO Invalid username  pasword
-                .checkBackgroundColorAlert(PINK);
+                .checkBackgroundColorAlert(PINK)
+                .refreshPage();
+        pageProvider.getLoginPage().checkIsAlertMessageNotVisible();
     }
 
     public Object[][] parametersForInvalidLoginTestByKeyboardButtons() {
