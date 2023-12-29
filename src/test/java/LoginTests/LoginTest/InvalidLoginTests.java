@@ -2,7 +2,6 @@ package LoginTests.LoginTest;
 
 
 import BaseTest.BaseTest;
-import TestData.TestData;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
@@ -47,9 +46,10 @@ public class InvalidLoginTests extends BaseTest {
         pageProvider.getLoginPage()
                 .openLoginPage()
                 .enterLoginWithKey(userName, Keys.TAB)
-                .enterPasswordWithKey(password, Keys.ENTER)
+                .enterPasswordWithKey(password,  Keys.TAB)
+                .pressEnterKeyOnFocusSignIn()
                 .checkIsAlertMessageVisible()
-                .checkTextInAlertMessage("Invalid username  pasword") // TODO Invalid username  pasword
+                .checkTextInAlertMessage("Invalid username  pasword") // TODO Invalid username/password.
                 .checkBackgroundColorAlert(PINK)
                 .refreshPage();
         pageProvider.getLoginPage().checkIsAlertMessageNotVisible();

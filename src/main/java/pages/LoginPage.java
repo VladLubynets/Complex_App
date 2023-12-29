@@ -295,4 +295,8 @@ public class LoginPage extends ParentPage {
         Assert.assertEquals(expectedText, actualText);
         return this;
     }
+    public LoginPage pressEnterKeyOnFocusSignIn() {
+        pressKey(loginSignInButton, Keys.ENTER);
+        return this;
+    }
 }
