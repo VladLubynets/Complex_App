@@ -31,6 +31,7 @@ public class VisualElementsTests extends BaseTest {
     public void TC6_displayedPasswordElements() {
         pageProvider.getLoginPage().openLoginPage()
                 .checkIsPasswordInputDisplayed()
+                .checkPasswordPlaceholderText("Password")
                 .enterPasswordAndCheckHidden(VALID_PASSWORD)
                 .copyValueFromPasswordInput()
                 .pasteValueToUsernameInput()

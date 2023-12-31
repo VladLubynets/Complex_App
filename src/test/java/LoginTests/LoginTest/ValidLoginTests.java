@@ -49,6 +49,7 @@ public class ValidLoginTests extends BaseTest {
         pageProvider.getLoginPage()
                 .openLoginPage()
                 .enterLoginWithKey(userName, Keys.TAB)
+                .checkPasswordPlaceholderText("Password")
                 .enterPasswordWithKey(password, Keys.TAB)
                 .pressEnterKeyOnFocusSignIn()
                 .checkIsSignInButtonNotVisible();

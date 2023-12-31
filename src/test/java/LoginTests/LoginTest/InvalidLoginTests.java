@@ -26,7 +26,9 @@ public class InvalidLoginTests extends BaseTest {
     public void TC3_invalidLogin(String userName, String password) {
         pageProvider.getLoginPage()
                 .openLoginPage()
+                .checkIsAlertMessageNotVisible()
                 .enterUsername(userName)
+                .checkPasswordPlaceholderText("Password")
                 .enterPassword(password)
                 .clickOnLoginSignInButton()
                 .checkIsAlertMessageVisible()
@@ -45,11 +47,12 @@ public class InvalidLoginTests extends BaseTest {
     public void TC4_invalidLogin_withKeyboard(String userName, String password) {
         pageProvider.getLoginPage()
                 .openLoginPage()
+                .checkIsAlertMessageNotVisible()
                 .enterLoginWithKey(userName, Keys.TAB)
                 .enterPasswordWithKey(password,  Keys.TAB)
                 .pressEnterKeyOnFocusSignIn()
                 .checkIsAlertMessageVisible()
-                .checkTextInAlertMessage("Invalid username  pasword") // TODO Invalid username/password.
+                .checkTextInAlertMessage("Invalid username/password.")
                 .checkBackgroundColorAlert(PINK)
                 .refreshPage();
         pageProvider.getLoginPage().checkIsAlertMessageNotVisible();
