@@ -15,9 +15,8 @@ public class LoginPage extends ParentPage {
     @FindBy(xpath = "//input[@placeholder='Username']")
     private WebElement usernameInput;
 
-    @FindBy(xpath = "//input[@placeholder='Password']")
+    @FindBy(xpath = "//input[@type='password' and contains(@class, 'form-control form-control-sm input-dark')]")
     private WebElement passwordInput;
-
     @FindBy(xpath = "//button[@class='btn btn-primary btn-sm']")
     private WebElement loginSignInButton;
     @FindBy(id = "username-register")
@@ -212,7 +211,6 @@ public class LoginPage extends ParentPage {
         try {
             errorFound = isMessageWithTextDisplayed("This username is already taken.");
         } catch (TimeoutException e) {
-
         }
         if (!errorFound) { // if error not found - do registration
 
@@ -285,6 +283,25 @@ public class LoginPage extends ParentPage {
     }
     public LoginPage checkIsAlertMessageNotVisible() {
         checkElementNotDisplayed(alertMessage);
+        return this;
+    }
+    public LoginPage checkTextSignInButton() {
+        String expectedText = "Sign In";
+        String actualText = loginSignInButton.getText();
+        Assert.assertEquals(expectedText, actualText);
+        return this;
+    }
+    public LoginPage pressEnterKeyOnFocusSignIn() {
+        pressKey(loginSignInButton, Keys.ENTER);
+        return this;
+    }
+    public String getPasswordPlaceholderText() {
+        return passwordInput.getAttribute("placeholder");
+    }
+
+    public LoginPage checkPasswordPlaceholderText(String expectedText) {
+        String actualText = getPasswordPlaceholderText();
+        Assert.assertEquals("Password placeholder text doesn't match expected text", expectedText, actualText);
         return this;
     }
 }

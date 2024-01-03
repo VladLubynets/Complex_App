@@ -2,7 +2,6 @@ package LoginTests.LoginTest;
 
 
 import BaseTest.BaseTest;
-import TestData.TestData;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
@@ -27,7 +26,9 @@ public class InvalidLoginTests extends BaseTest {
     public void TC3_invalidLogin(String userName, String password) {
         pageProvider.getLoginPage()
                 .openLoginPage()
+                .checkIsAlertMessageNotVisible()
                 .enterUsername(userName)
+                .checkPasswordPlaceholderText("Password")
                 .enterPassword(password)
                 .clickOnLoginSignInButton()
                 .checkIsAlertMessageVisible()
@@ -46,11 +47,15 @@ public class InvalidLoginTests extends BaseTest {
     public void TC4_invalidLogin_withKeyboard(String userName, String password) {
         pageProvider.getLoginPage()
                 .openLoginPage()
+                .checkIsAlertMessageNotVisible()
                 .enterLoginWithKey(userName, Keys.TAB)
-                .enterPasswordWithKey(password, Keys.ENTER)
+                .enterPasswordWithKey(password,  Keys.TAB)
+                .pressEnterKeyOnFocusSignIn()
                 .checkIsAlertMessageVisible()
                 .checkTextInAlertMessage("Invalid username/password.")
-                .checkBackgroundColorAlert(PINK);
+                .checkBackgroundColorAlert(PINK)
+                .refreshPage();
+        pageProvider.getLoginPage().checkIsAlertMessageNotVisible();
     }
 
     public Object[][] parametersForInvalidLoginTestByKeyboardButtons() {

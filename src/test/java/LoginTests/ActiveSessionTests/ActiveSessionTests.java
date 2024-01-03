@@ -18,7 +18,7 @@ public class ActiveSessionTests extends BaseTest {
     private PostPage postPage;
 
     @Test
-    public void TC9_ExtencionOfActiveSession() {
+    public void TC9_NonExtencionOfActiveSessionForMyProfilePage() {
         LoginPage loginPage = pageProvider.getLoginPage();
         HomePage homePage = pageProvider.getHomePage();
 
@@ -29,6 +29,7 @@ public class ActiveSessionTests extends BaseTest {
 
         homePage.getHeader().clickOnMyProfileButton();
         homePage.checkIsButtonProfileFollowersVisible()
+
                 .checkIsButtonProfilePostsVisible()
                 .checkIsButtonProfileFollowingVisible();
 

@@ -13,8 +13,8 @@ public class TestData {
     public final static String VALID_LOGIN_MIN_SIZE = VALID_LOGIN.substring(0, 3); // at least 3 characters
     public final static String VALID_PASSWORD_MIN_SIZE = VALID_PASSWORD.substring(0, 12); // at least 12 characters
 
-    public final static String VALID_LOGIN_MAX_SIZE ="a".repeat(22);   // at most 22 characters
-    public final static String VALID_PASSWORD_MAX_SIZE = "a".repeat(22); // at most 22 characters
+    public final static String VALID_LOGIN_MAX_SIZE ="a".repeat(30);   // at most 30 characters
+    public final static String VALID_PASSWORD_MAX_SIZE = "a".repeat(30); // at most 30 characters
 
     public final static String INVALID_LOGIN = "aacomplex";
     public final static String INVALID_PASSWORD = "123";

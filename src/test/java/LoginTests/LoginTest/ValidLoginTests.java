@@ -4,7 +4,6 @@ import BaseTest.BaseTest;
 import TestData.TestData;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Keys;
@@ -50,7 +49,9 @@ public class ValidLoginTests extends BaseTest {
         pageProvider.getLoginPage()
                 .openLoginPage()
                 .enterLoginWithKey(userName, Keys.TAB)
-                .enterPasswordWithKey(password, Keys.ENTER)
+                .checkPasswordPlaceholderText("Password")
+                .enterPasswordWithKey(password, Keys.TAB)
+                .pressEnterKeyOnFocusSignIn()
                 .checkIsSignInButtonNotVisible();
         pageProvider.getHomePage().getHeader()
                 .checkIsAvatarVisibleAndCheckTextInAvatar(userName)
