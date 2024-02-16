@@ -2,7 +2,7 @@ package libs;
 
 import org.aeonbits.owner.Config;
 
-@Config.Sources(value = "file:./src/main/java/resources/hiddenConfig.properties")
+@Config.Sources(value = "file:./src/main/resources/hiddenConfig.properties")
 public interface ConfigHiddenProperties extends Config {
     String login_default();
 
@@ -19,4 +19,7 @@ public interface ConfigHiddenProperties extends Config {
     String put_in_login_ValidPassword();
 
     String put_in_password_ValidLogin();
+
+    String login_api_default();
+    String password_api_default();
 }
