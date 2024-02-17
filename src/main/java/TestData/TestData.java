@@ -31,4 +31,7 @@ public class TestData {
         String domain = "gmail.com";
         return randomPart + "@" + domain;
     }
+
+    public final static String VALID_LOGIN_API_DEFAULT_10chars =  System.getProperty("loginApiDefault", ConfigProvider.configHiddenProperties.login_api_default());
+    public final static String VALID_PASSWORD_API_DEFAULT_12chars = System.getProperty("passwordApiDefault", ConfigProvider.configHiddenProperties.password_api_default());
 }
