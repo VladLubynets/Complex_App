@@ -15,6 +15,7 @@ import org.junit.Assert;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.apache.http.HttpStatus.*;
 
 public class ApiHelper {
 
@@ -40,7 +41,7 @@ public class ApiHelper {
                 .when()
                 .post(EndPoints.LOGIN)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK) // status code 200
                 .log().all()
                 .extract().response().getBody();
         return responseBody.asString().replace("\"", "");
@@ -50,20 +51,6 @@ public class ApiHelper {
         return getPostsByUser(TestData.VALID_LOGIN_API_DEFAULT_10chars);
     }
 
-    public void getAllPostsByUserSchema() {
-        given().contentType(ContentType.JSON)
-                .filter(new AllureRestAssured())
-                .log().all()
-                .when()
-                .get(EndPoints.POST_BY_USER, TestData.VALID_LOGIN_API_DEFAULT_10chars)
-                .then()
-                .statusCode(200)
-                .log().all()
-                .assertThat().body(matchesJsonSchemaInClasspath("PostByUserSchema.json"));
-        System.out.println("Schema is correct");
-
-    }
-
     public void getAllPostsByUserSchema(String username) {
         given().contentType(ContentType.JSON)
                 .filter(new AllureRestAssured())
@@ -71,19 +58,18 @@ public class ApiHelper {
                 .when()
                 .get(EndPoints.POST_BY_USER, username)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK) // status code 200
                 .log().all()
                 .assertThat().body(matchesJsonSchemaInClasspath("PostByUserSchema.json"));
 
     }
-
 
     public PostDto[] getPostsByUser(String username) {
         return given().spec(requestSpecification)
                 .when()
                 .get(EndPoints.POST_BY_USER, username)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK) // status code 200
                 .log().all()
                 .extract().response().getBody().as(PostDto[].class);
     }
@@ -118,7 +104,7 @@ public class ApiHelper {
                 .when()
                 .delete(EndPoints.DELETE_POST, id)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK) // status code 200
                 .log().all().
                 extract().response().getBody().asString();
         Assert.assertEquals("Message in response", "\"Success\"", actualMessage);

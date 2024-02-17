@@ -1,36 +1,33 @@
 package apiTests;
 
-import BaseTest.BaseApi;
 import TestData.TestData;
 import api.EndPoints;
 import api.dto.requestDto.CreatePostDto;
 import api.dto.responseDto.AuthorDto;
 import api.dto.responseDto.PostDto;
 import io.restassured.http.ContentType;
-import junitparams.JUnitParamsRunner;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 
-import junitparams.Parameters;
-
-import static TestData.TestData.EMPTY_VALUE;
+import static TestData.TestData.*;
 import static io.restassured.RestAssured.given;
+import static org.apache.http.HttpStatus.*;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(JUnitParamsRunner.class)
+import BaseTest.BaseApi;
 
-public class ApiCreatePost extends BaseApi {
+
+public class ValidCreatePostByApi extends BaseApi {
+
+    private String token;
 
     @Before
     public void deleteAllPostsByUser() {
+        token = apiHelper.getToken(); // get new token before each test (optional u can choose token for separate user)
         apiHelper.deletePostsTillPresent(); // before each test, delete all posts
     }
-
-    String token = apiHelper.getToken(); // get new token before each test
-
 
     @Test
     public void TC3_createPostByApi() {
@@ -50,14 +47,14 @@ public class ApiCreatePost extends BaseApi {
                 .when()
                 .post(EndPoints.CREATE_POST)
                 .then()
-                .statusCode(200)
+                .statusCode(SC_OK) // status code 200
                 .log().all()
                 .extract().response().getBody().asString();
 
         assertEquals("Message", "\"Congrats.\"", actualResponse); // check if message is correct
 
         PostDto[] actualPostByUser = apiHelper.getPostsByUser(); // get all posts by user
-        apiHelper.getAllPostsByUserSchema(); // check if  parameters are correct by schema
+        apiHelper.getAllPostsByUserSchema(VALID_LOGIN_API_DEFAULT_10chars); // check if  parameters are correct by schema (need to choose username)
 
         assertEquals("Number of posts", 1, actualPostByUser.length); // check if number of posts is correct
         String postId = actualPostByUser[0].getId();
@@ -85,46 +82,4 @@ public class ApiCreatePost extends BaseApi {
         assertEquals("Number of posts after deletion", 0, postsAfterDeletion.length);
 
     }
-
-    @Test
-    @Parameters(method = "InValidParameters")
-    public void TC4_testNegativeApiCreatePost(String title, String body, String select, String uniquePost,
-                                              String expectedErrorMessage, int expectedStatusCode, boolean includeToken) {
-        String tokenToUse;
-        if (includeToken) {  // switch between including token and not including token
-            tokenToUse = token;
-        } else {
-            tokenToUse = null;
-        }
-
-        CreatePostDto createPostBody = CreatePostDto.builder()
-                .title(title)
-                .body(body)
-                .select(select)
-                .uniquePost(uniquePost)
-                .token(tokenToUse)
-                .build();
-
-        String actualResponse = given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .body(createPostBody)
-                .when()
-                .post(EndPoints.CREATE_POST)
-                .then()
-                .statusCode(expectedStatusCode)
-                .log().all()
-                .extract().response().getBody().asString();
-
-        assertEquals("Error message", expectedErrorMessage, actualResponse);
-    }
-
-    public Object[] InValidParameters() {
-        return new Object[][]{
-                {null, "Body", "One Person", "yes", "[\"You must provide a title.\"]", 400, true},
-                {"Valid Title", "", "One Person", "yes", "\"Sorry, you must provide a valid token.\"", 403, false},
-                {EMPTY_VALUE, EMPTY_VALUE, EMPTY_VALUE, EMPTY_VALUE, "\"Sorry, you must provide a valid token.\"", 403, false}
-        };
-    }
 }
-
