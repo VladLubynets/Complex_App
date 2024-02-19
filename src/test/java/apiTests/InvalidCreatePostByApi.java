@@ -23,7 +23,7 @@ public class InvalidCreatePostByApi extends BaseApi {
     private String token;
 
     @Before
-    public void deleteAllPostsByUser() {
+    public void GetActualNewToken() {
         token = apiHelper.getToken(); // get new token before each test
     }
 
