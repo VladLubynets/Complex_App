@@ -21,8 +21,8 @@ import static org.junit.Assert.assertEquals;
 public class InvalidCreateUserApi extends BaseApi {
 
     @Test
-    @Parameters(method = "InValidParameters")
-    public void TC2_InvalidTestCreateUser(String username, String password, String email, String expectedErrorMessage, int expectedStatusCode, boolean includeToken) {
+    @Parameters(method = "inValidParameters")
+    public void TC2_invalidTestCreateUser(String username, String password, String email, String expectedErrorMessage, int expectedStatusCode, boolean includeToken) {
         String token = apiHelper.getToken();
         String tokenToUse;
         if (includeToken) {  // switch between including token and not including token
@@ -51,7 +51,7 @@ public class InvalidCreateUserApi extends BaseApi {
         assertEquals("Error message", expectedErrorMessage, actualMessage); // check if error message is correct
     }
 
-    public Object[] InValidParameters() { // invalid parameters
+    public Object[] inValidParameters() { // invalid parameters
         return new Object[][]{
                 {generateRandomString(3), generateRandomString(12), generateRandomEmail(), "\"Sorry, you must provide a valid token.\"", SC_FORBIDDEN, false},// status code 403
                 {"кирилицялогін", generateRandomString(13), generateRandomEmail(), "[\"Username can only contain letters and numbers.\"]", SC_NOT_FOUND, true}, // status code 404

@@ -24,7 +24,7 @@ public class ValidCreatePostByApi extends BaseApi {
     private String token;
 
     @Before
-    public void GetTokenAndDeletePosts() {
+    public void getTokenAndDeletePosts() {
         token = apiHelper.getToken(); // get new token before each test (optional u can choose token for separate user)
         apiHelper.deletePostsTillPresent(); // before each test, delete all posts
     }

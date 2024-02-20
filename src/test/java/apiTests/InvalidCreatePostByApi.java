@@ -23,12 +23,12 @@ public class InvalidCreatePostByApi extends BaseApi {
     private String token;
 
     @Before
-    public void GetActualNewToken() {
+    public void getActualNewToken() {
         token = apiHelper.getToken(); // get new token before each test
     }
 
     @Test
-    @Parameters(method = "InValidParameters")
+    @Parameters(method = "inValidParameters")
     public void TC4_testNegativeApiCreatePost(String title, String body, String select, String uniquePost,
                                               String expectedErrorMessage, int expectedStatusCode, boolean includeToken) {
         String tokenToUse;
@@ -60,7 +60,7 @@ public class InvalidCreatePostByApi extends BaseApi {
         assertEquals("Error message", expectedErrorMessage, actualResponse);
     }
 
-    public Object[] InValidParameters() {
+    public Object[] inValidParameters() {
         return new Object[][]{
                 {null, "Body", "One Person", "yes", "[\"You must provide a title.\"]", SC_BAD_REQUEST, true}, // expected status code 400
                 {"Valid Title", "", "One Person", "yes", "\"Sorry, you must provide a valid token.\"", SC_FORBIDDEN, false}, // expected status code 403

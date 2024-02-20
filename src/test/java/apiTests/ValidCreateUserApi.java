@@ -15,7 +15,7 @@ public class ValidCreateUserApi extends BaseApi {
     private String email;
 
     @Before
-    public void GetActualNewTokenAndCreateData() {
+    public void getActualNewTokenAndCreateData() {
         token = apiHelper.getToken();
         username = generateRandomString(10);  // create random valid username
         password = generateRandomString(12); // create random valid password
@@ -36,6 +36,5 @@ public class ValidCreateUserApi extends BaseApi {
 
 
         apiHelper.checkExistTokenInInvalidUser("\"Sorry, your values are not correct.\"", username, password); // check if user is deleted
-
     }
 }
