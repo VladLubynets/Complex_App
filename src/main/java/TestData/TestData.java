@@ -20,10 +20,11 @@ public class TestData {
     public final static String INVALID_PASSWORD = "123";
 
     public final static String EMPTY_VALUE = "";
+    public final static String INVALID_VALUE_1CHAR = "a";
 
-    public static String generateRandomString(int length) {  // randomizer  value for email
-        String HigerCaseLetters = "ABCZ";
-        return RandomStringUtils.randomAlphanumeric(length) + HigerCaseLetters;
+
+    public static String generateRandomString(int length) {  // randomizer  value
+        return RandomStringUtils.randomAlphanumeric(length);
     }
 
     public static String generateRandomEmail() {  // create random email

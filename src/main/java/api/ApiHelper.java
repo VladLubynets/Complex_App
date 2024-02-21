@@ -1,21 +1,24 @@
 package api;
 
 import TestData.TestData;
+import api.dto.requestDto.CreateUserDto;
 import api.dto.responseDto.PostDto;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import org.junit.Assert;
 
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.apache.http.HttpStatus.*;
+import static org.junit.Assert.*;
+
 
 public class ApiHelper {
 
@@ -45,6 +48,26 @@ public class ApiHelper {
                 .log().all()
                 .extract().response().getBody();
         return responseBody.asString().replace("\"", "");
+    }
+    public void checkExistTokenInInvalidUser(String expectedErrorMessage, String login, String password) {
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("username", login);
+        requestBody.put("password", password);
+
+        Response response = given()
+                .spec(requestSpecification)
+                .body(requestBody.toMap())
+                .when()
+                .post(EndPoints.LOGIN)
+                .then()
+                .log().all()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        String actualErrorMessage = response.getBody().asString();
+
+        assertEquals("Status code", SC_BAD_REQUEST, statusCode);
+        assertEquals("Error message", expectedErrorMessage, actualErrorMessage);
     }
 
     public PostDto[] getPostsByUser() {
@@ -89,7 +112,7 @@ public class ApiHelper {
                     listOfPosts[i].getId(), listOfPosts[i].getTitle()));
         }
 
-        Assert.assertEquals("Number of posts", 0, getPostsByUser(username).length);
+        assertEquals("Number of posts", 0, getPostsByUser(username).length);
 
     }
 
@@ -107,8 +130,65 @@ public class ApiHelper {
                 .statusCode(SC_OK) // status code 200
                 .log().all().
                 extract().response().getBody().asString();
-        Assert.assertEquals("Message in response", "\"Success\"", actualMessage);
+        assertEquals("Message in response", "\"Success\"", actualMessage);
 
+    }
 
+    public void createUser(String username, String password, String email, String token) {
+        CreateUserDto createUserDto = CreateUserDto.builder()
+                .username(username)
+                .email(email)
+                .password(password)
+                .token(token)
+                .build();
+
+        String actualMessage = given()
+                .spec(requestSpecification)
+                .body(createUserDto)
+                .when()
+                .put(EndPoints.CREATE_USER)
+                .then()
+                .statusCode(SC_CREATED)
+                .log().all()
+                .extract().response().getBody().asString();
+        assertEquals("Message in response", "\"Congrats. You created new user\"", actualMessage);
+    }
+
+    public String getUserInfo(String username, String token) {
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("token", token);
+
+        ResponseBody responseBody = given()
+                .spec(requestSpecification)
+                .body(requestBody.toMap())
+                .when()
+                .post(EndPoints.GET_USER_INFO, username)
+                .then()
+                .statusCode(SC_OK)
+                .log().all()
+                .extract().response().getBody();
+        return responseBody.asString();
+    }
+    public String extractUserId(String userInfoResponse) {
+        JSONObject jsonResponse = new JSONObject(userInfoResponse);
+        return jsonResponse.getString("_id");
+    }
+
+    public void deleteUser( String token,String UserId) {
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("token", token);
+
+        String actualMessage = given()
+                .spec(requestSpecification)
+                .body(requestBody.toMap())
+                .when()
+                .delete(EndPoints.DELETE_USER, UserId)
+                .then()
+                .statusCode(SC_OK)
+                .log().all()
+                .extract().response().getBody().asString();
+        System.out.println(token);
+        System.out.println(UserId);
+        assertEquals("Message in response", "\"User with id " +UserId+ " was deletted \"", actualMessage); // TODO minor bug need deleted without double "t"
     }
 }
