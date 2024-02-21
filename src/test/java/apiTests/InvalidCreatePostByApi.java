@@ -63,6 +63,7 @@ public class InvalidCreatePostByApi extends BaseApi {
     public Object[] inValidParameters() {
         return new Object[][]{
                 {null, "Body", "One Person", "yes", "[\"You must provide a title.\"]", SC_BAD_REQUEST, true}, // expected status code 400
+                {"Valid title", null,"One Person", "yes","[\"You must provide a content.\"]",SC_BAD_REQUEST, true},// expected status code 400
                 {"Valid Title", "", "One Person", "yes", "\"Sorry, you must provide a valid token.\"", SC_FORBIDDEN, false}, // expected status code 403
                 {EMPTY_VALUE, EMPTY_VALUE, EMPTY_VALUE, EMPTY_VALUE, "\"Sorry, you must provide a valid token.\"", SC_FORBIDDEN, false} // expected status code 403
         };

@@ -24,11 +24,11 @@ public class TestData {
 
 
     public static String generateRandomString(int length) {  // randomizer  value
-        return RandomStringUtils.randomAlphanumeric(length);
+        return RandomStringUtils.randomAlphanumeric(length).toLowerCase();
     }
 
     public static String generateRandomEmail() {  // create random email
-        String randomPart = generateRandomString(10);
+        String randomPart = generateRandomString(10).toLowerCase();
         String domain = "gmail.com";
         return randomPart + "@" + domain;
     }
