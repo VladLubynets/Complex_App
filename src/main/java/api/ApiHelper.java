@@ -49,6 +49,7 @@ public class ApiHelper {
                 .extract().response().getBody();
         return responseBody.asString().replace("\"", "");
     }
+
     public void checkExistTokenInInvalidUser(String expectedErrorMessage, String login, String password) {
         JSONObject requestBody = new JSONObject();
         requestBody.put("username", login);
@@ -174,47 +175,30 @@ public class ApiHelper {
         return jsonResponse.getString("_id");
     }
 
-    public void deleteUser(String token, String UserId) {
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("token", token);
-
-        String actualMessage = given()
-                .spec(requestSpecification)
-                .body(requestBody.toMap())
-                .when()
-                .delete(EndPoints.DELETE_USER, UserId)
-                .then()
-                .statusCode(SC_OK) // status code 200
-                .log().all()
-                .extract().response().getBody().asString();
-        System.out.println(token);
-        System.out.println(UserId);
-        assertEquals("Message in response", "\"User with id " + UserId + " was deletted \"", actualMessage); // TODO minor bug need deleted without double "t"
-    }
-
-    public void checkErrorIfTryDeleteUserWithPosts(String username, String userId, String token) {
-
-        PostDto[] posts = getPostsByUser(username);
-
-        int numberOfPosts = countPostsByTitle(posts);
+    public void deleteUser(String token, String userId, String username, boolean expectSuccess) {
+        PostDto[] posts = getPostsByUser(username); // get posts by user to check if user has posts
+        int numberOfPosts = countPostsByTitle(posts); // count posts by title
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("token", token);
 
-        String actualMessage = given()
+        Response response = given()
                 .spec(requestSpecification)
                 .body(requestBody.toMap())
                 .when()
                 .delete(EndPoints.DELETE_USER, userId)
                 .then()
-                .statusCode(SC_BAD_REQUEST) // status code 400
                 .log().all()
-                .extract().response().getBody().asString();
+                .extract().response();
 
-
-        String expectedMessage = "\"Number of posts of this user is " + numberOfPosts + "." + " We can not delete user with posts.\"";
-
-        assertEquals("Message in response", expectedMessage, actualMessage);
+        if (expectSuccess) { // if user has no posts
+            assertEquals("Status code", SC_OK, response.getStatusCode()); // status code 200
+            assertEquals("Message in response", "\"User with id " + userId + " was deletted \"", response.getBody().asString()); // TODO minor bug need deleted without double "t"
+        } else { // if user has posts
+            assertEquals("Status code", SC_BAD_REQUEST, response.getStatusCode());
+            String expectedErrorMessage = "\"Number of posts of this user is " + numberOfPosts + ". We can not delete user with posts.\"";
+            assertEquals("Error message", expectedErrorMessage, response.getBody().asString());
+        }
     }
 
     public void checkErrorTryToDeleteInvalidPost(String token, String postId) {
@@ -232,20 +216,15 @@ public class ApiHelper {
                 .extract().response();
 
         int statusCode = response.getStatusCode();
+
+        assertEquals("Status code", SC_FORBIDDEN, statusCode); // status code 403
+
         String actualErrorMessage = response.getBody().asString();
-
-        if (statusCode == SC_FORBIDDEN) { // status code 403
-            if (actualErrorMessage.equals("\"You do not have permission to perform that action.\"")) {
-                assertEquals("Error message", "\"You do not have permission to perform that action.\"", actualErrorMessage);
-            } else if (actualErrorMessage.equals("\"Sorry, you must provide a valid token.\"")) {
-                assertEquals("Error message", "\"Sorry, you must provide a valid token.\"", actualErrorMessage);
-            } else {
-                fail("Unexpected error message received in try to delete post with invalid data");
-            }
+        if (!actualErrorMessage.equals("\"You do not have permission to perform that action.\"")) {
+            assertEquals("Error message", "\"Sorry, you must provide a valid token.\"", actualErrorMessage);
         } else {
-            fail("Unexpected error message received in try to delete post with invalid data");
+            assertEquals("Error message", "\"You do not have permission to perform that action.\"", actualErrorMessage);
         }
-
     }
 
     public void checkErrorTryDeleteUserWithInvalidData(String token, String UserId) {
@@ -261,18 +240,14 @@ public class ApiHelper {
                 .log().all()
                 .extract().response();
         int statusCode = actualMessage.getStatusCode();
-        String actualErrorMessage = actualMessage.getBody().asString();
 
-        if (statusCode == SC_FORBIDDEN) { // status code 403
-            if (actualErrorMessage.equals("\"You do not have permission to perform that action.\"")) {
-                assertEquals("Error message", "\"You do not have permission to perform that action.\"", actualErrorMessage);
-            } else if (actualErrorMessage.equals("\"Sorry, you must provide a valid token.\"")) {
-                assertEquals("Error message", "\"Sorry, you must provide a valid token.\"", actualErrorMessage);
-            } else {
-                fail("Unexpected error message received in try to delete user with invalid data");
-            }
+        assertEquals("Status code", SC_FORBIDDEN, statusCode); // status code 403
+
+        String actualErrorMessage = actualMessage.getBody().asString();
+        if (!actualErrorMessage.equals("\"You do not have permission to perform that action.\"")) {
+            assertEquals("Error message", "\"Sorry, you must provide a valid token.\"", actualErrorMessage);
         } else {
-            fail("Unexpected error message received in try to delete user with invalid data");
+            assertEquals("Error message", "\"You do not have permission to perform that action.\"", actualErrorMessage);
         }
     }
 
@@ -289,7 +264,7 @@ public class ApiHelper {
         String actualErrorMessage = response.getBody().asString();
 
         assertEquals("Status code", SC_BAD_REQUEST, statusCode); // status code 400
-        assertEquals("Error message", "\"Sorry, invalid user requested. Wrong username - " + invalidValue+" or there is no posts. Exception is undefined\"", actualErrorMessage);
+        assertEquals("Error message", "\"Sorry, invalid user requested. Wrong username - " + invalidValue + " or there is no posts. Exception is undefined\"", actualErrorMessage);
 
     }
 
@@ -307,17 +282,22 @@ public class ApiHelper {
                 .extract().response();
 
         int statusCode = response.getStatusCode();
-        String actualErrorMessage = response.getBody().asString();
 
-        if (statusCode == SC_BAD_REQUEST) { // status code 400
+
+        assertTrue("Status code is not 400 or 403",
+                statusCode == SC_BAD_REQUEST || statusCode == SC_FORBIDDEN); // check status code 400 or 403
+
+
+        if (statusCode == SC_BAD_REQUEST) { // if status code 400
+            String actualErrorMessage = response.getBody().asString();
             assertEquals("Error message", "\"No user " + invalidValue + " was found\"", actualErrorMessage);
-        } else if (statusCode == SC_FORBIDDEN) { // status code 403
+        } else if (statusCode == SC_FORBIDDEN) { // if status code 403
+            String actualErrorMessage = response.getBody().asString();
             assertEquals("Error message", "\"Sorry, you must provide a valid token.\"", actualErrorMessage);
-        } else {
-            fail("Unexpected status code into get info by invalid user: " + statusCode);
         }
     }
-   public String extractPostIdFirstPost(PostDto[] posts) { // extract first post id
+
+    public String extractPostIdFirstPost(PostDto[] posts) { // extract first post id
         if (posts != null) {
             if (posts.length > 0) {
                 return posts[0].getId();

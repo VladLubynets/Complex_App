@@ -19,6 +19,7 @@ public class EndToEndScenarioByAPI extends BaseApi {
     String username;
     String password;
     String email;
+
     @Before
     public void getActualNewTokenAndCreateData() {
         token = apiHelper.getToken(VALID_LOGIN, VALID_PASSWORD);
@@ -37,7 +38,7 @@ public class EndToEndScenarioByAPI extends BaseApi {
 
         String userInfoResponse = apiHelper.getUserInfo(username, token);  // get user info
 
-        newToken=apiHelper.getToken(username, password);
+        newToken = apiHelper.getToken(username, password);
         String userId = apiHelper.extractUserId(userInfoResponse);// extract user id
         CreatePostDto createPostBody = CreatePostDto.builder() // create post with valid data
                 .title("Post from API")
@@ -66,17 +67,17 @@ public class EndToEndScenarioByAPI extends BaseApi {
         String postId = apiHelper.extractPostIdFirstPost(posts);
         System.out.println("Post id: " + postId);
 
-        apiHelper.checkErrorIfTryDeleteUserWithPosts(username,userId, token); // check if message is correct if try to delete user with posts
+        apiHelper.deleteUser(newToken, userId, username, false); // wait for user don`t be deleted if  he has posts
 
-        apiHelper.checkErrorTryDeleteUserWithInvalidData(newToken,INVALID_VALUE_1CHAR); // check if message is correct if try to delete user with invalid token
-        apiHelper.checkErrorTryDeleteUserWithInvalidData(INVALID_VALUE_1CHAR,userId); // check if message is correct if try to delete user with invalid user id
+        apiHelper.checkErrorTryDeleteUserWithInvalidData(newToken, INVALID_VALUE_1CHAR); // check if message is correct if try to delete user with invalid token
+        apiHelper.checkErrorTryDeleteUserWithInvalidData(INVALID_VALUE_1CHAR, userId); // check if message is correct if try to delete user with invalid user id
 
 
         apiHelper.checkErrorTryToDeleteInvalidPost(INVALID_VALUE_1CHAR, postId);  // check if message is correct if try to delete post with invalid token
         apiHelper.checkErrorTryToDeleteInvalidPost(newToken, INVALID_VALUE_1CHAR); // check if message is correct if try to delete post with invalid post id
 
-        apiHelper.deletePostsTillPresent(username,password);// delete all posts by user
-        apiHelper.deleteUser(newToken, userId); // delete user
+        apiHelper.deletePostsTillPresent(username, password);// delete all posts by user
+        apiHelper.deleteUser(newToken, userId, username, true); // wait for user be deleted
 
         apiHelper.checkExistTokenInInvalidUser("\"Sorry, your values are not correct.\"", username, password); // check if user is deleted
     }

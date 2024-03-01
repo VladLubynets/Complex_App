@@ -32,7 +32,7 @@ public class ValidCreateUserApi extends BaseApi {
         System.out.println("User id: " + userId);
 
 
-        apiHelper.deleteUser(token, userId); // delete user
+        apiHelper.deleteUser(token, userId, username, true); // delete user
 
 
         apiHelper.checkExistTokenInInvalidUser("\"Sorry, your values are not correct.\"", username, password); // check if user is deleted
