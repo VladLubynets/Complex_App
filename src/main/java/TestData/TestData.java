@@ -13,7 +13,7 @@ public class TestData {
     public final static String VALID_LOGIN_MIN_SIZE = VALID_LOGIN.substring(0, 3); // at least 3 characters
     public final static String VALID_PASSWORD_MIN_SIZE = VALID_PASSWORD.substring(0, 12); // at least 12 characters
 
-    public final static String VALID_LOGIN_MAX_SIZE ="a".repeat(30);   // at most 30 characters
+    public final static String VALID_LOGIN_MAX_SIZE = "a".repeat(30);   // at most 30 characters
     public final static String VALID_PASSWORD_MAX_SIZE = "a".repeat(30); // at most 30 characters
 
     public final static String INVALID_LOGIN = "aacomplex";
@@ -22,17 +22,20 @@ public class TestData {
     public final static String EMPTY_VALUE = "";
     public final static String INVALID_VALUE_1CHAR = "a";
 
+    public final static String VALID_LOGIN_WITH_EXISTING_POSTS = System.getProperty("loginApiWithPosts", ConfigProvider.configHiddenProperties.login_api_with_posts());
+    public final static String VALID_PASSWORD_WITH_EXISTING_POSTS = System.getProperty("passwordApiWithPosts", ConfigProvider.configHiddenProperties.password_api_with_posts());
+
 
     public static String generateRandomString(int length) {  // randomizer  value
-        return RandomStringUtils.randomAlphanumeric(length);
+        return RandomStringUtils.randomAlphanumeric(length).toLowerCase();
     }
 
     public static String generateRandomEmail() {  // create random email
-        String randomPart = generateRandomString(10);
+        String randomPart = generateRandomString(10).toLowerCase();
         String domain = "gmail.com";
         return randomPart + "@" + domain;
     }
 
-    public final static String VALID_LOGIN_API_DEFAULT_10chars =  System.getProperty("loginApiDefault", ConfigProvider.configHiddenProperties.login_api_default());
+    public final static String VALID_LOGIN_API_DEFAULT_10chars = System.getProperty("loginApiDefault", ConfigProvider.configHiddenProperties.login_api_default());
     public final static String VALID_PASSWORD_API_DEFAULT_12chars = System.getProperty("passwordApiDefault", ConfigProvider.configHiddenProperties.password_api_default());
 }
