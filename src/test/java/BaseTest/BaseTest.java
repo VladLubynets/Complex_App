@@ -23,7 +23,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 
 public class BaseTest {
-    public  WebDriver webDriver;
+    public WebDriver webDriver;
     public PageProvider pageProvider;
     Logger logger = Logger.getLogger(getClass());
     protected ArrayList<ScreenShot> listOfScreenShots = new ArrayList<>();
@@ -38,43 +38,45 @@ public class BaseTest {
     }
 
 
-@Rule()
-public final TestWatcher watchman = new TestWatcher() {
-    @Override
-    protected void failed(Throwable e, Description description) {
-        screenshot();
-    }
-
-    public void saveScreenshot(ArrayList<ScreenShot> screenShots) {
-        screenShots.forEach(screenShot -> Allure.addAttachment(screenShot.getName(),
-                new ByteArrayInputStream(screenShot.getScreenShotImg())));
-    }
-
-    public void screenshot() {
-        if (webDriver == null) {
-            logger.info("Driver for screenshot not found");
-            return;
+    @Rule()
+    public final TestWatcher watchman = new TestWatcher() {
+        @Override
+        protected void failed(Throwable e, Description description) {
+            screenshot();
         }
-        byte[] screen = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES);
-        listOfScreenShots.add(new ScreenShot("Default screenShot after failed test", screen));
-        saveScreenshot(listOfScreenShots);
-    }
 
-    @Override
-    protected void finished(Description description) {
-        logger.info(
-                String.format("Finished test: %s::%s", description.getClassName(), description.getMethodName()));
-        try {
-            webDriver.quit();
-            logger.info("Browser was closed");
-        } catch (Exception e) {
-            logger.error(e);
+        public void saveScreenshot(ArrayList<ScreenShot> screenShots) {
+            screenShots.forEach(screenShot -> Allure.addAttachment(screenShot.getName(),
+                    new ByteArrayInputStream(screenShot.getScreenShotImg())));
         }
-    }
 
-};
+        public void screenshot() {
+            if (webDriver == null) {
+                logger.info("Driver for screenshot not found");
+                return;
+            }
+            byte[] screen = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES);
+            listOfScreenShots.add(new ScreenShot("Default screenShot after failed test", screen));
+            saveScreenshot(listOfScreenShots);
+        }
+
+        @Override
+        protected void finished(Description description) {
+            logger.info(
+                    String.format("Finished test: %s::%s", description.getClassName(), description.getMethodName()));
+            try {
+                webDriver.quit();
+                logger.info("Browser was closed");
+            } catch (Exception e) {
+                logger.error(e);
+            }
+        }
+
+    };
 
     private WebDriver initDriver() {
+        WebDriverManager.chromedriver().clearDriverCache().setup(); // clear cache
+        WebDriverManager.chromedriver().clearResolutionCache().setup(); // clear resolution cache
         String browser = System.getProperty("browser");
         if ((browser == null) || ("chrome".equals(browser.toLowerCase()))) { // default browser -Dbrowser=chrome
             WebDriverManager.chromedriver().setup();

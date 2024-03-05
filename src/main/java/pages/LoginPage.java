@@ -6,7 +6,9 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import static TestData.TestData.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -239,7 +241,6 @@ public class LoginPage extends ParentPage {
     }
 
 
-
     public LoginPage pasteValueToUsernameInput() {
         sendChordKeys(usernameInput, Keys.CONTROL, "v");
         return this;
@@ -281,20 +282,24 @@ public class LoginPage extends ParentPage {
         checkIsSignInButtonNotVisible();
         return this;
     }
+
     public LoginPage checkIsAlertMessageNotVisible() {
         checkElementNotDisplayed(alertMessage);
         return this;
     }
+
     public LoginPage checkTextSignInButton() {
         String expectedText = "Sign In";
         String actualText = loginSignInButton.getText();
         Assert.assertEquals(expectedText, actualText);
         return this;
     }
+
     public LoginPage pressEnterKeyOnFocusSignIn() {
         pressKey(loginSignInButton, Keys.ENTER);
         return this;
     }
+
     public String getPasswordPlaceholderText() {
         return passwordInput.getAttribute("placeholder");
     }
@@ -303,5 +308,26 @@ public class LoginPage extends ParentPage {
         String actualText = getPasswordPlaceholderText();
         Assert.assertEquals("Password placeholder text doesn't match expected text", expectedText, actualText);
         return this;
+    }
+
+    public LoginPage loginWithValidCred(String username, String password) {
+        openLoginPage();
+        enterTextIntoInput(usernameInput, username);
+        enterTextIntoInput(passwordInput, password);
+        clickOnElement(loginSignInButton);
+        checkIsSignInButtonNotVisible();
+        return this;
+    }
+
+    public void registrationOfUser(String userName, String password, String email) {
+        openLoginPage();
+        enterTextIntoInputUserNameRegistration(userName);
+        enterTextIntoInputEmailRegistration(email);
+        enterTextIntoInputPasswordRegistration(password);
+        checkValidationAlertMessageNotPresent();
+        checkIsButtonRegistrationVisible();
+        clickOnButtonRegistration();
+        checkIsSignInButtonNotVisible();
+        pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
     }
 }
