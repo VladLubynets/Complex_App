@@ -5,8 +5,8 @@ import org.apache.log4j.Logger;
 
 public class BaseApi {
 
-    protected ApiHelper apiHelper;
-    protected Logger logger;
+    public ApiHelper apiHelper;
+    public Logger logger;
 
     public BaseApi() {
         this.apiHelper = new ApiHelper();

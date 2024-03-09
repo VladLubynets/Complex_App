@@ -22,7 +22,7 @@ public class InvalidDeleteUserByApi extends BaseApi {
 
     @Test
     @Parameters(method = "invalidParameters")
-    public void testDeleteUser(String userId, String token, int expectedStatusCode, String expectedMessage) {
+    public void TC10_testDeleteUser(String userId, String token, int expectedStatusCode, String expectedMessage) {
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("token", token);
@@ -51,9 +51,9 @@ public class InvalidDeleteUserByApi extends BaseApi {
         return new Object[][]{
 
                 {userId, INVALID_VALUE_1CHAR, SC_FORBIDDEN, "\"Sorry, you must provide a valid token.\""}, // status code 403 valid userId and invalid token
-                {userId, token, SC_BAD_REQUEST, "\"Number of posts of this user is "+ numberOfPosts+". We can not delete user with posts.\""}, // status code 400 valid userId and valid token
-                {INVALID_VALUE_1CHAR, INVALID_VALUE_1CHAR,  SC_FORBIDDEN, "\"Sorry, you must provide a valid token.\""}, // status code 403 invalid userId and invalid token
-                {INVALID_VALUE_1CHAR, token, SC_FORBIDDEN,"\"You do not have permission to perform that action.\"" } // status code 403 invalid userId and valid token
+                {userId, token, SC_BAD_REQUEST, "\"Number of posts of this user is " + numberOfPosts + ". We can not delete user with posts.\""}, // status code 400 valid userId and valid token
+                {INVALID_VALUE_1CHAR, INVALID_VALUE_1CHAR, SC_FORBIDDEN, "\"Sorry, you must provide a valid token.\""}, // status code 403 invalid userId and invalid token
+                {INVALID_VALUE_1CHAR, token, SC_FORBIDDEN, "\"You do not have permission to perform that action.\""} // status code 403 invalid userId and valid token
         };
     }
 }
