@@ -35,7 +35,7 @@ public class MixEndToEndScenarioUIAndApi extends BaseTest {
     }
 
     @Test
-    public void TC_3testUIAndApiLoginEndToEndScenario() {
+    public void TC3_testUIAndApiLoginEndToEndScenario() {
         LoginPage loginPage = pageProvider.getLoginPage();
         HomePage homePage = pageProvider.getHomePage();
 
