@@ -12,7 +12,7 @@ public class TableUiTests extends BaseTest {
                 .openNewTabAndSwitchToIt(API_URL);
         pageProvider.getLoginPage().checkIsSignInButtonNotVisible();
         pageProvider.getHomePage().extractTableInfo();
-        pageProvider.getHomePage().CheckAPItextInTheTable();
+        pageProvider.getHomePage().checkAPItextInTheTable();
         pageProvider.getLoginPage().waitForMinutes(30);
 
         pageProvider.getHomePage().getHeader().clickOnCreatePostButton();

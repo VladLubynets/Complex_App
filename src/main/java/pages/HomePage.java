@@ -111,7 +111,7 @@ public class HomePage extends ParentPageWithHeader {
             GET_USER_INFO,
             DELETE_USER);
 
-    public void CheckAPItextInTheTable() {
+    public void checkAPItextInTheTable() {
         List<String> tableInfoList = extractTableInfo();
 
         if (tableInfoList.isEmpty()) {
