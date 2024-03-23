@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnitParamsRunner.class)
 
-public class ValidGetTokenByApi extends BaseApi {
+public class GetTokenValidAndInvalidByApi extends BaseApi {
     String login = TestData.VALID_LOGIN_API_DEFAULT_10chars;
     String password = TestData.VALID_PASSWORD_API_DEFAULT_12chars;
 

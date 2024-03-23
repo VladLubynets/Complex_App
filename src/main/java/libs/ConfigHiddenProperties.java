@@ -21,7 +21,12 @@ public interface ConfigHiddenProperties extends Config {
     String put_in_password_ValidLogin();
 
     String login_api_default();
+
     String password_api_default();
+
     String login_api_with_posts();
+
     String password_api_with_posts();
+
+    String api_url();
 }
