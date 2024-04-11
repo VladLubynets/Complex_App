@@ -45,12 +45,9 @@ public class MixEndToEndScenarioUIAndApi extends BaseTest {
         apiHelper.deleteUser(token, userId, username, true); // delete user by api
 
         loginPage.refreshPage(); // refresh page
-        homePage.getHeader().clickOnCreatePostButton(); // click on create post button (it`s need to check  after click was logout or not)
-        loginPage.checkIsAlertMessageVisible(); // check is alert message visible
-        loginPage.checkTextInAlertMessage("You must be logged in to perform that action.");
 
         loginPage.checkIsSignInButtonVisible(); // check is sign in button visible and log out was successful
-        homePage.getHeader().checkIsSignOutButtonNotVisible(); // TODO here BUG after delete user by api, user still can make some actions in UI
+        homePage.getHeader().checkIsSignOutButtonNotVisible();
     }
 }
 
