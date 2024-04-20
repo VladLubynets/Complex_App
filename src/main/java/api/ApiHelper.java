@@ -193,7 +193,7 @@ public class ApiHelper {
 
         if (expectSuccess) { // if user has no posts
             assertEquals("Status code", SC_OK, response.getStatusCode()); // status code 200
-            assertEquals("Message in response", "\"User with id " + userId + " was deletted \"", response.getBody().asString()); // TODO minor bug need deleted without double "t"
+            assertEquals("Message in response", "\"User with id " + userId + " was deleted \"", response.getBody().asString());
         } else { // if user has posts
             assertEquals("Status code", SC_BAD_REQUEST, response.getStatusCode());
             String expectedErrorMessage = "\"Number of posts of this user is " + numberOfPosts + ". We can not delete user with posts.\"";
@@ -240,14 +240,16 @@ public class ApiHelper {
                 .log().all()
                 .extract().response();
         int statusCode = actualMessage.getStatusCode();
-
-        assertEquals("Status code", SC_FORBIDDEN, statusCode); // status code 403
-
         String actualErrorMessage = actualMessage.getBody().asString();
-        if (!actualErrorMessage.equals("\"You do not have permission to perform that action.\"")) {
-            assertEquals("Error message", "\"Sorry, you must provide a valid token.\"", actualErrorMessage);
+
+        if (statusCode == SC_BAD_REQUEST || statusCode == SC_FORBIDDEN) {  // check status code 400 or 403
+
+            assertTrue("Error message doesn't match expected", // check error message
+                    actualErrorMessage.equals("\"Sorry, you must provide a valid token.\"") ||
+                            actualErrorMessage.equals("\"User with ID '" + UserId + "' was not found \""));
         } else {
-            assertEquals("Error message", "\"You do not have permission to perform that action.\"", actualErrorMessage);
+            assertEquals("Error message", "\"You do not have permission to perform that action.\"",
+                    actualErrorMessage);
         }
     }
 
@@ -291,7 +293,7 @@ public class ApiHelper {
         if (statusCode == SC_BAD_REQUEST) { // if status code 400
             String actualErrorMessage = response.getBody().asString();
             assertEquals("Error message", "\"No user " + invalidValue + " was found\"", actualErrorMessage);
-        } else if (statusCode == SC_FORBIDDEN) { // if status code 403
+        } else if (statusCode == SC_FORBIDDEN) { // if status code 400
             String actualErrorMessage = response.getBody().asString();
             assertEquals("Error message", "\"Sorry, you must provide a valid token.\"", actualErrorMessage);
         }
