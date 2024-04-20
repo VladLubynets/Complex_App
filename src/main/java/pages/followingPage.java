@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FollowingPage extends ParentPage {
+public class followingPage extends ParentPage {
 
     @FindBy(xpath = "//button[contains(@class, 'btn') and contains(text(), 'Follow')]")
     private WebElement buttonStartFollow;
@@ -21,57 +21,57 @@ public class FollowingPage extends ParentPage {
     private WebElement followingButton;
 
 
-    public FollowingPage(WebDriver webDriver) {
+    public followingPage(WebDriver webDriver) {
         super(webDriver);
 
     }
 
-    public FollowingPage checkIsSuccessMessageVisible() {
+    public followingPage checkIsSuccessMessageVisible() {
         checkElementDisplayed(successMessage);
         return this;
     }
 
-    public FollowingPage checkTextInSuccessMessage(String text) {
+    public followingPage checkTextInSuccessMessage(String text) {
         Assert.assertEquals("Alert message text doesn't match expected text", text, successMessage.getText());
         return this;
     }
 
-    public FollowingPage checkIsButtonFollowersVisible() {
+    public followingPage checkIsButtonFollowersVisible() {
         checkElementDisplayed(followersButton);
         return this;
     }
 
 
-    public FollowingPage clickOnButtonFollow() {
+    public followingPage clickOnButtonFollow() {
         clickOnElement(buttonStartFollow);
         return this;
     }
 
 
 
-    public FollowingPage clickOnButtonStopFollow() {
+    public followingPage clickOnButtonStopFollow() {
         clickOnElement(buttonStopFollow);
         return this;
     }
 
-    public FollowingPage checkIsCountOfFollowers( int CountOfFollowers) {
+    public followingPage checkIsCountOfFollowers(int CountOfFollowers) {
        String followersText = followersButton.getText();
      Assert.assertTrue("After subscribing or unsubscribing, the number of subscribers did not change", followersText.contains("Followers: " + CountOfFollowers));
         return this;
 
     }
 
-    public FollowingPage checkIsCountOfFollowing( int CountOfFollowing) {
+    public followingPage checkIsCountOfFollowing(int CountOfFollowing) {
         String followingText = followingButton.getText();
         Assert.assertTrue("After subscribing or unsubscribing, the number of subscriptions did not change", followingText.contains("Following: " + CountOfFollowing));
         return this;
     }
 
-    public FollowingPage clickOnButtonFollowers() {
+    public followingPage clickOnButtonFollowers() {
         clickOnElement(followersButton);
         return this;
     }
-    public FollowingPage clickOnButtonFollowing() {
+    public followingPage clickOnButtonFollowing() {
         clickOnElement(followingButton);
         return this;
     }

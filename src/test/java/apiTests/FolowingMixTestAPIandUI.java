@@ -15,8 +15,8 @@ public class FolowingMixTestAPIandUI extends BaseTest {
 
     String loginSecond = TestData.generateRandomString(10);
     String passwordSecond = TestData.generateRandomString(12);
-    String SecondUserUrl = String.format(USER_URL, loginSecond);
-    String FirstUserUrl = String.format(USER_URL, loginFirst);
+    String secondUserUrl = String.format(USER_URL, loginSecond);
+    String firstUserUrl = String.format(USER_URL, loginFirst);
 
 
     @Test
@@ -24,7 +24,7 @@ public class FolowingMixTestAPIandUI extends BaseTest {
         pageProvider.getLoginPage().registrationOfUser(loginFirst, passwordFirst, TestData.generateRandomEmail());
         pageProvider.getLoginPage().registrationOfUser(loginSecond, passwordSecond, TestData.generateRandomEmail());
         pageProvider.getLoginPage().loginWithValidCred(loginFirst, passwordFirst);
-        pageProvider.getHomePage().openNewTabAndSwitchToIt(SecondUserUrl);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(secondUserUrl);
         pageProvider.getFollowingPage().clickOnButtonFollow();
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully followed " + loginSecond + ".");
@@ -34,11 +34,16 @@ public class FolowingMixTestAPIandUI extends BaseTest {
         pageProvider.getFollowingPage().checkIsButtonFollowersVisible();
         pageProvider.getFollowingPage().clickOnButtonFollowers();
         pageProvider.getFollowingPage().checkIsCountOfFollowers(1);
+
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(firstUserUrl);
+        pageProvider.getFollowingPage().clickOnButtonFollowing();
+        pageProvider.getFollowingPage().checkIsCountOfFollowing(1);
+
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
 
 
         pageProvider.getLoginPage().loginWithValidCred(loginSecond, passwordSecond);
-        pageProvider.getHomePage().openNewTabAndSwitchToIt(FirstUserUrl);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(firstUserUrl);
 
 
         pageProvider.getFollowingPage().clickOnButtonFollowing();
@@ -47,7 +52,7 @@ public class FolowingMixTestAPIandUI extends BaseTest {
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
 
         pageProvider.getLoginPage().loginWithValidCred(loginFirst, passwordFirst);
-        pageProvider.getHomePage().openNewTabAndSwitchToIt(SecondUserUrl);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(secondUserUrl);
         pageProvider.getFollowingPage().clickOnButtonStopFollow();
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully stopped following " + loginSecond + ".");
@@ -59,7 +64,7 @@ public class FolowingMixTestAPIandUI extends BaseTest {
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
 
         pageProvider.getLoginPage().loginWithValidCred(loginSecond, passwordSecond);
-        pageProvider.getHomePage().openNewTabAndSwitchToIt(FirstUserUrl);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(firstUserUrl);
         pageProvider.getFollowingPage().clickOnButtonFollowing();
         pageProvider.getFollowingPage().checkIsCountOfFollowing(0);
     }
