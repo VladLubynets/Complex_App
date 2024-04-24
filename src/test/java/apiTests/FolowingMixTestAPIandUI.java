@@ -15,6 +15,16 @@ public class FolowingMixTestAPIandUI extends BaseTest {
 
     String loginSecond = TestData.generateRandomString(10);
     String passwordSecond = TestData.generateRandomString(12);
+
+    String followLogin = TestData.generateRandomString(10);
+    String followPassword = TestData.generateRandomString(12);
+
+    String followingLogin = TestData.generateRandomString(10);
+    String followingPassword = TestData.generateRandomString(12);
+
+    String followLoginUrl = String.format(USER_URL, followLogin);
+    String followingLoginUrl = String.format(USER_URL, followingLogin);
+
     String secondUserUrl = String.format(USER_URL, loginSecond);
     String firstUserUrl = String.format(USER_URL, loginFirst);
 
@@ -67,5 +77,35 @@ public class FolowingMixTestAPIandUI extends BaseTest {
         pageProvider.getHomePage().openNewTabAndSwitchToIt(firstUserUrl);
         pageProvider.getFollowingPage().clickOnButtonFollowing();
         pageProvider.getFollowingPage().checkIsCountOfFollowing(0);
+    }
+
+    @Test
+    public void TC15_InvalidFollowingTestByUI() {
+        pageProvider.getLoginPage().registrationOfUser(followLogin, followPassword, TestData.generateRandomEmail());
+        pageProvider.getLoginPage().registrationOfUser(followingLogin, followingPassword, TestData.generateRandomEmail());
+        pageProvider.getLoginPage().loginWithValidCred(followLogin, followPassword);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(followingLoginUrl);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(followingLoginUrl);
+        pageProvider.getHomePage().switchToPreviousTab();
+        pageProvider.getFollowingPage().clickOnButtonFollow();
+        pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
+        pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully followed " + followingLogin + ".");
+        pageProvider.getHomePage().switchToNextTab();
+        pageProvider.getFollowingPage().clickOnButtonFollow();
+        pageProvider.getLoginPage().checkIsAlertMessageVisible();
+        pageProvider.getLoginPage().checkTextInAlertMessage("You are already following this user.");
+        pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
+
+
+        pageProvider.getLoginPage().loginWithValidCred(followLogin, followPassword);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(followingLoginUrl);
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(followingLoginUrl);
+        pageProvider.getFollowingPage().clickOnButtonStopFollow();
+        pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
+        pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully stopped following " + followingLogin + ".");
+        pageProvider.getHomePage().switchToPreviousTab();
+        pageProvider.getFollowingPage().clickOnButtonStopFollow();
+        pageProvider.getLoginPage().checkIsAlertMessageVisible();
+        pageProvider.getLoginPage().checkTextInAlertMessage("You cannot stop following someone you do not already follow..");
     }
 }

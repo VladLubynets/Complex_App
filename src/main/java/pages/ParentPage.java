@@ -56,6 +56,26 @@ public class ParentPage extends ActionWithElements {
         webDriver.get(url);
     }
 
+    public void switchToPreviousTab() {
+        ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+        int currentIndex = tabs.indexOf(webDriver.getWindowHandle());
+        int previousIndex = currentIndex - 1;
+        if (previousIndex < 0) {
+            previousIndex = tabs.size() - 1;
+        }
+        webDriver.switchTo().window(tabs.get(previousIndex));
+    }
+
+    public void switchToNextTab() {
+        ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+        int currentIndex = tabs.indexOf(webDriver.getWindowHandle());
+        int nextIndex = currentIndex + 1;
+        if (nextIndex >= tabs.size()) {
+            nextIndex = 0;
+        }
+        webDriver.switchTo().window(tabs.get(nextIndex));
+    }
+
     public void waitForMinutes(int minutes) {
         try {
             int milliseconds = minutes * 60000;  // transform minutes to milliseconds
