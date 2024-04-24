@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ParentPage extends ActionWithElements {
 
@@ -56,24 +57,27 @@ public class ParentPage extends ActionWithElements {
         webDriver.get(url);
     }
 
-    public void switchToPreviousTab() {
-        ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
-        int currentIndex = tabs.indexOf(webDriver.getWindowHandle());
-        int previousIndex = currentIndex - 1;
-        if (previousIndex < 0) {
-            previousIndex = tabs.size() - 1;
-        }
-        webDriver.switchTo().window(tabs.get(previousIndex));
-    }
 
-    public void switchToNextTab() {
-        ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
-        int currentIndex = tabs.indexOf(webDriver.getWindowHandle());
-        int nextIndex = currentIndex + 1;
-        if (nextIndex >= tabs.size()) {
-            nextIndex = 0;
+    public void switchToTabByIndex(int tabIndex) {
+        List<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+
+        if (tabs.isEmpty()) {
+            throw new RuntimeException("No tabs are open");
         }
-        webDriver.switchTo().window(tabs.get(nextIndex));
+
+        int numTabs = tabs.size();
+        int currentIndex = tabs.indexOf(webDriver.getWindowHandle());
+        int newIndex = currentIndex + tabIndex;
+
+
+        if (newIndex < 0) {
+            newIndex = 0;
+        } else if (newIndex >= numTabs) {
+            newIndex = numTabs - 1;
+        }
+
+        String newTab = tabs.get(newIndex);
+        webDriver.switchTo().window(newTab);
     }
 
     public void waitForMinutes(int minutes) {
