@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ParentPage extends ActionWithElements {
 
@@ -54,6 +55,29 @@ public class ParentPage extends ActionWithElements {
         ArrayList<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
         webDriver.switchTo().window(tabs.get(tabs.size() - 1));
         webDriver.get(url);
+    }
+
+
+    public void switchToTabByIndex(int tabIndex) {
+        List<String> tabs = new ArrayList<>(webDriver.getWindowHandles());
+
+        if (tabs.isEmpty()) {
+            throw new RuntimeException("No tabs are open");
+        }
+
+        int numTabs = tabs.size();
+        int currentIndex = tabs.indexOf(webDriver.getWindowHandle());
+        int newIndex = currentIndex + tabIndex;
+
+
+        if (newIndex < 0) {
+            newIndex = 0;
+        } else if (newIndex >= numTabs) {
+            newIndex = numTabs - 1;
+        }
+
+        String newTab = tabs.get(newIndex);
+        webDriver.switchTo().window(newTab);
     }
 
     public void waitForMinutes(int minutes) {
