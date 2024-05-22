@@ -29,4 +29,12 @@ public interface ConfigHiddenProperties extends Config {
     String password_api_with_posts();
 
     String api_url();
+
+    String login_without_posts();
+
+    String password_without_posts();
+
+    String login_with_followers();
+
+    String password_with_followers();
 }

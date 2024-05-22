@@ -25,6 +25,11 @@ public class TestData {
     public final static String VALID_LOGIN_WITH_EXISTING_POSTS = System.getProperty("loginApiWithPosts", ConfigProvider.configHiddenProperties.login_api_with_posts());
     public final static String VALID_PASSWORD_WITH_EXISTING_POSTS = System.getProperty("passwordApiWithPosts", ConfigProvider.configHiddenProperties.password_api_with_posts());
 
+    public final static String VALID_LOGIN_WITHOUT_POSTS = System.getProperty("loginApiWithoutPosts", ConfigProvider.configHiddenProperties.login_without_posts());
+    public final static String VALID_PASSWORD_WITHOUT_POSTS = System.getProperty("passwordApiWithoutPosts", ConfigProvider.configHiddenProperties.password_without_posts());
+    public final static String EXPECTED_TEXT_IN_HOME_PAGE = "Your feed displays the latest posts from the people you follow. If you don’t have any friends to follow that’s okay; you can use the “Search” feature in the top menu bar to find content written by people with similar interests and then follow them.";
+    public final static String VALID_LOGIN_WITH_FOLLOWERS = System.getProperty("loginApiWithFollowers", ConfigProvider.configHiddenProperties.login_with_followers());
+    public final static String VALID_PASSWORD_WITH_FOLLOWERS = System.getProperty("passwordApiWithFollowers", ConfigProvider.configHiddenProperties.password_with_followers());
 
     public static String generateRandomString(int length) {  // randomizer  value
         return RandomStringUtils.randomAlphanumeric(length).toLowerCase();

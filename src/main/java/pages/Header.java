@@ -17,7 +17,7 @@ public class Header extends ActionWithElements {
     private WebElement buttonChat;
     @FindBy(xpath = "//a[contains( @class, 'text-white mr-2 header-search-icon')]")
     private WebElement buttonSearch;
-    @FindBy(xpath = "//a[contains(@class, 'text-white') and contains(text(), 'Complex app for testing - QA')]")
+    @FindBy(xpath = "//a[contains(@class, 'text-white') and contains(text(), 'Complex app for testing')]")
     private WebElement buttonLogo;
     @FindBy(xpath = "//img[@alt='My profile']")
     private WebElement buttonMyProfile;
@@ -103,5 +103,9 @@ public class Header extends ActionWithElements {
 
     public void clickOnCreatePostButton() {
         clickOnElement(buttonCreatePost);
+    }
+
+    public void clickOnLogoButton() {
+        clickOnElement(buttonLogo);
     }
 }
