@@ -32,7 +32,7 @@ public class TestData {
     public final static String VALID_PASSWORD_WITH_FOLLOWERS = System.getProperty("passwordApiWithFollowers", ConfigProvider.configHiddenProperties.password_with_followers());
 
     public static String generateRandomString(int length) {  // randomizer  value
-        return RandomStringUtils.randomAlphanumeric(length).toLowerCase();
+        return RandomStringUtils.randomAlphanumeric(length).toLowerCase()+"qaauto";
     }
 
     public static String generateRandomEmail() {  // create random email

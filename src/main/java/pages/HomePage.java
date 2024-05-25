@@ -30,9 +30,20 @@ public class HomePage extends ParentPageWithHeader {
     @FindBy(xpath = "//h3[contains(text(), 'The latest posts')]")
     private WebElement latestPostsHeader;
     @FindBy(xpath = "//h3[contains(text(), 'The latest posts')]/following-sibling::div[@class='list-group']")
-    private WebElement latestPostsList;
+    private WebElement latestPostsElement;
     @FindBy(xpath = "//h3[contains(text(), 'The Latest From Those You Follow')]/following-sibling::div[@class='list-group']")
     private WebElement latestPostsFromFollowingList;
+
+    @FindBy(xpath = "//div[contains(@class, 'list-group')]/a[contains(@class, 'list-group-item')]")
+    private List<WebElement> postItems;
+
+    @FindBy(tagName = "strong")
+    private List<WebElement> postTitlesList;
+
+    @FindBy(xpath = ".//div[@class='text-muted small']")
+    private List<WebElement> userInfoElementsList;
+    @FindBy(xpath = "//h3[contains(text(), 'The latest posts')]/following-sibling::div[@class='list-group']")
+    private List<WebElement> latestPostsList;
 
 
     public HomePage(WebDriver webDriver) {
@@ -157,7 +168,7 @@ public class HomePage extends ParentPageWithHeader {
     }
 
     public void checkIstLatestPostsListGroupVisible() {
-        checkElementDisplayed(latestPostsList);
+        checkElementDisplayed(latestPostsElement);
     }
 
     public void checkIstLatestPostsFromFollowingListGroupVisible() {
@@ -168,77 +179,49 @@ public class HomePage extends ParentPageWithHeader {
         checkElementNotDisplayed(latestPostsFromFollowingList);
     }
 
-    public void checkPostStructure() { // check the structure of the post in the latest posts list
-        List<WebElement> postItems = latestPostsList.findElements(By.cssSelector("div.list-group a.list-group-item")); // Find all post items
-
-        for (WebElement postItem : postItems) { // loop through all post items
-            WebElement postTitleElement = postItem.findElement(By.tagName("strong")); // Find the post title element
-            WebElement userInfoElement = postItem.findElement(By.xpath(".//div[@class='text-muted small']")); // Find the user info element
+    public void checkPostStructure() {
+        for (int i = 0; i < postItems.size(); i++) {
+            WebElement postItem = postItems.get(i);
+            WebElement postTitleElement = postTitlesList.get(i);
+            WebElement userInfoElement = userInfoElementsList.get(i);
 
             String actualPostTitle = postTitleElement.getText().trim();
             String actualUserInfoText = userInfoElement.getText().trim();
 
+            Assert.assertFalse("Post title is empty.", actualPostTitle.isEmpty());
+            Assert.assertTrue("User info does not contain 'by'.", actualUserInfoText.contains("by"));
 
-            Assert.assertFalse("Post title is empty.", actualPostTitle.isEmpty()); // check if the post title is not empty
-
-
-            Assert.assertTrue("User info does not contain 'by'.", actualUserInfoText.contains("by")); // check if the user info contains the word 'by'
-
-
-            Assert.assertTrue("User info does not contain date in the format 'MM/dd/yyyy'.", actualUserInfoText.matches(".*\\d{1,2}/\\d{1,2}/\\d{4}.*"));
-            // check if the user info contains the date in the format 'MM/dd/yyyy' When .*\\d{1,2}/\\d{1,2}/\\d{4}.*" is a regular expression that matches any text that contains a date in the format 'MM/dd/yyyy'
+            boolean containsDate = actualUserInfoText.matches(".*\\d{1,2}/\\d{1,2}/\\d{4}.*");
+            Assert.assertTrue("User info does not contain date in the format 'MM/dd/yyyy'.", containsDate);
         }
     }
 
     public void checkNumberOfPostsInLatestPost(int expectedNumber) {
-        List<WebElement> postItems = latestPostsList.findElements(By.cssSelector("div.list-group a.list-group-item"));
+        postItems = latestPostsElement.findElements(By.cssSelector("div.list-group a.list-group-item"));
         Assert.assertEquals("The number of posts is not " + expectedNumber + ".", postItems.size(), expectedNumber);
     }
+
 
     public void checkNumberOfPostsInFollowPost(int expectedNumber) {
-        List<WebElement> postItems = latestPostsFromFollowingList.findElements(By.cssSelector("div.list-group a.list-group-item"));
+        postItems = latestPostsFromFollowingList.findElements(By.cssSelector("div.list-group a.list-group-item"));
         Assert.assertEquals("The number of posts is not " + expectedNumber + ".", postItems.size(), expectedNumber);
     }
 
-    public void assertPostWithTitlePresent(String title) { // check if the post with the specified title is present in the list
-        List<WebElement> postItems = latestPostsList.findElements(By.cssSelector("div.list-group a.list-group-item"));
 
-        boolean postFound = false;
-
-        for (WebElement postItem : postItems) { // loop through all post items
-            WebElement postTitleElement = postItem.findElement(By.tagName("strong"));
-            String actualPostTitle = postTitleElement.getText().trim();
-
-            if (actualPostTitle.equals(title)) {  // if the post title matches the expected title, stop the loop
-                postFound = true;
-                break;
-            }
-        }
-
-        Assert.assertTrue("Post with title '" + title + "' is not present in the list.", postFound);
+    public boolean checkPostWithTitlePresent(String title) {
+        String postTitleLocator = String.format(".//*[text()='%s']", title);
+        WebElement postTitleElement = latestPostsElement.findElement(By.xpath(postTitleLocator));
+        return isElementDisplayed(postTitleElement);
     }
 
-    public void clickOnPostWithTitle(String title) { // find the post with the specified title and click on it
-        List<WebElement> postItems = latestPostsList.findElements(By.cssSelector("div.list-group a.list-group-item"));
-
-        boolean postFound = false;
-
-        for (WebElement postItem : postItems) { // loop through all post items
-            WebElement postTitleElement = postItem.findElement(By.tagName("strong"));
-            String actualPostTitle = postTitleElement.getText().trim();
-
-            if (actualPostTitle.equals(title)) { // if the post title matches the expected title, click on the post and stop the loop
-                clickOnElement(postItem);
-                postFound = true;
-                break;
-            }
-        }
-
-        Assert.assertTrue("Post with title '" + title + "' is not present in the list.", postFound);
+    public void clickOnPostWithTitle(String title) {
+        String postTitleLocator = String.format(".//*[text()='%s']", title);
+        WebElement postTitleElement = latestPostsElement.findElement(By.xpath(postTitleLocator));
+        clickOnElement(postTitleElement);
     }
 
     public void verifyDateExistsInPost(String postTitle, String expectedDate) { // Verify that the post with the specified title contains the specified date in the user info
-        List<WebElement> postItems = latestPostsList.findElements(By.cssSelector("div.list-group a.list-group-item")); // Find all post items
+        postItems = latestPostsElement.findElements(By.cssSelector("div.list-group a.list-group-item")); // Find all post items
 
         boolean dateFound = false;
 
