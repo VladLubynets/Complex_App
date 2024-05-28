@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.WebDriver;
+import pages.newHomePage.HomePageNew;
 
 public class PageProvider {
     // this class is a factory for all pages in the project
@@ -20,6 +21,10 @@ public class PageProvider {
 
     public HomePage getHomePage() {
         return new HomePage(webDriver);
+    }
+
+    public HomePageNew getHomePageNew() {
+        return new HomePageNew(webDriver);
     }
 
     public CreatePostPage getCreatePostPage() {
