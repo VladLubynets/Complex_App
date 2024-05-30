@@ -39,26 +39,26 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getUserNameFromGreeting(); // Check username in greeting
         pageProvider.getHomePage().checkUserNameInHomePage(username1.getLogin()); // Check username in greeting
         pageProvider.getHomePage().checkTextInHomePageMenu(EXPECTED_TEXT_IN_HOME_PAGE); // Check text in home page menu
-        pageProvider.getHomePage().checkIstLatestPostsListGroupVisible(); // Check is latest posts list group visible
-        pageProvider.getHomePage().checkIsLatestPostsFromFollowingListGroupNotVisible(); // Check is latest posts from following list group not visible
-        pageProvider.getHomePage().checkPostStructure(); // Check post structure in latest posts list
-        pageProvider.getHomePage().checkNumberOfPostsInLatestPost(30); // Check number of posts in latest post
+        pageProvider.getHomePage().getLatestPostsElement().checkIstLatestPostsListGroupVisible(); // Check is latest posts list group visible
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsFollowingPostsListGroupNonVisible(); // Check is latest posts from following list group not visible
+        pageProvider.getHomePage().getLatestPostsElement().checkPostStructure(); // Check post structure in latest posts list
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
         pageProvider.getHomePage().getHeader().clickOnCreatePostButton(); // creating new post
         pageProvider.getCreatePostPage().enterTextIntoInputTitle("український пост")
                 .enterTextIntoInputBody("тіло українського поста")
                 .clickOnButtonSavePost();
         pageProvider.getPostPage().checkTextInSuccessMessage("New post successfully created.");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        pageProvider.getHomePage().checkNumberOfPostsInLatestPost(30); // Check number of posts in latest post
-        pageProvider.getHomePage().checkPostWithTitlePresent("український пост"); // Check post with title present
-        pageProvider.getHomePage().clickOnPostWithTitle("український пост");
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPostWithTitleIsPresent("український пост", 1); // Check post with title present
+        pageProvider.getHomePage().getLatestPostsElement().clickOnPostWithTitle("український пост");
         pageProvider.getPostPage().clickOnEditButton(); // Edit post
         pageProvider.getCreatePostPage().enterTextIntoInputTitle("український пост змінений");
         pageProvider.getPostPage().clickOnSaveUpdatesButton();
         pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        pageProvider.getHomePage().checkPostWithTitlePresent("український пост змінений");
-        pageProvider.getHomePage().verifyDateExistsInPost("український пост змінений", "5/25/2024"); // Verify actual date exists in post
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPostWithTitleIsPresent("український пост змінений", 1); // Check post with title present
+        pageProvider.getHomePage().getLatestPostsElement().verifyDateExistsInPost("український пост змінений", "5/30/2024"); // Verify actual date exists in post
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username3.getUrl());
         pageProvider.getFollowingPage().clickOnButtonFollow(); // Follow user 3
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
@@ -68,10 +68,10 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully followed " + username2.getLogin() + "."); // Check success message
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        pageProvider.getHomePage().checkIstLatestPostsFromFollowingListGroupVisible();
-        pageProvider.getHomePage().checkIstLatestPostsListGroupVisible();
-        pageProvider.getHomePage().checkNumberOfPostsInFollowPost(15); // Check number of posts in follow post
-        pageProvider.getHomePage().checkNumberOfPostsInLatestPost(30);// Check number of posts in latest post
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIstLatestPostsListGroupVisible();
+        pageProvider.getHomePage().getLatestPostsElement().checkIstLatestPostsListGroupVisible();
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkNumberOfPosts(15); // Check number of posts in follow post
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30);// Check number of posts in latest post
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username2.getUrl());
         pageProvider.getFollowingPage().clickOnButtonStopFollow();// Stop follow user 2 if we don`t stop follow user  we can`t delete user
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();

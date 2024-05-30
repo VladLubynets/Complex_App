@@ -28,7 +28,7 @@ public class ActiveSessionTests extends BaseTest {
         loginPage.waitForMinutes(15);
 
         homePage.getHeader().clickOnMyProfileButton();
-        homePage.checkIsButtonProfileFollowersVisible()
+        pageProvider.getFollowingPage().checkIsButtonProfileFollowersVisible()
 
                 .checkIsButtonProfilePostsVisible()
                 .checkIsButtonProfileFollowingVisible();
@@ -74,7 +74,7 @@ public class ActiveSessionTests extends BaseTest {
 
         loginPage.openLoginPage().loginWithValidCred();
 
-       loginPage.waitForMinutes(15);
+        loginPage.waitForMinutes(15);
 
         pageProvider.getHomePage().getHeader().clickOnCreatePostButton();
         pageProvider.getCreatePostPage().enterTextIntoInputTitle(title);
@@ -84,12 +84,11 @@ public class ActiveSessionTests extends BaseTest {
         loginPage.waitForMinutes(15);
 
 
-
         pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
-        pageProvider.getHomePage().checkPostWithTitleIsPresent(title);
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPostWithTitleIsPresent(title, 1);
 
         pageProvider.getHomePage()
-                .getHeader().clickOnMyProfileButton()
-                .deletePostTillPresent(title);
+                .getHeader().clickOnMyProfileButton();
+        pageProvider.getPostPage().deletePostTillPresent(title);
     }
 }

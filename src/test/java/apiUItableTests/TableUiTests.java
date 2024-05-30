@@ -11,8 +11,8 @@ public class TableUiTests extends BaseTest {
         pageProvider.getLoginPage().loginWithValidCred()
                 .openNewTabAndSwitchToIt(API_URL);
         pageProvider.getLoginPage().checkIsSignInButtonNotVisible();
-        pageProvider.getHomePage().extractTableInfo();
-        pageProvider.getHomePage().checkAPItextInTheTable();
+        pageProvider.getApiUiPage().extractTableInfo();
+        pageProvider.getApiUiPage().checkAPItextInTheTable();
         pageProvider.getLoginPage().waitForMinutes(30);
 
         pageProvider.getHomePage().getHeader().clickOnCreatePostButton();

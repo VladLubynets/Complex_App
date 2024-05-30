@@ -34,4 +34,7 @@ public class PageProvider {
         return new PostPage(webDriver);
     }
 
+    public ApiUiPage getApiUiPage() {
+        return new ApiUiPage(webDriver);
+    }
 }

@@ -13,12 +13,19 @@ public class followingPage extends ParentPage {
     @FindBy(xpath = "//div[@class=\"alert alert-success text-center\"]")
     private WebElement successMessage;
 
+    @FindBy(xpath = "//a[contains(@class, 'profile-nav-link') and contains(text(), 'Following')]")
+    private WebElement buttonProfileFollowing;
+
     @FindBy(xpath = "//button[@class=\"btn btn-danger btn-sm\"]")
     private WebElement buttonStopFollow;
     @FindBy(xpath = "//a[contains(@class, 'profile-nav-link') and contains(@class, 'nav-item') and contains(@class, 'nav-link') and contains(text(), 'Followers')]")
     private WebElement followersButton;
     @FindBy (xpath = "//a[contains(@class, 'profile-nav-link') and contains(@class, 'nav-item') and contains(@class, 'nav-link') and contains(text(), 'Following')]")
     private WebElement followingButton;
+    @FindBy(xpath = "//a[@class='profile-nav-link nav-item nav-link active' and contains(text(), 'Posts')]")
+    private WebElement buttonProfilePosts;
+    @FindBy(xpath = "//a[contains(@class, 'profile-nav-link') and contains(text(), 'Followers')]")
+    private WebElement buttonProfileFollowers;
 
 
     public followingPage(WebDriver webDriver) {
@@ -73,6 +80,18 @@ public class followingPage extends ParentPage {
     }
     public followingPage clickOnButtonFollowing() {
         clickOnElement(followingButton);
+        return this;
+    }
+    public followingPage checkIsButtonProfileFollowingVisible() {
+        checkElementDisplayed(buttonProfileFollowing);
+        return this;
+    }
+    public followingPage checkIsButtonProfilePostsVisible() {
+       checkElementDisplayed(buttonProfilePosts);
+        return this;
+    }
+    public followingPage checkIsButtonProfileFollowersVisible() {
+        checkElementDisplayed(buttonProfileFollowers);
         return this;
     }
 }
