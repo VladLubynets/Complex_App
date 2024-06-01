@@ -1,6 +1,7 @@
 package api;
 
 import TestData.TestData;
+import api.dto.requestDto.CreatePostDto;
 import api.dto.requestDto.CreateUserDto;
 import api.dto.responseDto.PostDto;
 import io.qameta.allure.restassured.AllureRestAssured;
@@ -12,6 +13,9 @@ import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.is;
 
 
 import static io.restassured.RestAssured.given;
@@ -170,6 +174,7 @@ public class ApiHelper {
                 .extract().response().getBody();
         return responseBody.asString();
     }
+
     public String extractUserId(String userInfoResponse) {
         JSONObject jsonResponse = new JSONObject(userInfoResponse);
         return jsonResponse.getString("_id");
@@ -316,5 +321,68 @@ public class ApiHelper {
             }
         }
         return count;
+    }
+
+    public void createUserByApiIfNeeded(String username, String password, String email, String token) { // create user by api if needed (if user doesn't exist)
+        CreateUserDto createUserDto = CreateUserDto.builder()
+                .username(username)
+                .email(email)
+                .password(password)
+                .token(token)
+                .build();
+
+        try {
+            given()
+                    .spec(requestSpecification)
+                    .body(createUserDto)
+                    .when()
+                    .put(EndPoints.CREATE_USER)
+                    .then()
+                    .assertThat().statusCode(anyOf(is(SC_CREATED), is(SC_NOT_FOUND)))
+                    .log().all()
+                    .extract().response().getBody().asString();
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
+
+            if (errorMessage.contains("You must provide a username.") || // check if user already exists
+                    errorMessage.contains("This email is already being used.")) {
+                return;
+            } else {
+
+                throw e;
+            }
+        }
+    }
+
+    public void createMultiplePostsByApi(int numberOfPosts, String token, String username) { // create multiple posts by api (if needed)
+        PostDto[] existingPosts = getPostsByUser(username);
+
+        if (existingPosts.length >= numberOfPosts) { // check if there are already enough posts
+            System.out.println("There are already enough posts. No new posts will be created.");
+            return;
+        }
+
+        for (int i = 0; i < numberOfPosts; i++) {
+            CreatePostDto createPostBody = CreatePostDto.builder()
+                    .title("Post " + (i + 1))
+                    .body("Body of Post " + (i + 1))
+                    .select("One Person")
+                    .uniquePost("yes")
+                    .token(token)
+                    .build();
+
+            String actualResponse = given()
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .body(createPostBody)
+                    .when()
+                    .post(EndPoints.CREATE_POST)
+                    .then()
+                    .statusCode(SC_OK) // status code 200
+                    .log().all()
+                    .extract().response().getBody().asString();
+
+            assertEquals("Message", "\"Congrats.\"", actualResponse); // check if message is correct
+        }
     }
 }

@@ -86,6 +86,7 @@ public class ActionWithElements {
             webDriverWait10.until(ExpectedConditions.visibilityOf(input));
             input.clear();
             input.sendKeys(text);
+            logger.info(text + " was inputted into input");
         } catch (Exception e) {
             printErrorAndStopTest(e);
 

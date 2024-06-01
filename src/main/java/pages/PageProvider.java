@@ -25,8 +25,16 @@ public class PageProvider {
     public CreatePostPage getCreatePostPage() {
         return new CreatePostPage(webDriver);
     }
+
     public followingPage getFollowingPage() {
         return new followingPage(webDriver);
     }
 
+    public PostPage getPostPage() {
+        return new PostPage(webDriver);
+    }
+
+    public ApiUiPage getApiUiPage() {
+        return new ApiUiPage(webDriver);
+    }
 }
