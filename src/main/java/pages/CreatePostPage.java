@@ -13,12 +13,11 @@ public class CreatePostPage extends ParentPageWithHeader {
     @FindBy(xpath = "//button[text()='Save New Post']")
     private WebElement buttonSave;
     @FindBy(xpath = "//input[@type='checkbox' and @name='uniquePost']")
+    private WebElement checkBoxForFollowers;
 
-    private ActionWithElements actionWithElements;
 
     public CreatePostPage(WebDriver webDriver) {
         super(webDriver);
-        actionWithElements = new ActionWithElements(webDriver);
 
 
     }
@@ -35,7 +34,23 @@ public class CreatePostPage extends ParentPageWithHeader {
 
 
     public PostPage clickOnButtonSavePost() {
-        actionWithElements.clickOnElement(buttonSave);
+        clickOnElement(buttonSave);
         return new PostPage(webDriver);
+    }
+
+    public void createPost(String title, String body) {
+        enterTextIntoInputTitle(title);
+        enterTextIntoInputBody(body);
+        clickOnButtonSavePost();
+    }
+
+    public void setCheckBox(WebElement checkBox, boolean state) {
+        if (checkBox.isSelected() != state) {
+            clickOnElement(checkBox);
+        }
+    }
+
+    public void setCheckBoxForFollowers(boolean state) {
+        setCheckBox(checkBoxForFollowers, state);
     }
 }

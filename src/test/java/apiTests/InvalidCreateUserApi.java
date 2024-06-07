@@ -56,7 +56,7 @@ public class InvalidCreateUserApi extends BaseApi {
                 {generateRandomString(3), generateRandomString(12), generateRandomEmail(), "\"Sorry, you must provide a valid token.\"", SC_FORBIDDEN, false},// status code 403
                 {"кирилицялогін", generateRandomString(13), generateRandomEmail(), "[\"Username can only contain letters and numbers.\"]", SC_NOT_FOUND, true}, // status code 404
                 {generateRandomString(10), generateRandomString(12), "vladqaauto@gmail.com", "[\"This email is already being used.\"]", SC_NOT_FOUND, true},// status code 404
-                {VALID_LOGIN_API_DEFAULT_10chars, generateRandomString(49), generateRandomEmail(), "[\"This username is already taken.\"]", SC_NOT_FOUND, true}, // status code 404
+                {VALID_LOGIN_API_DEFAULT_10chars, generateRandomString(43), generateRandomEmail(), "[\"This username is already taken.\"]", SC_NOT_FOUND, true}, // status code 404
                 {EMPTY_VALUE, EMPTY_VALUE, EMPTY_VALUE, "[\"You must provide a username.\",\"You must provide a valid email address.\",\"You must provide a password.\"]", SC_NOT_FOUND, true},// status code 404
                 {INVALID_VALUE_1CHAR, INVALID_VALUE_1CHAR, INVALID_VALUE_1CHAR, "[\"You must provide a valid email address.\",\"Password must be at least 12 characters.\",\"Username must be at least 3 characters.\"]", SC_NOT_FOUND, true}, // status code 404
                 {generateRandomString(31), generateRandomString(51), generateRandomEmail(), "[\"Password cannot exceed 50 characters.\",\"Username cannot exceed 30 characters.\"]", SC_NOT_FOUND, true}// status code 404

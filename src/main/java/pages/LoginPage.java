@@ -218,6 +218,11 @@ public class LoginPage extends ParentPage {
 
             openLoginPage();
             enterTextIntoInputUserNameRegistration(userName);
+            try {
+                Thread.sleep(6000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             enterTextIntoInputEmailRegistration(email);
             enterTextIntoInputPasswordRegistration(password);
             checkValidationAlertMessageNotPresent();
@@ -225,7 +230,6 @@ public class LoginPage extends ParentPage {
             clickOnButtonRegistration();
             checkIsSignInButtonNotVisible();
             pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
-
         }
     }
 

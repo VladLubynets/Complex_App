@@ -367,7 +367,7 @@ public class ApiHelper {
                     .title("Post " + (i + 1))
                     .body("Body of Post " + (i + 1))
                     .select("One Person")
-                    .uniquePost("yes")
+                    .uniquePost("no")
                     .token(token)
                     .build();
 
@@ -384,5 +384,28 @@ public class ApiHelper {
 
             assertEquals("Message", "\"Congrats.\"", actualResponse); // check if message is correct
         }
+    }
+
+    public void createOnePostForFollowers(String token, String title, String body) {
+        CreatePostDto createPostBody = CreatePostDto.builder()
+                .title(title)
+                .body(body)
+                .select("One Person")
+                .uniquePost("yes")
+                .token(token)
+                .build();
+
+        String actualResponse = given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .body(createPostBody)
+                .when()
+                .post(EndPoints.CREATE_POST)
+                .then()
+                .statusCode(SC_OK) // status code 200
+                .log().all()
+                .extract().response().getBody().asString();
+
+        assertEquals("Message", "\"Congrats.\"", actualResponse); // check if message is correct
     }
 }
