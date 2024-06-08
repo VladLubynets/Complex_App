@@ -132,54 +132,17 @@ public class ListOfPostElement extends ActionWithElements {
         Assert.assertTrue("Date '" + expectedDate + "' is not found in the post with title '" + postTitle + "'.", dateFound);
     }
 
-    public void verifyPostInFollowingListNotInLatestPosts(String postTitle) {
-        boolean isInFollowingList = isPostPresentInFollowingList(postTitle);
-        boolean isInLatestPosts = isPostPresentInLatestPosts(postTitle);
+    public void verifyPostInLists(String postTitle, boolean shouldBeInList) {
+        boolean isPostPresent = isPostPresent(postTitle);
 
-        Assert.assertTrue("Post titled '" + postTitle + "' should be present in 'The Latest From Those You Follow'.", isInFollowingList);
-        Assert.assertFalse("Post titled '" + postTitle + "' should not be present in 'The Latest Posts'.", isInLatestPosts);
-    }
-
-    public void checkPostExistInBothLists(String postTitle) {
-        boolean isInFollowingList = isPostPresentInFollowingList(postTitle);
-        boolean isInLatestPosts = isPostPresentInLatestPosts(postTitle);
-
-        Assert.assertTrue("Post titled '" + postTitle + "' should be present in 'The Latest From Those You Follow'.", isInFollowingList);
-        Assert.assertTrue("Post titled '" + postTitle + "' should be present in 'The Latest Posts'.", isInLatestPosts);
-    }
-
-
-    public void checkPostExistInFollowingList(String postTitle) {
-        boolean isInFollowingList = isPostPresentInFollowingList(postTitle);
-        Assert.assertTrue("Post titled '" + postTitle + "' should be present in 'The Latest From Those You Follow'.", isInFollowingList);
-    }
-
-    public void checkPostExistInLatestPosts(String postTitle) {
-        boolean isInLatestPosts = isPostPresentInLatestPosts(postTitle);
-        Assert.assertTrue("Post titled '" + postTitle + "' should be present in 'The Latest Posts'.", isInLatestPosts);
-    }
-
-    public void verifyPostNotPresentInFollowingList(String postTitle) {
-        boolean isInFollowingList = !isPostPresentInFollowingList(postTitle);
-        Assert.assertTrue("Post titled '" + postTitle + "' should not be present in 'The Latest From Those You Follow'.", isInFollowingList);
-    }
-
-    public void verifyPostNotPresentInLatestPostsElement(String postTitle) {
-        boolean isInLatestPosts = !isPostPresentInLatestPosts(postTitle);
-        Assert.assertTrue("Post titled '" + postTitle + "' should not be present in 'The Latest Posts'.", isInLatestPosts);
-    }
-
-    private boolean isPostPresentInFollowingList(String postTitle) {
-        for (WebElement postItem : getPostItems()) {
-            WebElement postTitleElement = postItem.findElement(inner_postTitleLocator);
-            if (postTitleElement.getText().trim().equals(postTitle)) {
-                return true;
-            }
+        if (shouldBeInList) {
+            Assert.assertTrue("Post titled '" + postTitle + "' should be present in '" + nameOfPostsList + "'.", isPostPresent);
+        } else {
+            Assert.assertFalse("Post titled '" + postTitle + "' should not be present in '" + nameOfPostsList + "'.", isPostPresent);
         }
-        return false;
     }
 
-    private boolean isPostPresentInLatestPosts(String postTitle) {
+    public boolean isPostPresent(String postTitle) {
         for (WebElement postItem : getPostItems()) {
             WebElement postTitleElement = postItem.findElement(inner_postTitleLocator);
             if (postTitleElement.getText().trim().equals(postTitle)) {

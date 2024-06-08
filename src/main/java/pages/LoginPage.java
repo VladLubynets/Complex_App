@@ -215,14 +215,8 @@ public class LoginPage extends ParentPage {
         } catch (TimeoutException e) {
         }
         if (!errorFound) { // if error not found - do registration
-
             openLoginPage();
             enterTextIntoInputUserNameRegistration(userName);
-            try {
-                Thread.sleep(6000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             enterTextIntoInputEmailRegistration(email);
             enterTextIntoInputPasswordRegistration(password);
             checkValidationAlertMessageNotPresent();

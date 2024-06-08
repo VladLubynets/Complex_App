@@ -27,13 +27,13 @@ public class E2eScenarioOfLists extends BaseTest {
         apiHelper.createUserByApiIfNeeded(username3.getLogin(), username3.getPassword(), username3.getEmail(), token);
 
         tokenUser3 = apiHelper.getToken(username3.getLogin(), username3.getPassword());
-        apiHelper.createMultiplePostsByApi(8, tokenUser3, username3.getLogin()); // create Number of posts for user 3
+        apiHelper.createMultiplePostsByApi(8, tokenUser3, username3.getLogin(), "One Person", "no"); // create Number of posts for user 3
 
 
         tokenUser2 = apiHelper.getToken(username2.getLogin(), username2.getPassword());
-        apiHelper.createMultiplePostsByApi(8, tokenUser2, username2.getLogin()); // create Number of posts for user 2
+        apiHelper.createMultiplePostsByApi(8, tokenUser2, username2.getLogin(), "One Person", "no"); // create Number of posts for user 2
 
-        apiHelper.createOnePostForFollowers(tokenUser2, "Оригінальний post for followers", "body of post for followers"); // create post for followers
+        apiHelper.createOnePostForFollowers("Оригінальний post for followers", "body of post for followers", "One Person", "yes", tokenUser2); // create post for followers
 
     }
 
@@ -111,8 +111,8 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIstLatestPostsListGroupVisible();
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsFollowingPostsListGroupVisible();
-        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostExistInFollowingList("Оригінальний post for followers");
-        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostExistInFollowingList("Оригінальний post for followers");
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().verifyPostInLists("Оригінальний post for followers", true);
+        pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Оригінальний post for followers", false);
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
         pageProvider.getLoginPage().loginWithValidCred(username2.getLogin(), username2.getPassword());
         pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
@@ -122,21 +122,22 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getPostPage().clickOnSaveUpdatesButton();
         pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        pageProvider.getHomePage().getLatestPostsElement().checkPostExistInLatestPosts("Оригінальний post for followers");
+        pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Оригінальний post for followers", true);
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
         pageProvider.getLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword());
-        pageProvider.getHomePage().getLatestPostsElement().checkPostExistInBothLists("Оригінальний post for followers");  // if you don't use the checkbox but are subscribed, the post will be in both lists
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().verifyPostInLists("Оригінальний post for followers", true);
+        pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Оригінальний post for followers", true);  // if you don't use the checkbox but are subscribed, the post will be in both lists
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
         pageProvider.getLoginPage().loginWithValidCred(username2.getLogin(), username2.getPassword());
         pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
         pageProvider.getMyProfilePage().myProfileListClickOnPostWithTitle("Оригінальний post for followers");
         pageProvider.getPostPage().clickOnDeleteButton();
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        pageProvider.getHomePage().getLatestPostsElement().verifyPostNotPresentInLatestPostsElement("Оригінальний post for followers");
+        pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Оригінальний post for followers", false);
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
         pageProvider.getLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword());
-        pageProvider.getHomePage().getLatestPostsElement().verifyPostNotPresentInLatestPostsElement("Оригінальний post for followers");
-        pageProvider.getHomePage().getLatestPostsFromFollowingList().verifyPostNotPresentInFollowingList("Оригінальний post for followers");
+        pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Оригінальний post for followers", false);
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().verifyPostInLists("Оригінальний post for followers", false);
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username3.getUrl());
         pageProvider.getFollowingPage().clickOnButtonFollow(); // Follow user 3
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
