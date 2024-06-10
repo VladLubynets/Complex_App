@@ -7,6 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -45,6 +48,10 @@ public class ListOfPostElement extends ActionWithElements {
         checkElementDisplayed(workingListOfPosts);
     }
 
+    public void checkIsFollowingPostsListGroupVisible() {
+        checkElementDisplayed(workingListOfPosts);
+    }
+
     public void checkIsFollowingPostsListGroupNonVisible() {
         if (workingListOfPosts != null) {
             checkElementNotDisplayed(workingListOfPosts);
@@ -59,17 +66,26 @@ public class ListOfPostElement extends ActionWithElements {
         List<WebElement> postItems = getPostItems();
         for (int i = 0; i < postItems.size(); i++) {
             WebElement postItem = postItems.get(i);
+            String postItemText = postItem.getText().trim();
+
             WebElement postTitleElement = postItem.findElement(inner_postTitleLocator);
             WebElement userInfoElement = postItem.findElement(inner_userInfoLocator);
 
             String actualPostTitle = postTitleElement.getText().trim();
             String actualUserInfoText = userInfoElement.getText().trim();
 
-            Assert.assertFalse("Post title is empty.", actualPostTitle.isEmpty());
+
+            Assert.assertFalse("Post title is empty.", actualPostTitle.isEmpty()); // check that post title is not empty
             Assert.assertTrue("User info does not contain 'by'.", actualUserInfoText.contains("by"));
 
-            boolean containsDate = actualUserInfoText.matches(".*\\d{1,2}/\\d{1,2}/\\d{4}.*");
+
+            boolean containsDate = actualUserInfoText.matches(".*\\d{1,2}/\\d{1,2}/\\d{4}.*"); // check that user info contains date in the format 'MM/dd/yyyy'
             Assert.assertTrue("User info does not contain date in the format 'MM/dd/yyyy'.", containsDate);
+
+
+            String expectedPostNumberPrefix = (i + 1) + "."; // check that post number starts with the correct number
+            Assert.assertTrue("Post number does not start with the correct number: " + expectedPostNumberPrefix,
+                    postItemText.startsWith(expectedPostNumberPrefix));
         }
     }
 
@@ -89,7 +105,16 @@ public class ListOfPostElement extends ActionWithElements {
         clickOnElement(getPostListWithName(title).get(0));
     }
 
-    public void verifyDateExistsInPost(String postTitle, String expectedDate) {
+
+    public void verifyActualDateExistsInPost(String postTitle) {
+        LocalDate currentDate = LocalDate.now();
+        System.out.println(currentDate);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        System.out.println(formatter.format(currentDate));
+        String expectedDate = currentDate.format(formatter);
+        System.out.println(expectedDate);
+        System.out.println(postTitle);
+
         boolean dateFound = false;
 
         for (WebElement postItem : getPostItems()) {
@@ -105,5 +130,25 @@ public class ListOfPostElement extends ActionWithElements {
             }
         }
         Assert.assertTrue("Date '" + expectedDate + "' is not found in the post with title '" + postTitle + "'.", dateFound);
+    }
+
+    public void verifyPostInLists(String postTitle, boolean shouldBeInList) {
+        boolean isPostPresent = isPostPresent(postTitle);
+
+        if (shouldBeInList) {
+            Assert.assertTrue("Post titled '" + postTitle + "' should be present in '" + nameOfPostsList + "'.", isPostPresent);
+        } else {
+            Assert.assertFalse("Post titled '" + postTitle + "' should not be present in '" + nameOfPostsList + "'.", isPostPresent);
+        }
+    }
+
+    public boolean isPostPresent(String postTitle) {
+        for (WebElement postItem : getPostItems()) {
+            WebElement postTitleElement = postItem.findElement(inner_postTitleLocator);
+            if (postTitleElement.getText().trim().equals(postTitle)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

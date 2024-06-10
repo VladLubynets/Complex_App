@@ -354,7 +354,7 @@ public class ApiHelper {
         }
     }
 
-    public void createMultiplePostsByApi(int numberOfPosts, String token, String username) { // create multiple posts by api (if needed)
+    public void createMultiplePostsByApi(int numberOfPosts, String token, String username, String select, String uniquePost) { // create multiple posts by api (if needed)
         PostDto[] existingPosts = getPostsByUser(username);
 
         if (existingPosts.length >= numberOfPosts) { // check if there are already enough posts
@@ -366,8 +366,8 @@ public class ApiHelper {
             CreatePostDto createPostBody = CreatePostDto.builder()
                     .title("Post " + (i + 1))
                     .body("Body of Post " + (i + 1))
-                    .select("One Person")
-                    .uniquePost("yes")
+                    .select(select)
+                    .uniquePost(uniquePost)
                     .token(token)
                     .build();
 
@@ -384,5 +384,28 @@ public class ApiHelper {
 
             assertEquals("Message", "\"Congrats.\"", actualResponse); // check if message is correct
         }
+    }
+
+    public void createOnePostForFollowers(String title, String body, String select, String uniquePost, String token) {
+        CreatePostDto createPostBody = CreatePostDto.builder()
+                .title(title)
+                .body(body)
+                .select(select)
+                .uniquePost(uniquePost)
+                .token(token)
+                .build();
+
+        String actualResponse = given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .body(createPostBody)
+                .when()
+                .post(EndPoints.CREATE_POST)
+                .then()
+                .statusCode(SC_OK) // status code 200
+                .log().all()
+                .extract().response().getBody().asString();
+
+        assertEquals("Message", "\"Congrats.\"", actualResponse); // check if message is correct
     }
 }

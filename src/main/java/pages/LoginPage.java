@@ -215,7 +215,6 @@ public class LoginPage extends ParentPage {
         } catch (TimeoutException e) {
         }
         if (!errorFound) { // if error not found - do registration
-
             openLoginPage();
             enterTextIntoInputUserNameRegistration(userName);
             enterTextIntoInputEmailRegistration(email);
@@ -225,7 +224,6 @@ public class LoginPage extends ParentPage {
             clickOnButtonRegistration();
             checkIsSignInButtonNotVisible();
             pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
-
         }
     }
 

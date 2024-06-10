@@ -37,4 +37,8 @@ public class PageProvider {
     public ApiUiPage getApiUiPage() {
         return new ApiUiPage(webDriver);
     }
+
+    public MyProfilePage getMyProfilePage() {
+        return new MyProfilePage(webDriver);
+    }
 }
