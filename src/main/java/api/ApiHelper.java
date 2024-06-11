@@ -354,7 +354,7 @@ public class ApiHelper {
         }
     }
 
-    public void createMultiplePostsByApi(int numberOfPosts, String token, String username, String select, String uniquePost) { // create multiple posts by api (if needed)
+    public void createMultiplePostsByApi(String nameTitle, int numberOfPosts, String token, String username, String select, String uniquePost) { // create multiple posts by api (if needed)
         PostDto[] existingPosts = getPostsByUser(username);
 
         if (existingPosts.length >= numberOfPosts) { // check if there are already enough posts
@@ -364,7 +364,7 @@ public class ApiHelper {
 
         for (int i = 0; i < numberOfPosts; i++) {
             CreatePostDto createPostBody = CreatePostDto.builder()
-                    .title("Post " + (i + 1))
+                    .title(nameTitle + " " + (i + 1))
                     .body("Body of Post " + (i + 1))
                     .select(select)
                     .uniquePost(uniquePost)
