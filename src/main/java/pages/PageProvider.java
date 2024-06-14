@@ -26,8 +26,8 @@ public class PageProvider {
         return new CreatePostPage(webDriver);
     }
 
-    public followingPage getFollowingPage() {
-        return new followingPage(webDriver);
+    public FollowingPage getFollowingPage() {
+        return new FollowingPage(webDriver);
     }
 
     public PostPage getPostPage() {

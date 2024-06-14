@@ -44,7 +44,7 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getUserNameFromGreeting(); // Check username in greeting
         pageProvider.getHomePage().checkUserNameInHomePage(username1.getLogin()); // Check username in greeting
         pageProvider.getHomePage().checkTextInHomePageMenu(EXPECTED_TEXT_IN_HOME_PAGE); // Check text in home page menu
-        pageProvider.getHomePage().getLatestPostsElement().checkIstLatestPostsListGroupVisible(); // Check is latest posts list group visible
+        pageProvider.getHomePage().getLatestPostsElement().checkIsTheLatestPostsListGroupVisible(); // Check is latest posts list group visible
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsFollowingPostsListGroupNonVisible(); // Check is latest posts from following list group not visible
         pageProvider.getHomePage().getLatestPostsElement().checkPostStructure(); // Check post structure in latest posts list
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
@@ -73,8 +73,8 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully followed " + username2.getLogin() + "."); // Check success message
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIstLatestPostsListGroupVisible();
-        pageProvider.getHomePage().getLatestPostsElement().checkIstLatestPostsListGroupVisible();
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsTheLatestPostsListGroupVisible();
+        pageProvider.getHomePage().getLatestPostsElement().checkIsTheLatestPostsListGroupVisible();
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkNumberOfPosts(15); // Check number of posts in follow post
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30);// Check number of posts in latest post
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username2.getUrl());
@@ -95,7 +95,7 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getUserNameFromGreeting(); // Check username in greeting
         pageProvider.getHomePage().checkUserNameInHomePage(username1.getLogin()); // Check username in greeting
         pageProvider.getHomePage().checkTextInHomePageMenu(EXPECTED_TEXT_IN_HOME_PAGE); // Check text in home page menu
-        pageProvider.getHomePage().getLatestPostsElement().checkIstLatestPostsListGroupVisible(); // Check is latest posts list group visible
+        pageProvider.getHomePage().getLatestPostsElement().checkIsTheLatestPostsListGroupVisible(); // Check is latest posts list group visible
         // Check is the  latest posts from following list group not visible
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsFollowingPostsListGroupNonVisible();
         pageProvider.getHomePage().getLatestPostsElement().checkPostStructure(); // Check post structure in latest posts list
@@ -109,29 +109,6 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getPostPage().clickOnDeleteButton(); // delete post when check actual date
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
 
-        pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username2.getLogin(), username2.getPassword());
-        int currentPosition = pageProvider.getHomePage().getLatestPostsElement().getPostPositionWithTitle("Post 5");  // get post and save current position
-        pageProvider.getHomePage().getLatestPostsElement().clickOnPostWithTitle("Post 5");
-        pageProvider.getPostPage().clickOnEditButton();
-        pageProvider.getCreatePostPage().setCheckBoxForFollowers(true); // set checkbox for followers
-        pageProvider.getPostPage().clickOnSaveUpdatesButton();
-        pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
-        pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Post 5", false); // check post not present in latest post
-        pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
-        pageProvider.getMyProfilePage().myProfileListClickOnPostWithTitle("Post 5");
-        pageProvider.getPostPage().clickOnEditButton();
-        pageProvider.getCreatePostPage().setCheckBoxForFollowers(false); // set checkbox for  all users
-        pageProvider.getPostPage().clickOnSaveUpdatesButton();
-        pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
-        pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        // Check post with title present in right position located in all users list
-        pageProvider.getHomePage().getLatestPostsElement().checkPostPositionWithTitle("Post 5", currentPosition);
-        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
-        pageProvider.getHomePage().getLatestPostsElement().checkPostDatesInDescendingOrder(); // Verify post dates in descending order
-        pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
-
-
         pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword());
         pageProvider.getLoginPage().openNewTabAndSwitchToIt(username2.getUrl());
         pageProvider.getFollowingPage().clickOnButtonFollow(); // Follow user 2 with posts
@@ -141,7 +118,7 @@ public class E2eScenarioOfLists extends BaseTest {
         // Verify top posts from user2 in descending order should be 8 on the top in following list
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkTopPostsFromUserInDescendingOrder(username2.getLogin(), 8);
         // Check is the latest posts from following list group visible
-        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIstLatestPostsListGroupVisible();
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsTheLatestPostsListGroupVisible();
         // check is following posts list group visible
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsFollowingPostsListGroupVisible();
         // check post present in following list
@@ -178,7 +155,6 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
 
         pageProvider.getLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword()); // Login with user who follow user 2
-
         // check post "Оригінальний post for followers" not present in latest post
         pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Оригінальний post for followers", false);
         // check post "Оригінальний post for followers"  not present in following list
@@ -192,15 +168,54 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkNumberOfPosts(15); // Check number of posts in follow post
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
 
+
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username2.getUrl());
-        // Stop follow user 2 if we don`t stop follow user  we can`t delete user and it`s need to run to next test
-        pageProvider.getFollowingPage().clickOnButtonStopFollow();
+        pageProvider.getFollowingPage().clickOnButtonStopFollow();// Stop follow user 4 if we don`t stop follow user  we can`t delete user
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully stopped following " + username2.getLogin() + ".");
 
+
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(username3.getUrl());
+        pageProvider.getFollowingPage().clickOnButtonStopFollow();// Stop follow user 3 if we don`t stop follow user  we can`t delete user
+        pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
+        pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully stopped following " + username3.getLogin() + ".");
+        pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
+    }
+
+    @Test
+    public void TC3_dateAndGeneralLogicOfLists() {
+        pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword()); // Login with user without posts
+        pageProvider.getHomePage().getUserNameFromGreeting(); // Check username in greeting
+        pageProvider.getHomePage().checkUserNameInHomePage(username1.getLogin()); // Check username in greeting
+        pageProvider.getHomePage().checkTextInHomePageMenu(EXPECTED_TEXT_IN_HOME_PAGE); // Check text in home page menu
+        pageProvider.getHomePage().getLatestPostsElement().checkIsTheLatestPostsListGroupVisible(); // Check is latest posts list group visible
+        // Check is the  latest posts from following list group not visible
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsFollowingPostsListGroupNonVisible();
+        pageProvider.getHomePage().getLatestPostsElement().checkPostStructure(); // Check post structure in latest posts list
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
+        pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
+        pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username2.getLogin(), username2.getPassword());
+        int currentPosition = pageProvider.getHomePage().getLatestPostsElement().getPostPositionWithTitle("Post 5");  // get post and save current position
+        pageProvider.getHomePage().getLatestPostsElement().clickOnPostWithTitle("Post 5");
+        pageProvider.getPostPage().clickOnEditButton();
+        pageProvider.getCreatePostPage().setCheckBoxForFollowers(true); // set checkbox for followers
+        pageProvider.getPostPage().clickOnSaveUpdatesButton();
+        pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-
-
+        pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Post 5", false); // check post not present in latest post
+        pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
+        pageProvider.getMyProfilePage().myProfileListClickOnPostWithTitle("Post 5");
+        pageProvider.getPostPage().clickOnEditButton();
+        pageProvider.getCreatePostPage().setCheckBoxForFollowers(false); // set checkbox for  all users
+        pageProvider.getPostPage().clickOnSaveUpdatesButton();
+        pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
+        pageProvider.getHomePage().getHeader().clickOnLogoButton();
+        // Check post with title present in right position located in all users list
+        pageProvider.getHomePage().getLatestPostsElement().checkPostPositionWithTitle("Post 5", currentPosition);
+        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
+        pageProvider.getHomePage().getLatestPostsElement().checkPostDatesInDescendingOrder(); // Verify post dates in descending order
+        pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
+        pageProvider.getLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword());
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username4.getUrl());
         pageProvider.getFollowingPage().clickOnButtonFollow(); // Follow user 4 with old posts
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
@@ -234,18 +249,12 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostPositionWithTitle("Test4", expectedCountForFollowingPosts);
         pageProvider.getHomePage().getLatestPostsElement().checkPostDatesInDescendingOrder(); // Verify post dates in descending order
 
-
-        pageProvider.getHomePage().openNewTabAndSwitchToIt(username4.getUrl());
-        pageProvider.getFollowingPage().clickOnButtonStopFollow();// Stop follow user 4 if we don`t stop follow user  we can`t delete user
+        pageProvider.getHomePage().openNewTabAndSwitchToIt(username4.getUrl()); // Stop follow user 4 if we don`t stop follow user  we can`t delete user
+        pageProvider.getFollowingPage().clickOnButtonStopFollow();
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully stopped following " + username4.getLogin() + ".");
 
 
-        pageProvider.getHomePage().openNewTabAndSwitchToIt(username3.getUrl());
-        pageProvider.getFollowingPage().clickOnButtonStopFollow();// Stop follow user 3 if we don`t stop follow user  we can`t delete user
-        pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
-        pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully stopped following " + username3.getLogin() + ".");
-        pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
     }
 
     @After
