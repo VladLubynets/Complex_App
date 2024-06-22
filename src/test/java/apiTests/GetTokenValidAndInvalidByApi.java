@@ -24,7 +24,7 @@ public class GetTokenValidAndInvalidByApi extends BaseApi {
     String password = TestData.VALID_PASSWORD_API_DEFAULT_12chars;
 
     @Test
-    public void TC12_ValidGetToken() {
+    public void TC209_ValidGetToken() {
         String firstToken = apiHelper.getToken(login, password);
         String secondToken = apiHelper.getToken(login, password);
 
@@ -36,7 +36,7 @@ public class GetTokenValidAndInvalidByApi extends BaseApi {
 
     @Test
     @Parameters(method = "invalidParameters")
-    public void TC13_InvalidGetToken(String user, String pass, int expectedStatusCode, String expectedMessage) {
+    public void TC210_InvalidGetToken(String user, String pass, int expectedStatusCode, String expectedMessage) {
         JSONObject requestBody = new JSONObject();
         requestBody.put("password", pass);
         requestBody.put("username", user);

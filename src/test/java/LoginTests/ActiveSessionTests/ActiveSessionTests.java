@@ -18,7 +18,7 @@ public class ActiveSessionTests extends BaseTest {
     private PostPage postPage;
 
     @Test
-    public void TC9_NonExtencionOfActiveSessionForMyProfilePage() {
+    public void TC601_NonExtencionOfActiveSessionForMyProfilePage() {
         LoginPage loginPage = pageProvider.getLoginPage();
         HomePage homePage = pageProvider.getHomePage();
 
@@ -41,7 +41,7 @@ public class ActiveSessionTests extends BaseTest {
     }
 
     @Test
-    public void TC10_ActiveSessionAfterLogin() {
+    public void TC602_ActiveSessionAfterLogin() {
         LoginPage loginPage = pageProvider.getLoginPage();
         HomePage homePage = pageProvider.getHomePage();
 
@@ -56,7 +56,7 @@ public class ActiveSessionTests extends BaseTest {
     }
 
     @Test
-    public void TC11_ActiveSessionInNewTab() {
+    public void TC603_ActiveSessionInNewTab() {
         LoginPage loginPage = pageProvider.getLoginPage();
 
         loginPage.openLoginPage().loginWithValidCred()
@@ -66,7 +66,7 @@ public class ActiveSessionTests extends BaseTest {
     }
 
     @Test
-    public void TC12_ExtencionActiveSessionCreatePost() {
+    public void TC604_ExtencionActiveSessionCreatePost() {
         LoginPage loginPage = pageProvider.getLoginPage();
         postPage = new PostPage(webDriver);
         title = "Test_Title";
@@ -85,7 +85,7 @@ public class ActiveSessionTests extends BaseTest {
 
 
         pageProvider.getHomePage().getHeader().clickOnMyProfileButton();
-        pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPostWithTitleIsPresent(title, 1);
+        pageProvider.getMyProfilePage().checkNumberOfPostWithTitleIsPresent(title, 1);
 
         pageProvider.getHomePage()
                 .getHeader().clickOnMyProfileButton();

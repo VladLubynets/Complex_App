@@ -16,7 +16,7 @@ import static TestData.TestData.*;
 
 public class VisualElementsTests extends BaseTest {
     @Test
-    public void TC5_VisualElementsHeader() {
+    public void ТС701_VisualElementsHeader() {
 
         pageProvider.getLoginPage().openLoginPage()
                 .checkColorPlaceholderUsername(GRAY)
@@ -28,7 +28,7 @@ public class VisualElementsTests extends BaseTest {
     }
 
     @Test
-    public void TC6_displayedPasswordElements() {
+    public void ТС702_displayedPasswordElements() {
         pageProvider.getLoginPage().openLoginPage()
                 .checkIsPasswordInputDisplayed()
                 .checkPasswordPlaceholderText("Password")

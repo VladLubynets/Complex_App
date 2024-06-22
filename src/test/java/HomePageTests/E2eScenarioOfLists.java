@@ -15,7 +15,7 @@ public class E2eScenarioOfLists extends BaseTest {
     private String tokenUser3;
     private String tokenUser2;
 
-    User username1 = new User(generateRandomString(3), VALID_PASSWORD, generateRandomEmail());
+    User username1 = new User(generateRandomString(15), VALID_PASSWORD, generateRandomEmail());
     User username2 = new User(generateRandomString(3), VALID_PASSWORD, generateRandomEmail());
     User username3 = new User(generateRandomString(3), VALID_PASSWORD, generateRandomEmail());
     User username4 = new User(VALID_LOGIN_WITH_OLD_POSTS, VALID_PASSWORD, generateRandomEmail());
@@ -39,7 +39,7 @@ public class E2eScenarioOfLists extends BaseTest {
     }
 
     @Test
-    public void TC1_e2eScenarioOfLists() {
+    public void TC002_e2eScenarioOfLists() {
         pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword()); // Login with user without posts
         pageProvider.getHomePage().getUserNameFromGreeting(); // Check username in greeting
         pageProvider.getHomePage().checkUserNameInHomePage(username1.getLogin()); // Check username in greeting
@@ -76,6 +76,7 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkIsTheLatestPostsListGroupVisible();
         pageProvider.getHomePage().getLatestPostsElement().checkIsTheLatestPostsListGroupVisible();
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkNumberOfPosts(15); // Check number of posts in follow post
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostStructure();
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30);// Check number of posts in latest post
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username2.getUrl());
         pageProvider.getFollowingPage().clickOnButtonStopFollow();// Stop follow user 2 if we don`t stop follow user  we can`t delete user
@@ -90,7 +91,7 @@ public class E2eScenarioOfLists extends BaseTest {
 
 
     @Test
-    public void TC2_e2eScenarioOfLogicList() {
+    public void TC003_e2eScenarioOfLogicList() {
         pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword()); // Login with user without posts
         pageProvider.getHomePage().getUserNameFromGreeting(); // Check username in greeting
         pageProvider.getHomePage().checkUserNameInHomePage(username1.getLogin()); // Check username in greeting
@@ -166,6 +167,7 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully followed " + username3.getLogin() + "."); // Check success message
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkNumberOfPosts(15); // Check number of posts in follow post
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostStructure();
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
 
 
@@ -183,7 +185,7 @@ public class E2eScenarioOfLists extends BaseTest {
     }
 
     @Test
-    public void TC3_dateAndGeneralLogicOfLists() {
+    public void TC004_dateAndGeneralLogicOfLists() {
         pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword()); // Login with user without posts
         pageProvider.getHomePage().getUserNameFromGreeting(); // Check username in greeting
         pageProvider.getHomePage().checkUserNameInHomePage(username1.getLogin()); // Check username in greeting
@@ -247,6 +249,7 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getLatestPostsFromFollowingList().verifyPostInLists("Test4", true); // check post present in following list
         // check the position of the post  equal to the expected position
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostPositionWithTitle("Test4", expectedCountForFollowingPosts);
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostStructure();
         pageProvider.getHomePage().getLatestPostsElement().checkPostDatesInDescendingOrder(); // Verify post dates in descending order
 
         pageProvider.getHomePage().openNewTabAndSwitchToIt(username4.getUrl()); // Stop follow user 4 if we don`t stop follow user  we can`t delete user

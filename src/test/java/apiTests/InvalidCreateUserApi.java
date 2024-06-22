@@ -22,7 +22,7 @@ public class InvalidCreateUserApi extends BaseApi {
 
     @Test
     @Parameters(method = "inValidParameters")
-    public void TC2_invalidTestCreateUser(String username, String password, String email, String expectedErrorMessage, int expectedStatusCode, boolean includeToken) {
+    public void TC207_invalidTestCreateUser(String username, String password, String email, String expectedErrorMessage, int expectedStatusCode, boolean includeToken) {
         String token = apiHelper.getToken();
         String tokenToUse;
         if (includeToken) {  // switch between including token and not including token

@@ -23,7 +23,7 @@ public class InvalidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForInvalidLoginTest")
-    public void TC3_invalidLogin(String userName, String password) {
+    public void TC103_invalidLogin(String userName, String password) {
         pageProvider.getLoginPage()
                 .openLoginPage()
                 .checkIsAlertMessageNotVisible()
@@ -44,7 +44,7 @@ public class InvalidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForInvalidLoginTestByKeyboardButtons")
-    public void TC4_invalidLogin_withKeyboard(String userName, String password) {
+    public void TC104_invalidLogin_withKeyboard(String userName, String password) {
         pageProvider.getLoginPage()
                 .openLoginPage()
                 .checkIsAlertMessageNotVisible()

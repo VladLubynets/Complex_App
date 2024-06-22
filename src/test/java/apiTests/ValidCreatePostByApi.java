@@ -30,7 +30,7 @@ public class ValidCreatePostByApi extends BaseApi {
     }
 
     @Test
-    public void TC4_createPostByApi() {
+    public void TC202_createPostByApi() {
 
         CreatePostDto createPostBody = CreatePostDto.builder() // create post with valid data
                 .title("Post from API")

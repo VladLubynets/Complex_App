@@ -21,7 +21,7 @@ public class InvalidDeletePostByApi extends BaseApi {
 
     @Test
     @Parameters(method = "invalidParameters")
-    public void TC9_testInvalidDeletePost(int expectedStatusCode, String expectedErrorMessage, String token, String postId) {
+    public void TC206_testInvalidDeletePost(int expectedStatusCode, String expectedErrorMessage, String token, String postId) {
         JSONObject requestBody = new JSONObject();
         requestBody.put("token", token);
 

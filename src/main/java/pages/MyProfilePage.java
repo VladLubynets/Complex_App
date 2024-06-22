@@ -35,4 +35,16 @@ public class MyProfilePage extends ParentPageWithHeader{
         }
         return null;
     }
+    public void checkNumberOfPostWithTitleIsPresent(String title, int expectedCount) {
+        int actualCount = 0;
+        for (WebElement post : profilePosts) {
+            String postTitle = post.findElement(By.tagName("strong")).getText().trim();
+            if (postTitle.equals(title)) {
+                actualCount++;
+            }
+        }
+        if (actualCount != expectedCount) {
+            throw new AssertionError("The number of posts with title '" + title + "' is not as expected. Expected: " + expectedCount + ", Actual: " + actualCount);
+        }
+    }
 }

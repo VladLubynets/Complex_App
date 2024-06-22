@@ -29,7 +29,7 @@ public class InvalidCreatePostByApi extends BaseApi {
 
     @Test
     @Parameters(method = "inValidParameters")
-    public void TC5_testNegativeApiCreatePost(String title, String body, String select, String uniquePost,
+    public void TC208_testNegativeApiCreatePost(String title, String body, String select, String uniquePost,
                                               String expectedErrorMessage, int expectedStatusCode, boolean includeToken) {
         String tokenToUse;
         if (includeToken) {  // switch between including token and not including token

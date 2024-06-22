@@ -24,7 +24,7 @@ public class ValidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForLoginTest")
-    public void TC1_validLogin(String userName, String Password) {
+    public void TC101_validLogin(String userName, String Password) {
         pageProvider.getLoginPage().openLoginPage().enterTextIntoInputUserNameRegistration(userName)
                 .registrationUserIfNeeded(userName, Password, TestData.generateRandomEmail()); // if user is not registered
         pageProvider.getLoginPage()
@@ -45,7 +45,7 @@ public class ValidLoginTests extends BaseTest {
 
     @Test
     @Parameters(method = "parametersForLoginTestByKeyboardButtons")
-    public void TC2_validLogin_withKeyboard(String userName, String password) {
+    public void TC102_validLogin_withKeyboard(String userName, String password) {
         pageProvider.getLoginPage()
                 .openLoginPage()
                 .enterLoginWithKey(userName, Keys.TAB)

@@ -16,7 +16,7 @@ import pages.LoginPage;
 public class SaveDataTests extends BaseTest {
 
     @Test
-    public void TC7_SaveDataWorkWithWindow() {
+    public void TC605_SaveDataWorkWithWindow() {
         LoginPage loginPage = pageProvider.getLoginPage();
         loginPage.fillingFormWithValidCredentials();
         loginPage.resizeBrowserWindow(500, 500); // 500, 500 - size of window
@@ -29,7 +29,7 @@ public class SaveDataTests extends BaseTest {
     }
 
     @Test
-    public void TC8_SaveDataRefreshPage() {
+    public void TC606_SaveDataRefreshPage() {
         LoginPage loginPage = pageProvider.getLoginPage();
         loginPage.openLoginPage()
                 .fillingFormWithValidCredentials();
