@@ -22,7 +22,7 @@ public class InvalidDeleteUserByApi extends BaseApi {
 
     @Test
     @Parameters(method = "invalidParameters")
-    public void TC10_testDeleteUser(String userId, String token, int expectedStatusCode, String expectedMessage) {
+    public void TC205_testDeleteUser(String userId, String token, int expectedStatusCode, String expectedMessage) {
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("token", token);

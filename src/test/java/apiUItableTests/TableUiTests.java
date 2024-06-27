@@ -7,7 +7,7 @@ import static TestData.TestData.API_URL;
 
 public class TableUiTests extends BaseTest {
     @Test
-    public void TC7_displayAndComparisonAndActiveSession() {
+    public void TC703_displayAndComparisonAndActiveSession() {
         pageProvider.getLoginPage().loginWithValidCred()
                 .openNewTabAndSwitchToIt(API_URL);
         pageProvider.getLoginPage().checkIsSignInButtonNotVisible();
@@ -23,7 +23,7 @@ public class TableUiTests extends BaseTest {
     }
 
     @Test
-    public void TC8_ApiUIActiveSession() {
+    public void TC608_ApiUIActiveSession() {
         pageProvider.getLoginPage().openLoginPage().checkIsUsernameInputEmpty()
                 .checkIsPasswordInputEmpty().openNewTabAndSwitchToIt(API_URL);
         pageProvider.getLoginPage().checkIsAlertMessageVisible();

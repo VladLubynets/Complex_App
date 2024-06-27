@@ -17,7 +17,7 @@ public class FollowingMixTestAPIAndUI extends BaseTest {
 
 
     @Test
-    public void TC14_followingTestApiAndUi() {
+    public void TC501_followingTestApiAndUi() {
         pageProvider.getLoginPage().registrationOfUser(loginFirst.getLogin(), loginFirst.getPassword(), loginFirst.getEmail());
         pageProvider.getLoginPage().registrationOfUser(loginSecond.getLogin(), loginSecond.getPassword(), loginSecond.getEmail());
 
@@ -68,7 +68,7 @@ public class FollowingMixTestAPIAndUI extends BaseTest {
     }
 
     @Test
-    public void TC15_InvalidFollowingTestByUI() {
+    public void TC502_InvalidFollowingTestByUI() {
         pageProvider.getLoginPage().registrationOfUser(followUser.getLogin(), followUser.getPassword(), followUser.getEmail());
         pageProvider.getLoginPage().registrationOfUser(followingUser.getLogin(), followingUser.getPassword(), followingUser.getEmail());
         pageProvider.getLoginPage().loginWithValidCred(followUser.getLogin(), followUser.getPassword());

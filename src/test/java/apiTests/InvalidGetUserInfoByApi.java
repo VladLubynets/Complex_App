@@ -21,7 +21,7 @@ public class InvalidGetUserInfoByApi extends BaseApi {
 
     @Test
     @Parameters(method = "invalidParameters")
-    public void TC11_testInvalidGetUserInfo(String username, String token, String expectedErrorMessage, int expectedStatusCode) {
+    public void TC204_testInvalidGetUserInfo(String username, String token, String expectedErrorMessage, int expectedStatusCode) {
         JSONObject requestBody = new JSONObject();
         requestBody.put("token", token);
 

@@ -24,7 +24,7 @@ public class ValidCreateUserApi extends BaseApi {
 
 
     @Test
-    public void TC1_testCreateAndDeleteUser() {
+    public void TC201_testCreateAndDeleteUser() {
 
         apiHelper.createUser(username, password, email, token); // create user
         String userInfoResponse = apiHelper.getUserInfo(username, token);  // get user info

@@ -30,7 +30,7 @@ public class EndToEndScenarioByAPI extends BaseApi {
 
     @Test
 
-    public void TC6_endToEndScenario() {
+    public void TC001_endToEndScenario() {
         apiHelper.createUser(username, password, email, token); // create user
 
         apiHelper.checkErrorToGetInfoByInvalidUser(token, INVALID_VALUE_1CHAR); // check if message is correct if try to get info by invalid user
