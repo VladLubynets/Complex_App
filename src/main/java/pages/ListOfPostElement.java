@@ -146,7 +146,6 @@ public class ListOfPostElement extends ActionWithElements {
             Assert.assertFalse("Post titled '" + postTitle + "' should not be present in '" + nameOfPostsList + "'.", isPostPresent);
         }
     }
-
     /**
      * Checks if a post with the specified title is present.
      */
@@ -237,5 +236,37 @@ public class ListOfPostElement extends ActionWithElements {
 
         boolean areDatesInDescendingOrder = verifyDatesInDescendingOrder(postItems);
         Assert.assertTrue("Dates are not in descending order.", areDatesInDescendingOrder);
+    }
+
+/**
+     * Verifies if the post with the specified title is updated.
+     */
+
+    public void checkPostIsUpdated(String postTitle, boolean shouldBeUpdated) {
+        List<WebElement> postItems = getPostItems();
+        boolean postFound = false;
+
+        for (WebElement postItem : postItems) {
+            WebElement postTitleElement = postItem.findElement(inner_postTitleLocator);
+            String actualPostTitle = postTitleElement.getText().trim();
+
+            if (actualPostTitle.equals(postTitle)) {
+                postFound = true;
+
+                WebElement userInfoElement = postItem.findElement(inner_userInfoLocator);
+                String actualUserInfoText = userInfoElement.getText().trim();
+
+                if (shouldBeUpdated) {
+                    Assert.assertTrue("User info should contain 'updated'.",
+                            actualUserInfoText.contains("updated"));
+                    verifyActualDateExistsInPost(postTitle);
+                } else {
+                    Assert.assertFalse("User info should not contain 'updated'.",
+                            actualUserInfoText.contains("updated"));
+                }
+                break;
+            }
+        }
+        Assert.assertTrue("Post with title '" + postTitle + "' not found.", postFound);
     }
 }
