@@ -16,6 +16,7 @@ public class PostDto {
     String body;
     @JsonProperty("select1")
     String select;
+    String updated;
     String uniquePost;
     String createdDate;
     AuthorDto author;

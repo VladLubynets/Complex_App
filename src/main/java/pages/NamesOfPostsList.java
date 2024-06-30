@@ -3,7 +3,7 @@ package pages;
 public enum NamesOfPostsList {
 
     THE_LATEST_POSTS("The latest posts"),
-    THE_LATEST_POSTS_FROM_THOSE_YOU_FOLLOW("The Latest From Those You Follow");
+    THE_LATEST_POSTS_FROM_THOSE_YOU_FOLLOW("Latest posts from those you follow");
 
     private final String name;
 
