@@ -222,7 +222,6 @@ public class E2eScenarioOfLists extends BaseTest {
 
         pageProvider.getHomePage().getLatestPostsElement().checkPostPositionWithTitle("Post 5", 1);
         pageProvider.getHomePage().getLatestPostsElement().checkPostIsUpdated("Post 5", true); // check post is updated
-        pageProvider.getHomePage().getLatestPostsElement().verifyActualDateExistsInPost("Post 5"); // Verify actual date exists in post
 
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
         pageProvider.getHomePage().getLatestPostsElement().checkPostDatesInDescendingOrder(); // Verify post dates in descending order

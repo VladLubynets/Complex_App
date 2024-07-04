@@ -242,7 +242,7 @@ public class ListOfPostElement extends ActionWithElements {
      * Verifies if the post with the specified title is updated.
      */
 
-    public void checkPostIsUpdated(String postTitle, boolean shouldBeUpdated) {
+    public void checkPostIsUpdated(String postTitle, boolean expectedState) {
         List<WebElement> postItems = getPostItems();
         boolean postFound = false;
 
@@ -255,14 +255,12 @@ public class ListOfPostElement extends ActionWithElements {
 
                 WebElement userInfoElement = postItem.findElement(inner_userInfoLocator);
                 String actualUserInfoText = userInfoElement.getText().trim();
+                boolean isUpdated = actualUserInfoText.contains("updated");
 
-                if (shouldBeUpdated) {
-                    Assert.assertTrue("User info should contain 'updated'.",
-                            actualUserInfoText.contains("updated"));
+                Assert.assertEquals("Unexpected update status for user info.", expectedState, isUpdated);
+
+                if (expectedState) {
                     verifyActualDateExistsInPost(postTitle);
-                } else {
-                    Assert.assertFalse("User info should not contain 'updated'.",
-                            actualUserInfoText.contains("updated"));
                 }
                 break;
             }

@@ -69,7 +69,7 @@ public class ActiveSessionTests extends BaseTest {
     public void TC604_ExtencionActiveSessionCreatePost() {
         LoginPage loginPage = pageProvider.getLoginPage();
         postPage = new PostPage(webDriver);
-        title = "Test_Title";
+        title = "Session_Title";
         body = "Test_Body";
 
         loginPage.openLoginPage().loginWithValidCred();
