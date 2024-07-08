@@ -14,6 +14,8 @@ public class CreatePostPage extends ParentPageWithHeader {
     private WebElement buttonSave;
     @FindBy(xpath = "//input[@type='checkbox' and @name='uniquePost']")
     private WebElement checkBoxForFollowers;
+    @FindBy(xpath = "//div[@class='alert alert-danger text-center']")
+    private WebElement errorMessage;
 
 
     public CreatePostPage(WebDriver webDriver) {
@@ -52,5 +54,8 @@ public class CreatePostPage extends ParentPageWithHeader {
 
     public void setCheckBoxForFollowers(boolean state) {
         setCheckBox(checkBoxForFollowers, state);
+    }
+    public void checkTextInErrorMessage(String text) {
+        checkTextInElement(errorMessage, text);
     }
 }

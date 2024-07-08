@@ -93,13 +93,23 @@ public class ApiHelper {
     }
 
     public PostDto[] getPostsByUser(String username) {
-        return given().spec(requestSpecification)
+        Response response = given().spec(requestSpecification)
                 .when()
                 .get(EndPoints.POST_BY_USER, username)
                 .then()
                 .statusCode(SC_OK) // status code 200
                 .log().all()
-                .extract().response().getBody().as(PostDto[].class);
+                .extract().response();
+
+        PostDto[] posts = response.getBody().as(PostDto[].class);
+
+        for (PostDto post : posts) {
+            if (post.getUpdated() == null) {
+                post.setUpdated("Not updated");
+            }
+        }
+
+        return posts;
     }
 
     public void deletePostsTillPresent() {

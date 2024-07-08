@@ -102,6 +102,10 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getLatestPostsElement().checkPostStructure(); // Check post structure in latest posts list
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
         pageProvider.getHomePage().getHeader().clickOnCreatePostButton(); // creating new post
+        pageProvider.getCreatePostPage().createPost("пост з більше ніж 40 символів український", "тіло українського поста");
+        pageProvider.getCreatePostPage().clickOnButtonSavePost();
+        pageProvider.getCreatePostPage().checkTextInErrorMessage("Title cannot exceed 40 characters."); // Check error message
+
         pageProvider.getCreatePostPage().createPost("український пост", "тіло українського поста");
         pageProvider.getPostPage().checkTextInSuccessMessage("New post successfully created.");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
@@ -143,6 +147,9 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword());
         // check post present in following list
         pageProvider.getHomePage().getLatestPostsFromFollowingList().verifyPostInLists("Оригінальний post for followers", true);
+        pageProvider.getHomePage().getLatestPostsElement().checkPostIsUpdated("Оригінальний post for followers", true); // check post is updated
+        pageProvider.getHomePage().getLatestPostsElement().verifyActualDateExistsInPost("Оригінальний post for followers"); // Verify actual date exists in post
+
         // if you don't use the checkbox but are subscribed, the post will be in both lists
         pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Оригінальний post for followers", true);
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
@@ -197,7 +204,6 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
         pageProvider.getLoginPage().openLoginPage().loginWithValidCred(username2.getLogin(), username2.getPassword());
-        int currentPosition = pageProvider.getHomePage().getLatestPostsElement().getPostPositionWithTitle("Post 5");  // get post and save current position
         pageProvider.getHomePage().getLatestPostsElement().clickOnPostWithTitle("Post 5");
         pageProvider.getPostPage().clickOnEditButton();
         pageProvider.getCreatePostPage().setCheckBoxForFollowers(true); // set checkbox for followers
@@ -212,8 +218,11 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getPostPage().clickOnSaveUpdatesButton();
         pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        // Check post with title present in right position located in all users list
-        pageProvider.getHomePage().getLatestPostsElement().checkPostPositionWithTitle("Post 5", currentPosition);
+
+
+        pageProvider.getHomePage().getLatestPostsElement().checkPostPositionWithTitle("Post 5", 1);
+        pageProvider.getHomePage().getLatestPostsElement().checkPostIsUpdated("Post 5", true); // check post is updated
+
         pageProvider.getHomePage().getLatestPostsElement().checkNumberOfPosts(30); // Check number of posts in latest post
         pageProvider.getHomePage().getLatestPostsElement().checkPostDatesInDescendingOrder(); // Verify post dates in descending order
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
@@ -223,8 +232,6 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getFollowingPage().checkIsSuccessMessageVisible();
         pageProvider.getFollowingPage().checkTextInSuccessMessage("Successfully followed " + username4.getLogin() + ".");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
-        // get post position and save it
-        int expectedCountForFollowingPosts = pageProvider.getHomePage().getLatestPostsFromFollowingList().getPostPositionWithTitle("Test4");
         pageProvider.getHomePage().getHeader().clickOnButtonSignOut();
 
         pageProvider.getLoginPage().loginWithValidCred(username4.getLogin(), username4.getPassword()); // Login with user 4 with old posts
@@ -236,6 +243,8 @@ public class E2eScenarioOfLists extends BaseTest {
         pageProvider.getPostPage().checkTextInSuccessMessage("Post successfully updated.");
         pageProvider.getHomePage().getHeader().clickOnLogoButton();
         pageProvider.getHomePage().getLatestPostsElement().verifyPostInLists("Test4", true); // check post present in latest post
+        pageProvider.getHomePage().getLatestPostsElement().checkPostIsUpdated("Test4",true); // check post is updated
+        pageProvider.getHomePage().getLatestPostsElement().verifyActualDateExistsInPost("Test4"); // Verify actual date exists in post
         pageProvider.getHomePage().getLatestPostsElement().clickOnPostWithTitle("Test4");
         pageProvider.getPostPage().clickOnEditButton();
         pageProvider.getCreatePostPage().setCheckBoxForFollowers(true); // set checkbox for followers
@@ -247,8 +256,8 @@ public class E2eScenarioOfLists extends BaseTest {
 
         pageProvider.getLoginPage().loginWithValidCred(username1.getLogin(), username1.getPassword()); // Login with user who follow user 4
         pageProvider.getHomePage().getLatestPostsFromFollowingList().verifyPostInLists("Test4", true); // check post present in following list
-        // check the position of the post  equal to the expected position
-        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostPositionWithTitle("Test4", expectedCountForFollowingPosts);
+        pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostPositionWithTitle("Test4", 1);
+
         pageProvider.getHomePage().getLatestPostsFromFollowingList().checkPostStructure();
         pageProvider.getHomePage().getLatestPostsElement().checkPostDatesInDescendingOrder(); // Verify post dates in descending order
 
