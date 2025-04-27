@@ -39,4 +39,7 @@ public interface ConfigHiddenProperties extends Config {
     String password_with_followers();
 
     String login_with_old_posts();
+
+    String BD_Login();
+    String BD_Password();
 }
